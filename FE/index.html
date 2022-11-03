@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="ko" class="mypage"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, maximum-scale=1">
+  <meta name="csrf-token" content="r6Mrtth960NlSwOM5rZTs0HrnJNGxis9fs0ol2rG">
+  <link rel="stylesheet" href="https://class.ssu.ac.kr/css/index.css" media="all">
+  <link rel="stylesheet" href="https://class.ssu.ac.kr/css/front/index.css" media="all">
+
+           
+      
+      <link rel="stylesheet" href="https://class.ssu.ac.kr/customs/main/custom.css?v=1645687983" media="all">
+          
+  <link rel="stylesheet" href="https://class.ssu.ac.kr/lib/bootstrap/4.2.1/bootstrap.min.css">
+  <link rel="stylesheet" href="https://class.ssu.ac.kr/lib/vector-icons/index.min.css">
+  <script src="https://class.ssu.ac.kr/lib/jquery/3.3.1/index.min.js" type="text/javascript"></script>
+  <script src="https://class.ssu.ac.kr/lib/bootstrap/4.2.1/bootstrap.bundle.min.js"></script>
+  <script src="https://class.ssu.ac.kr/js/polyfill.js"></script>
+
+  <script>
+  var MIX_APP_URL = "https://class.ssu.ac.kr";
+  var API_V1_ENDPOINT = "https://class.ssu.ac.kr" + "/api/v1";
+</script>
+      <title>마이페이지</title>
+</head>
+<body class="mypage">
+  <!-- header -->
+<script>
+window.xnSubMenuHelper = {
+  subMenuWrapperHeight: 150,
+
+  // 서브 메뉴를 표시/숨김한다.
+  showHideSubMenuWrapper: function(e, event_name, target_class_name) {
+      e.stopPropagation();
+      if (target_class_name == "xn-header-menu-wrapper") this.mouseoverMenuWrapper = (event_name == "mouseenter");
+      else if (target_class_name == "xn-sub-menu-wrapper") this.mouseoverSubMenuWrapper = (event_name == "mouseenter");
+      xnSubMenuHelper.clearMouseoverSubMenuTimer();
+
+      if (event_name == "mouseenter") {
+          xnSubMenuHelper.setMouseoverSubMenuTimer();
+      } else if (event_name == "mouseleave") {
+          xnSubMenuHelper.setMouseoverSubMenuTimer();
+      }
+  },
+
+  // 서브 메뉴를 표시/숨김 애니메이션을 수행한다.
+  showHideSubMenuAnim: function() {
+      if (!this.mouseoverMenuWrapper && !this.mouseoverSubMenuWrapper) {
+          if ($(".xn-sub-menu-outer-wrapper").css("display") != "block") return;
+
+          $( ".xn-sub-menu-outer-wrapper" )
+          .stop()
+          .animate({
+              "height": "0px"
+          }, 600, function() {
+              $(this).hide();
+          });
+      } else {
+          $( ".xn-sub-menu-outer-wrapper" )
+          .show()
+          .stop()
+          .animate({
+              "height": xnSubMenuHelper.subMenuWrapperHeight + "px"
+          });
+      }
+  },
+
+  // 타이버를 제거한다.
+  clearMouseoverSubMenuTimer: function() {
+      if (this.mouseoverSubMenuTimer != null) clearTimeout(this.mouseoverSubMenuTimer);
+  },
+
+  // 타이머를 수행시킨다.
+  setMouseoverSubMenuTimer: function() {
+      this.mouseoverSubMenuTimer = setTimeout(function() { xnSubMenuHelper.showHideSubMenuAnim(); }, 400);
+  },
+
+  // 서브 메뉴에 마우스 오버하면, 해당 대 메뉴에 hover 효과가 표시된다.
+  onmouseenterSubMenuItemWrapper: function(target) {
+      var index = $(target).index();
+      $($(".xn-header-menu-wrapper #menu-main li").get(index)).find("a").addClass("hover");
+  },
+
+  // 해당 대 메뉴에 hover 효과를 모두 제거한다.
+  onmouseleaveSubMenuItemWrapper: function(target) {
+      $(".xn-header-menu-wrapper #menu-main li").find("a").removeClass("hover");
+  }
+};
+</script>
+
+<!-- header -->
+  <!-- 일반 헤더와 OER 헤더가 분리되어 있다. -->
+                      <!-- header -->
+<script>
+function weirdNavbarMobileToggle() {
+var hiddenElems = document.getElementsByClassName('navbar-hidden');
+if (!!hiddenElems && hiddenElems.length > 0) {
+  var hiddenElem = hiddenElems[0]
+  hiddenElem.classList.remove('navbar-hidden');
+  return;
+}
+var elem = document.getElementsByClassName('navbar-collapse')[0]
+elem.className += " " + 'navbar-hidden';
+}
+</script>
+<header id="header">
+  <nav class="navbar navbar-light navbar-static-top navbar-expand-md" role="navigation">
+      <div class="container">
+          <div class="navbar-header">
+              <div class="float-left">
+                  <button class="navbar-toggler" type="button" onclick="weirdNavbarMobileToggle()" data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+                      <span class="navbar-toggler-icon"></span>
+                  </button>
+              </div>
+              <div class="float-left xn-main-catalog-header-logo-wrap">
+
+                  <a href="https://class.ssu.ac.kr">
+                      <div class="xn-main-catalog-header-logo">
+                          <img class="xn-main-catalog-header-logo-image" src="https://class.ssu.ac.kr/customs/main/header_logo.png?v=123213">
+                      </div>
+                  </a>
+              </div>
+              <div class="xn-main-menu-wrap">
+      <div class="desktop">
+                       
+                                                                                                        <div class="xn-sub-menu-outer-wrapper">
+                          <div class="xn-sub-menu-outer-containar">
+                              <span class="xn-sub-menu-item-bg"></span>
+                              <div class="xn-sub-menu-wrapper mypage pull-right">
+                                  
+                                                                          <ul class="xn-sub-menu-item-wrapper" onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                                                          <li id="menu-item-610d2b52dbc24632ad603c93" class="menu-item">
+                                              <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd5/posts" data-role="menu">공지사항</a>
+                                          </li>
+                                                                                  <li id="menu-item-610d2b523fd78f7295603c94" class="menu-item">
+                                              <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd8/posts" data-role="menu">수업건의게시판</a>
+                                          </li>
+                                                                                  <li id="menu-item-610d2b522cd2fa7f9c603c95" class="menu-item">
+                                              <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd7/posts" data-role="menu">Q&amp;A</a>
+                                          </li>
+                                                                              </ul>
+                                                                          <ul class="xn-sub-menu-item-wrapper" onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                                                          <li id="menu-item-610d2b5dcb5dbb1dcd603c97" class="menu-item">
+                                              <a href="http://www.kmooc.kr/school/SoongsilUnivK/" data-role="menu" target="_blank">K-MOOC</a>
+                                          </li>
+                                                                                  <li id="menu-item-610d2b5ee880163bde603c98" class="menu-item">
+                                              <a href="https://class.ssu.ac.kr/catalogs/smooc" data-role="menu">S-MOOC</a>
+                                          </li>
+                                                                              </ul>
+                                                                          <ul class="xn-sub-menu-item-wrapper" onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                                                          <li id="menu-item-610d2b749769487376603c9a" class="menu-item">
+                                              <a href="https://class.ssu.ac.kr/catalogs/program" data-role="menu">비정규강좌</a>
+                                          </li>
+                                                                              </ul>
+                                                                          <ul class="xn-sub-menu-item-wrapper" onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                                                          <li id="menu-item-610d2b75a34cea35d3603c9c" class="menu-item">
+                                              <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd6/posts" data-role="menu">이용안내</a>
+                                          </li>
+                                                                              </ul>
+                                                                                                              <ul class="xn-sub-menu-item-wrapper"></ul>
+                                                                  </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="pull-right">
+                                                  <div class="btn-group xn-header-member-btn-group" role="group">
+                              <button type="button" class="btn xn-common-white-gray-btn btn-dropdown-user-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <span class="xn-header-member-btn-text xn-common-title">박현수(20####18)</span>
+                                  <i></i>
+                              </button>
+                                                              <script>
+                                  function goToLMS() {
+                                      let lmsUrl = 'https://class.ssu.ac.kr/redirect/lms'
+                                      location.href = lmsUrl
+                                  }
+                              </script>
+                              
+                              <div class="xn-header-member-dropdown-menu dropdown-menu dropdown-menu-right">
+                                                                      <a class="dropdown-item" href="https://class.ssu.ac.kr/dashboard">비정규 강좌 수강</a>
+                                                                          <a class="dropdown-item" href="https://class.ssu.ac.kr/mypage">마이페이지</a>
+                                                                      <a class="dropdown-item" href="https://class.ssu.ac.kr/accounts">내 정보</a>
+                                                                                                                                              
+                                  <a class="dropdown-item  xn-logout-btn-wrap">
+                                      <form action="https://class.ssu.ac.kr/logout" method="post">
+                                          <input type="hidden" name="_token" value="r6Mrtth960NlSwOM5rZTs0HrnJNGxis9fs0ol2rG">
+                                          <button type="submit" class="xn-common-white-btn btn btn-logout">로그아웃</button>
+                                      </form>
+                                  </a>
+                              </div>
+                              <form id="certification_redirect_form_header" action="https://class.ssu.ac.kr/certification" method="post">
+                                  <input type="hidden" name="_token" value="r6Mrtth960NlSwOM5rZTs0HrnJNGxis9fs0ol2rG">
+                                  <input type="hidden" name="redirect_url">
+                                  <input type="hidden" name="fallback_url">
+                              </form>
+                          </div>
+                                          </div>
+              </div>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse mobile show in navbar-hidden" id="bs-example-navbar-collapse-1">
+              <ul class="navbar-nav mr-auto">
+                                          <li id="menu-item-610d2b518f75401628603c92" class="nav-item xn-1depth-menu-wrap">
+                          <a href="" data-role="menu" class="xn-1depth-menu">커뮤니티</a>
+                          <ul onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                      <li id="menu-item-610d2b52dbc24632ad603c93" class="nav-item xn-2depth-menu-wrap">
+                                  <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd5/posts" data-role="menu" class="nav-item xn-2depth-menu">공지사항</a>
+                              </li>
+                                                          <li id="menu-item-610d2b523fd78f7295603c94" class="nav-item xn-2depth-menu-wrap">
+                                  <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd8/posts" data-role="menu" class="nav-item xn-2depth-menu">수업건의게시판</a>
+                              </li>
+                                                          <li id="menu-item-610d2b522cd2fa7f9c603c95" class="nav-item xn-2depth-menu-wrap">
+                                  <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd7/posts" data-role="menu" class="nav-item xn-2depth-menu">Q&amp;A</a>
+                              </li>
+                                                      </ul>
+                      </li>
+                                          <li id="menu-item-610d2b5d89895a63be603c96" class="nav-item xn-1depth-menu-wrap">
+                          <a href="" data-role="menu" class="xn-1depth-menu">공개강좌</a>
+                          <ul onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                      <li id="menu-item-610d2b5dcb5dbb1dcd603c97" class="nav-item xn-2depth-menu-wrap">
+                                  <a href="http://www.kmooc.kr/school/SoongsilUnivK/" data-role="menu" class="nav-item xn-2depth-menu" target="_blank">K-MOOC</a>
+                              </li>
+                                                          <li id="menu-item-610d2b5ee880163bde603c98" class="nav-item xn-2depth-menu-wrap">
+                                  <a href="https://class.ssu.ac.kr/catalogs/smooc" data-role="menu" class="nav-item xn-2depth-menu">S-MOOC</a>
+                              </li>
+                                                      </ul>
+                      </li>
+                                          <li id="menu-item-610d2b7422ada53ede603c99" class="nav-item xn-1depth-menu-wrap">
+                          <a href="" data-role="menu" class="xn-1depth-menu">비정규강좌</a>
+                          <ul onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                      <li id="menu-item-610d2b749769487376603c9a" class="nav-item xn-2depth-menu-wrap">
+                                  <a href="https://class.ssu.ac.kr/catalogs/program" data-role="menu" class="nav-item xn-2depth-menu">비정규강좌</a>
+                              </li>
+                                                      </ul>
+                      </li>
+                                          <li id="menu-item-610d2b744c8e7b3d5b603c9b" class="nav-item xn-1depth-menu-wrap">
+                          <a href="" data-role="menu" class="xn-1depth-menu">이용안내</a>
+                          <ul onmouseenter="xnSubMenuHelper.onmouseenterSubMenuItemWrapper(this);" onmouseleave="xnSubMenuHelper.onmouseleaveSubMenuItemWrapper(this);">
+                                                                                      <li id="menu-item-610d2b75a34cea35d3603c9c" class="nav-item xn-2depth-menu-wrap">
+                                  <a href="https://class.ssu.ac.kr/boards/60ee8dc20897dd1d8b517cd6/posts" data-role="menu" class="nav-item xn-2depth-menu">이용안내</a>
+                              </li>
+                                                      </ul>
+                      </li>
+                                  </ul>
+          </div>
+      </div>
+  </nav>
+</header>
+          
+<script>
+$(document).ready(function() {
+  if ($(".xn-sub-menu-item-wrapper").length == 0) return;
+
+  // 메뉴 영역이 아니면, 서브메뉴를 숨긴다.
+  $(".xn-header-menu-wrapper").bind("mouseenter", function(e) {
+      xnSubMenuHelper.showHideSubMenuWrapper(e, "mouseenter", "xn-header-menu-wrapper");
+  });
+  $(".xn-header-menu-wrapper").on("mouseleave", function(e) {
+      xnSubMenuHelper.showHideSubMenuWrapper(e, "mouseleave", "xn-header-menu-wrapper");
+  });
+
+  $(".xn-sub-menu-wrapper").on("mouseenter", function(e) {
+      xnSubMenuHelper.showHideSubMenuWrapper(e, "mouseenter", "xn-sub-menu-wrapper");
+  });
+  $(".xn-sub-menu-wrapper").on("mouseleave", function(e) {
+      xnSubMenuHelper.showHideSubMenuWrapper(e, "mouseleave", "xn-sub-menu-wrapper");
+  });
+});
+</script>
+  <!-- content -->
+  <div id="popup-root" data-catalog_id=""></div>
+      <main id="content">
+          <style>
+      #root{
+          height: 100vh;
+          width : 100%;
+      }
+      #fulliframe{
+          display: block;
+          border :none;
+          width : 100%;
+      }
+  </style>
+  <div id="root" style="height: 4167px;">
+      <!-- PTTLIW-235 이제 lx/dashboard 는 user_login 쿼리스트링을 사용하지 않음 -->
+      <iframe src="https://canvas.ssu.ac.kr/learningx/dashboard?user_login=20182618&amp;locale=ko" id="fulliframe" frameborder="0" scrolling="no" style="min-height: 100vh; height: 4167px;">
+      </iframe>
+      <script>
+          // iframe의 크기를 동적으로 변경시키기 위해서 learning 쪽에서 화면을 그릴 때 scrollHeight를 전달 받아서 동적으로 iframe 크기를 변경한다.
+          function recevieMsgFromChild(much){
+              var dashboardFrame = document.querySelector("#fulliframe")
+              dashboardFrame.style.height = much.data.size+'px'
+              root.style.height = much.data.size+'px'
+          }
+          window.addEventListener('message', recevieMsgFromChild)
+      </script>
+  </div>
+  </main>
+      <!-- footer -->
+  <!-- footer -->
+<footer id="footer">
+  <span></span>
+  <div class="xn-main-catalog-footer-border"></div>
+  <div class="xn-main-catalog-footer-info">
+      <a href="https://class.ssu.ac.kr">
+          <div class="xn-main-footer-logo">
+              <img class="xn-main-footer-logo-image" alt="숭실대학교 스마트캠퍼스LMS" src="https://class.ssu.ac.kr/customs/main/footer_logo.png">
+          </div>
+      </a>
+      <span class="xn-main-footer-copyright"><div id="xnm2_footer">
+<div class="xnm2_ft_top">
+  <div class="xnm2_wrap">
+    <ul>
+              <li><a href="https://ssu.ac.kr/main/%ea%b0%9c%ec%9d%b8%ec%a0%95%eb%b3%b4%ec%b2%98%eb%a6%ac%eb%b0%a9%ec%b9%a8/" target="_blank">개인정보처리방침</a></li>
+              <li><a href="https://myclass.ssu.ac.kr" target="_blank">구)스마트캠퍼스LMS 바로가기</a></li>
+    </ul>
+  </div>
+</div>
+<div class="xnm2_ft_bot">
+  <div class="xnm2_wrap">
+    <h2></h2>
+    <ul class="xnm2_adr">
+      <li>
+        서울시 동작구 상도로 369 숭실대학교
+      </li>
+      <li>
+        COPYRIGHT© 2021 SOONGSIL UNIVERSITY. ALL RIGHTS RESERVED.
+      </li>
+    </ul>
+    <div class="xnm2_fam">
+      <a href="#">:: 관련사이트</a>
+      <ul>
+        <li><a href="https://ssu.ac.kr/" target="_blank">숭실대학교 홈페이지</a></li>
+                  <li><a href="https://oasis.ssu.ac.kr" target="_blank">중앙도서관</a></li>
+                  <li><a href="https://saint.ssu.ac.kr/irj/portal" target="_blank">u-SAINT</a></li>
+                  <li><a href="https://ssu.ac.kr/%ed%95%99%ea%b5%90%ec%86%8c%ea%b0%9c/%ec%ba%a0%ed%8d%bc%ec%8a%a4%ec%95%88%eb%82%b4/%ec%ba%a0%ed%8d%bc%ec%8a%a4%eb%a7%b5/" target="_blank">캠퍼스맵</a></li>
+                  <li><a href="https://certi.ssu.ac.kr/servlet/WMINDEX?COMMAND=CHOICE" target="_blank">증명서발급</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div></span>
+  </div>
+</footer>
+
+</body></html>

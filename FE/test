@@ -1,0 +1,28 @@
+
+      <%
+      for(let i = 0; i < lectureInfoList.length; i++) {
+      %>
+      <h3><%= lectureInfoList[i].lectureName %></h3>
+      <ul>
+        <%
+        let lectureInfo = lectureInfoList[i].lectureInfo;
+        for(let j = 0; j < lectureInfo.length; j++) {
+        %>
+          <li>
+            <a>
+              제목 : <%= lectureInfo[j].lectureTitle %>
+            </a>
+            <a>
+              타입 : <%= lectureInfo[j].lectureType %>
+            </a>
+            <a>
+              수강 : <%= lectureInfo[j].lectureComplete?'완료':'미완료' %>
+            </a>
+          </li>
+        <%
+        }
+        %>
+      </ul>
+      <%
+      }
+      %>

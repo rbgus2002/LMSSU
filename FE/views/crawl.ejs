@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello</title>
+  </head>
+  <body>
+    <div>
+      <%= messageList.length %>
+      <input type="button", value="createDiv" onclick="createDiv()"></input>
+      <input type="button", value="test" onclick="test()"></input>
+    </div>
+    <script>
+      
+      import * as getMessages from './app.js';
+
+      function testCalc() {
+        let result = 0;
+        for(let i = 0; i < 1000000000; i++) {
+          result++;
+        }
+        return result;
+      }
+
+      function test() {
+        const newDiv = document.createElement('div');
+        const text = document.createTextNode('hello');
+        newDiv.appendChild(text);
+        document.body.append(newDiv);
+      }
+
+      function getMessageList() {
+        let messageList = getApp.getMessages();
+        return messageList;
+      }
+
+      async function createDiv() {
+        let messageList = await getMessageList();
+        const newDiv = document.createElement('div');
+        for(let i = 0; i < messageList.length; i++) {
+          const text = document.createTextNode(messageList[i]);
+          newDiv.appendChild(text);
+        }
+        document.body.append(newDiv);
+      }
+    </script>
+  </body>
+</html>
