@@ -6,8 +6,6 @@ const { delayed } = require('selenium-webdriver/lib/promise');
 const loginDriver = async (userid, pwd, driver) => {
   try {
       await driver.get('https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fclass.ssu.ac.kr%2Fxn-sso%2Fgw-cb.php');
-      let userAgent = await driver.executeScript("return navigator.userAgent;")
-      console.log('[UserAgent]', userAgent);
 
       await driver.wait(until.elementLocated(By.id('sLogin')), 10000);
       let resultElements  = await driver.findElements(By.className("inp placeholder"));
@@ -19,13 +17,14 @@ const loginDriver = async (userid, pwd, driver) => {
       const loginBtn = await driver.findElement(By.className("btn_login"))
       await loginBtn.click();
 
-      await driver.wait(until.elementLocated(By.className("xnp-manual-wrap xn-mypage")), 10000);
+      await driver.wait(until.elementLocated(By.className("xnp-manual-wrap xn-mypage")), 5000);
   }
   catch(e){
       console.log(e);
+      return [driver, false];
   }
   finally {
-      return driver;
+      return [driver, true];
   }
 }
 
@@ -50,6 +49,10 @@ const newDriver = async (showWindow = false) => {
 
 module.exports = { async getLogin(userid, pwd, showWindow = false) {
   driver = await newDriver(showWindow);
-  driver = await loginDriver(userid, pwd, driver);
+  while(true) {
+    [driver, load] = await loginDriver(userid, pwd, driver);
+    console.log(load);
+    if(load) break;
+  }
   return driver;
 } };

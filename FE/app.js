@@ -18,7 +18,7 @@ module.exports.getMessages = async () => {
 }
 
 module.exports.getLectures = async () => {
-  let driver = await loginDriver.getLogin(userid, pwd, false);
+  let driver = await loginDriver.getLogin(userid, pwd, true);
   let lectureList;
   while(true) {
     lectureList = await getLectures.getLectures(driver, userid);
