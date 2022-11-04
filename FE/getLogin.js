@@ -3,11 +3,7 @@ const {Builder, By, Key, until} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');    
 const { delayed } = require('selenium-webdriver/lib/promise');
 
-let userid = '20182618';
-let pwd = 'Hyunsu99!@03';
-
-
-const loginDriver = async (driver) => {
+const loginDriver = async (userid, pwd, driver) => {
   try {
       await driver.get('https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fclass.ssu.ac.kr%2Fxn-sso%2Fgw-cb.php');
       let userAgent = await driver.executeScript("return navigator.userAgent;")
@@ -52,8 +48,8 @@ const newDriver = async (showWindow = false) => {
   }
 }
 
-module.exports = { async getLogin(showWindow = false) {
+module.exports = { async getLogin(userid, pwd, showWindow = false) {
   driver = await newDriver(showWindow);
-  driver = await loginDriver(driver);
+  driver = await loginDriver(userid, pwd, driver);
   return driver;
 } };

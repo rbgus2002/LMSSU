@@ -5,11 +5,9 @@
   </head>
   <body>
     <div>
-      <%= messageList.length %>
+      <%= lectureList.length %>
       <input type="button", value="createDiv" onclick="createDiv()"></input>
       <input type="button", value="test" onclick="test()"></input>
-      <iframe src = "hello/messages" title = "messages"></iframe>
-      <iframe src = "hello/lectures" title = "lectures"></iframe>
     </div>
     <script>
 
@@ -18,13 +16,14 @@
         const text = document.createTextNode('hello');
         newDiv.appendChild(text);
         document.body.append(newDiv);
+        parent.test("asd");
       }
 
       let load = false;
       
       function testCalc1() {
         let result = 0;
-        for(let i = 0; i < 1000000000; i++) {
+        for(let i = 0; i < 10000000000; i++) {
           result++;
         }
         load = true;
@@ -42,6 +41,7 @@
       }
 
       function createDiv() {
+        testCalc1();
         console.log('hello');
       }
     </script>

@@ -10,6 +10,10 @@ app.listen(8080, function() {
   console.log('listening on 8080');
 });
 
+app.get('/', (req, res) => {
+    res.send('Hello World!');
+});
+
 app.get('/test', function(요청, 응답) {
   응답.sendFile(__dirname + '/index.html');
 })
@@ -17,93 +21,6 @@ app.get('/test', function(요청, 응답) {
 const {Builder, By, Key, until, WebDriver} = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');    
 const { delayed } = require('selenium-webdriver/lib/promise');
-
-let userid = '20182618';
-let pwd = 'Hyunsu99!@03';
-
-const mainPageDriver = async (driver) => {
-
-    try {
-        await driver.get('https://canvas.ssu.ac.kr/learningx/dashboard?user_login='+userid+'&locale=ko');
-        userAgent = await driver.executeScript("return navigator.userAgent;")
-        console.log('[UserAgent]', userAgent);
-
-        // css selector로 가져온 element가 위치할때까지 최대 10초간 기다린다.
-        await driver.wait(until.elementLocated(By.className('xnhts-top')), 5000);
-        titles  = await driver.findElements(By.className("xnscc-header-title"));
-        console.log('asdasdsd', titles.length)
-        urls  = await driver.findElements(By.className("xnscc-header-redirect-link"));
-        console.log('[resultElements.length]', titles.length)
-        for (var i = 0; i < titles.length; i++) {
-            console.log('- ' + await titles[i].getText())
-            console.log('- ' + await urls[i].getAttribute("href"))
-        }
-    }
-    catch(e){
-        console.log(e);
-    }
-    finally {
-        return driver;
-    }
-}
-
-const getMessages = async (driver) => {
-    try {
-        await driver.get('https://canvas.ssu.ac.kr/conversations#filter=type=inbox');
-        userAgent = await driver.executeScript("return navigator.userAgent;")
-        console.log('[UserAgent]', userAgent);
-
-        // css selector로 가져온 element가 위치할때까지 최대 10초간 기다린다.
-        await driver.wait(until.elementLocated(By.className('messages unstyled collectionViewItems')), 10000);
-        before_length = 0;
-        while(true) {
-            notice  = await driver.findElements(By.className("read-state"));
-            after_length = notice.length;
-            console.log(after_length);
-            notice[notice.length-1].click();
-            notice[notice.length-1].click();
-
-            if(before_length == after_length || after_length % 10) {
-                break;
-            }
-            before_length = after_length;
-            await delayed(250);
-        }
-
-        messageContext = await driver.findElement(By.className("message-detail conversations__message-detail"));
-
-        messages = await driver.findElements(By.className("message-left-column"));
-        console.log("length", messages.length)
-        for (var i = 0; i < messages.length; i++) {
-            console.log(i + 'th Message :')
-            messagesReadState = await messages[i].findElement(By.className("read-state"));
-            //console.log(await messagesReadState.getAttribute('class'))
-            messagesSelectCheckbox = await messages[i].findElement(By.className("select-checkbox"));
-            messagesReadState.click();
-            messagesSelectCheckbox.click();
-            await delayed(50);
-            await driver.wait(until.elementLocated(By.className('username')), 10000);
-            title = await messageContext.findElement(By.className("subject"))
-            username = await messageContext.findElement(By.className("username"));
-            context = await messageContext.findElement(By.className("context"));
-            date = await messageContext.findElement(By.className("date"));
-            text = await messageContext.findElement(By.xpath("//p"));
-            console.log('\tTitle : ' + await title.getText());
-            console.log('\tName : ' + await username.getText());
-            console.log('\tContext : ' + await context.getText());
-            console.log('\tDate : ' + await date.getText());
-            console.log('\tText : \n' + await text.getText());
-            messagesSelectCheckbox.click();
-        }
-        return true;
-    }
-    catch(e){
-        console.log(e);
-    }
-    finally {
-        return false;
-    }
-}
 
 const getLectureList = async (driver) => {
     let list = [];
@@ -211,4 +128,14 @@ app.get('/hello', async function(req, res) {
     res.render('crawl', {"messageList" : [], "testfunc" : getApp.getMessages})
     //messageList = await run();
     //res.render('crawl', {"messageList" : [], "testfunc" : getApp.getMessages()})
+})
+
+app.get('/hello/messages', async function(req, res) {
+    messageList = await getApp.getMessages();
+    res.render('messages', {"messageList" : messageList, "testfunc" : getApp.getMessages})
+})
+
+app.get('/hello/lectures', async function(req, res) {
+    lectureList = await getApp.getLectures();
+    res.render('lectures', {"lectureList" : lectureList, "testfunc" : getApp.getLectures})
 })

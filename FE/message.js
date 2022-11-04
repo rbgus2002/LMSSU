@@ -8,8 +8,8 @@ module.exports = { async getMessages(driver) {
   list = [];
   try {
       await driver.get('https://canvas.ssu.ac.kr/conversations#filter=type=inbox');
-      userAgent = await driver.executeScript("return navigator.userAgent;")
-      console.log('[UserAgent]', userAgent);
+      //userAgent = await driver.executeScript("return navigator.userAgent;")
+      //console.log('[UserAgent]', userAgent);
 
       // css selector로 가져온 element가 위치할때까지 최대 10초간 기다린다.
       await driver.wait(until.elementLocated(By.className('messages unstyled collectionViewItems')), 10000);
@@ -59,7 +59,7 @@ module.exports = { async getMessages(driver) {
       }
   }
   catch(e){
-      console.log(e);
+    console.log(e);
   }
   finally {
       return list;
