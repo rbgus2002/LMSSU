@@ -47,14 +47,8 @@ public class LMSCrawling {
         setMySubjectNameAndProfessorAndHomeLink();
 
         /*
-        과목 홈페이지 - 강의콘텐츠 (추후 비동기 처리)
+        과목 홈페이지 - 강의콘텐츠
          */
-        for(Subject subject : subjectList){
-
-        }
-
-
-
 
 
         /*
@@ -62,12 +56,7 @@ public class LMSCrawling {
          */
 
 
-
-
-
-
-
-
+        // subjectList 출력
         for(Subject subject : subjectList){
             System.out.println(subject.toString());
         }
@@ -104,11 +93,10 @@ public class LMSCrawling {
     /*
     수강하고 있는 과목 정보를 가져온다 (name, homepageLink, professor)
      */
-
     static void setMySubjectNameAndProfessorAndHomeLink() {
         // 특정 element Explicit Waits
         element = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(driver -> driver.findElement(By.className("xnscc-header-title")));
+                .until(driver -> driver.findElement(By.className("xnscc-header-sub-title")));
 
         List<WebElement> elements = driver.findElements(By.className("xn-student-course-container"));
 
