@@ -4,6 +4,10 @@
     display: flex;
 }
 
+.container img {
+    width: 20rem;
+}
+
 .dropdown{
   position : relative;
   display : inline-block;
