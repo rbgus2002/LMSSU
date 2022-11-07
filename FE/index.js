@@ -5,13 +5,14 @@ const app = express();
 const getApp = require('./app.js')
 
 app.set("view engine", "ejs");
+app.use(express.static('public'));
 
 app.listen(8080, function() {
   console.log('listening on 8080');
 });
 
 app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
+    res.render('index');
 });
 
 app.get('/test', function(요청, 응답) {
