@@ -11,7 +11,7 @@ app.listen(8080, function() {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World!');
+    res.sendFile(__dirname + '/index.html');
 });
 
 app.get('/test', function(요청, 응답) {
