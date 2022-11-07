@@ -1,10 +1,112 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Hello</title>
-    <link rel="stylesheet" type="text/css" href="styles/index.css"/>
-  </head>
-  <body>
-    
-  </body>
+<html lang="ko">
+
+<head>
+  <meta charset="utf-8">
+  <title>Hello</title>
+  <link rel="stylesheet" type="text/css" href="styles/header.css" />
+</head>
+
+<body>
+ 
+  <header id="header">
+    <nav class="navbar navbar-light navbar-static-top navbar-expand-md" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          
+          <div class="float-left xn-main-catalog-header-logo-wrap">
+
+            <a href="http://localhost:8080/">
+              <div class="xn-main-catalog-header-logo">
+                <img class="xn-main-catalog-header-logo-image"
+                  src="https://class.ssu.ac.kr/customs/main/header_logo.png?v=123213">
+              </div>
+            </a>
+          </div>
+          
+        </div>
+
+        <div class="div_grow"></div>
+        
+        <div class="dropdown">
+          <button class="dropbtn">
+            
+            <span class="dropbtn_content">20182641<br/> 이승호</span>
+            <span class="dropbtn_click" style="font-family: Material Icons; font-size : 16px; color : #3b3b3b; float:right;"
+              onclick="dropdown()">arrow_drop_down</span>
+          </button>
+          <div class="dropdown-content">
+            
+            
+              <form action="http://localhost:8080/logout" method="post">
+                <!--<input type="hidden" name="_token" value="zKf5ANxJyWv00adVt0JKvnDTYzHtZSlSywFn0QEx">--->
+                
+                <button type="submit" class="details">로그아웃</button>
+              </form>
+            
+          </div>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse mobile show in navbar-hidden" id="bs-example-navbar-collapse-1">
+          <ul class="navbar-nav mr-auto">
+            
+
+           
+            
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+  <script>
+    window.onload=()=>{
+      document.querySelector('.dropbtn_click').onclick = ()=>{
+        dropdown();
+      }
+      document.getElementsByClassName('details').onclick = ()=>{
+        showMenu(value);
+      };
+      dropdown = () => {
+        var v = document.querySelector('.dropdown-content');
+        var dropbtn = document.querySelector('.dropbtn')
+        v.classList.toggle('show');
+        dropbtn.style.borderColor = 'rgb(94, 94, 94)';
+      }
+
+      showMenu=(value)=>{
+        
+        var dropbtn_content = document.querySelector('.dropbtn_content');
+        var dropbtn_click = document.querySelector('.dropbtn_click');
+        var dropbtn = document.querySelector('.dropbtn');
+
+       
+        dropbtn_content.innerText = value;
+        dropbtn_content.style.color = '#252525';
+        dropbtn.style.borderColor = '#3992a8';
+      }
+    }
+    window.onclick= (e)=>{
+      if(!e.target.matches('.dropbtn_click')){
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+
+        
+        var dropbtn_content = document.querySelector('.dropbtn_content');
+        var dropbtn_click = document.querySelector('.dropbtn_click');
+        var dropbtn = document.querySelector('.dropbtn');
+
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
+</body>
+
 </html>
