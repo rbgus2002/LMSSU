@@ -17,31 +17,11 @@ public class Subject {
     /*
     과목 홈 - 강의콘텐츠
      */
-    class ContentPerWeek{
-        int weeks;
-        List<String> typeAndContentNameList = new ArrayList<>(); // #으로 구분
-        boolean isDone;
-
-        public ContentPerWeek(int weeks, List<String> typeAndContentNameList, boolean isDone) {
-            this.weeks = weeks;
-            this.typeAndContentNameList = typeAndContentNameList;
-            this.isDone = isDone;
-        }
-    }
     List<ContentPerWeek> contentPerWeekList = new ArrayList<>();
 
     /*
     과목 홈 - 공지
      */
-    class Notice{
-        String title;
-        Date date;
-
-        public Notice(String title, Date date) {
-            this.title = title;
-            this.date = date;
-        }
-    }
     List<Notice> noticeList = new ArrayList<>();
 
 
@@ -88,16 +68,77 @@ public class Subject {
 
     @Override
     public String toString() {
-        return "Subject{" +
-                "name='" + name + '\'' +
-                ", professor='" + professor + '\'' +
-                ", homepageLink='" + homepageLink + '\'' +
-                ", contentPerWeekList=" + contentPerWeekList +
-                ", noticeList=" + noticeList +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("--------------" + this.name + "--------------").append("\n");
+        sb.append("교수님 : ").append(this.professor).append("\n");
+        sb.append("과목홈 : ").append(this.homepageLink).append("\n");
+        sb.append("과목공지 : ").append(this.noticeList.toString()).append("\n");
+        for(ContentPerWeek contentPerWeek : this.contentPerWeekList){
+            sb.append(contentPerWeek.weeks).append(" : ").append(contentPerWeek.contentList.toString()).append("\n");
+        }
+        sb.append("------------------------------------------").append("\n");
+
+        return sb.toString();
     }
 }
 
+class ContentPerWeek{
+    int weeks;
+    /*
+    <icon>
+    pdf, mp4, offline_attendance, file, text, assignment, video_conference, quiz
+     */
+    List<Content> contentList = new ArrayList<>(); // #으로 구분
+
+    public ContentPerWeek(int weeks, List<Content> contentList) {
+        this.weeks = weeks;
+        this.contentList = contentList;
+    }
+}
+
+class Content{
+    /*
+    None -> Data not exist
+     */
+    private String type;
+    private String name;
+    private String isDone;
+    private String startDate;
+
+    public Content(String type, String name, String isDone, String startDate) {
+        this.type = type;
+        this.name = name;
+        this.isDone = isDone;
+        this.startDate = startDate;
+    }
+
+    @Override
+    public String toString() {
+        return type + "  '" + name + "' / " + isDone + " / '" + startDate + "'";
+    }
+}
+
+
+class Notice{
+    String title;
+    String date;
+    String link;
+
+    public Notice(String title, String date, String link) {
+        this.title = title;
+        this.date = date;
+        this.link = link;
+    }
+
+    @Override
+    public String toString() {
+        return "Notice{" +
+                "title='" + title + '\'' +
+                ", date='" + date + '\'' +
+                ", link='" + link + '\'' +
+                '}';
+    }
+}
 /*
 name
 professor

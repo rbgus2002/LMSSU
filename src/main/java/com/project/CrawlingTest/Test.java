@@ -16,7 +16,6 @@ public class Test {
     private static String url;
     private static String WEB_DRIVER_ID = "webdriver.chrome.driver";
     private static String WEB_DRIVER_PATH = "/Users/choegyuhyeon/Downloads/chromedriver";;
-    private static List<Subject> subjectList = new ArrayList<>();
 
     public static void main(String[] args) throws InterruptedException {
         test1();
@@ -63,49 +62,40 @@ public class Test {
         }
         //------------------------------------------------------------
 
-        for(String url : answer){
-            driver.get(url+"/external_tools/2");
 
 
-            // frame 이동
-            driver.switchTo().frame("tool_content");
 
-            // 모든 주차 펴기
-            element = new WebDriverWait(driver, Duration.ofSeconds(7))
-                    .until(ExpectedConditions.elementToBeClickable(By.className("xncb-section-wrapper"))); // Explicit Waits
-            driver.findElement(By.className("xncb-fold-toggle-button")).click();
-            List<WebElement> weekList = driver.findElements(By.className("xncb-section-content-wrapper"));
 
-            // lectureContentsPerWeeks 객체 생성
-            int weeks = 1;
-            Map<Integer, ArrayList<String>> lectureContentsPerWeeks = new HashMap<>();
 
-            // 주차별 강의 콘텐츠 제목 가져오기
-            for (WebElement week : weekList){
-                lectureContentsPerWeeks.put(weeks, new ArrayList<>());
-                List<WebElement> contentList = week.findElements(By.className("xncb-component-title"));
 
-                // 해당 주차에 강의 콘텐츠 없는 경우 예외처리
-                if(contentList.isEmpty())
-                    break;
 
-                // Map에서 Key에 해당하는 Value 값 업데이트 (weeks주차에 강의 콘텐츠 추가)
-                for(WebElement content : contentList){
-                    ArrayList<String> tmp = lectureContentsPerWeeks.get(weeks);
-                    tmp.add(content.getText());
-                    lectureContentsPerWeeks.put(weeks, tmp);
-                }
-                weeks += 1;
-            }
 
-            for(int i = 1; i < weeks; i++){
-                System.out.println("------------------------" + i + "주차" + "------------------------");
-                ArrayList<String> contents = lectureContentsPerWeeks.get(i);
-                for(String content : contents){
-                    System.out.println(content);
-                }
-            }
+        //------------------------------------------------------------
+//        for(String url : answer){
+//        }
+        url = "https://canvas.ssu.ac.kr/courses/17027";
+        driver.get(url+"/announcements");
+
+        // 특정 element Explicit Waits
+        element = new WebDriverWait(driver, Duration.ofSeconds(10))
+                .until(driver -> driver.findElement(By.className("ic-item-row")));
+
+        // 공지사항 Element 가져오기
+        List<WebElement> noticeList = driver.findElements(By.className("ic-item-row"));
+        for(WebElement webElement : noticeList){
+            // 제목
+            System.out.println(webElement.findElement(By.className("emyav_fAVi")).getText());
+            // 링크
+            System.out.println(webElement.findElement(By.className("ic-item-row__content-link")).getAttribute("href"));
+            // 날짜
+            System.out.println(webElement.findElement(By.className("cjUyb_bLsb")).getText());
+
         }
+
+
+
+
+
 
         long time2 = System.currentTimeMillis();
 
