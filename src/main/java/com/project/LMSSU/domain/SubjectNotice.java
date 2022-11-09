@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class SubjectNotice {
     @Id @GeneratedValue
-    private int subject_notice_id;
+    private Long subject_notice_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")

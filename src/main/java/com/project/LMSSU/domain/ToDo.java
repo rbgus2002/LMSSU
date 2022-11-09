@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class ToDo {
     @Id @GeneratedValue
-    private int todo_id;
+    private Long todo_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ExamSchedule {
     @Id @GeneratedValue
-    private int exam_schedule_id;
+    private Long exam_schedule_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

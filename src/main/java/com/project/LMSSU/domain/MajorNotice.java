@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class MajorNotice {
     @Id @GeneratedValue
-    private int major_notice_id;
+    private Long major_notice_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_name")

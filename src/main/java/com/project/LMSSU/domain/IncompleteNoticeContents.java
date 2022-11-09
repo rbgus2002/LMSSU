@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class IncompleteNoticeContents {
     @Id @GeneratedValue
-    private int incomplete_notice_contents_id;
+    private Long incomplete_notice_contents_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

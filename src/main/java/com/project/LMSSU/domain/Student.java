@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Student {
     @Id
-    private int student_id;
+    private Long student_id;
 
     private String name;
 
@@ -21,7 +21,7 @@ public class Student {
     private Major major;
 
     @Builder
-    public Student(int student_id, String name, Major major){
+    public Student(Long student_id, String name, Major major){
         this.student_id = student_id;
         this.name = name;
         this.major = major;

@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 public class Attending {
     @Id @GeneratedValue
-    private int attending_id;
+    private Long attending_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")

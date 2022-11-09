@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SubjectContents {
     @Id @GeneratedValue
-    private int subject_contents_id;
+    private Long subject_contents_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
