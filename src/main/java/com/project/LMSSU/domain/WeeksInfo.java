@@ -13,13 +13,13 @@ import java.time.LocalDate;
 @Data
 public class WeeksInfo {
     @Id
-    private Long week;
+    private Integer week;
 
     private LocalDate start_date;
     private LocalDate end_date;
 
     @Builder
-    public WeeksInfo(Long week, LocalDate start_date, LocalDate end_date){
+    public WeeksInfo(Integer week, LocalDate start_date, LocalDate end_date){
         this.week = week;
         this.start_date = start_date;
         this.end_date = end_date;
