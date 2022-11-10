@@ -1,3 +1,0 @@
-// Jsoup
-public class DepartmentNoticeCrawling {
-}
