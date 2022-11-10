@@ -1,4 +1,4 @@
-package com.project.LMSSU.domain;
+package com.project.LMSSU.Entity;
 
 import lombok.Builder;
 import lombok.Data;

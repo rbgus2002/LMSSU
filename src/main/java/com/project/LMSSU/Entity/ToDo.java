@@ -1,16 +1,15 @@
-package com.project.LMSSU.domain;
+package com.project.LMSSU.Entity;
 
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
-public class ExamSchedule {
+public class ToDo {
     @Id @GeneratedValue
-    private Long exam_schedule_id;
+    private Long todo_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
@@ -20,14 +19,19 @@ public class ExamSchedule {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    private LocalDate date;
+    private int week;
+    private String content;
+    private Boolean is_done;
     private Boolean is_used;
 
     @Builder
-    public ExamSchedule(Student student, Subject subject, LocalDate date) {
+    public ToDo(Student student, Subject subject, int week, String content){
         this.student = student;
         this.subject = subject;
-        this.date = date;
+        this.week = week;
+        this.content = content;
+        this.is_done = false;
         this.is_used = true;
     }
+
 }
