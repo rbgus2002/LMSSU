@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ExamSchedule {
     @Id @GeneratedValue
-    private Long exam_schedule_id;
+    private Long examScheduleId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
@@ -21,13 +21,13 @@ public class ExamSchedule {
     private Subject subject;
 
     private LocalDate date;
-    private Boolean is_used;
+    private Boolean isUsed;
 
     @Builder
     public ExamSchedule(Student student, Subject subject, LocalDate date) {
         this.student = student;
         this.subject = subject;
         this.date = date;
-        this.is_used = true;
+        this.isUsed = true;
     }
 }

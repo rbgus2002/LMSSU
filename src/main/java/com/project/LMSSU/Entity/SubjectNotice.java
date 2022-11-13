@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class SubjectNotice {
     @Id @GeneratedValue
-    private Long subject_notice_id;
+    private Long subjectNoticeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
@@ -17,13 +17,13 @@ public class SubjectNotice {
 
     private String title;
     private String contents;
-    private String page_address;
+    private String pageAddress;
 
     @Builder
-    public SubjectNotice(Subject subject, String title, String contents, String page_address) {
+    public SubjectNotice(Subject subject, String title, String contents, String pageAddress) {
         this.subject = subject;
         this.title = title;
         this.contents = contents;
-        this.page_address = page_address;
+        this.pageAddress = pageAddress;
     }
 }

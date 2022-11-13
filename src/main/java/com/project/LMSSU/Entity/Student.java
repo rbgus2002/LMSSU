@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Student {
     @Id
     @GeneratedValue
-    private Long student_id;
+    private Long studentId;
 
     private String name;
 
@@ -22,8 +22,8 @@ public class Student {
     private Major major;
 
     @Builder
-    public Student(Long student_id, String name, Major major){
-        this.student_id = student_id;
+    public Student(Long studentId, String name, Major major){
+        this.studentId = studentId;
         this.name = name;
         this.major = major;
     }

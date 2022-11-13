@@ -11,19 +11,19 @@ import javax.persistence.*;
 @Getter
 public class Attending {
     @Id @GeneratedValue
-    private Long attending_id;
+    private Long attendingId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
-    private Student student_id;
+    private Student studentId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
-    private Subject subject_id;
+    private Subject subjectId;
 
     @Builder
-    public Attending(Student student_id, Subject subject_id) {
-        this.student_id = student_id;
-        this.subject_id = subject_id;
+    public Attending(Student studentId, Subject subjectId) {
+        this.studentId = studentId;
+        this.subjectId = subjectId;
     }
 }

@@ -15,14 +15,14 @@ public class WeeksInfo {
     @Id
     private Integer week;
 
-    private LocalDate start_date;
-    private LocalDate end_date;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @Builder
-    public WeeksInfo(Integer week, LocalDate start_date, LocalDate end_date){
+    public WeeksInfo(Integer week, LocalDate startDate, LocalDate endDate){
         this.week = week;
-        this.start_date = start_date;
-        this.end_date = end_date;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
 }

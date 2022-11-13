@@ -11,19 +11,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class MajorNotice {
     @Id @GeneratedValue
-    private Long major_notice_id;
+    private Long majorNoticeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "major_name")
     private Major major;
 
     private String title;
-    private String page_address;
+    private String pageAddress;
 
     @Builder
-    public MajorNotice(Major major, String title, String page_address){
+    public MajorNotice(Major major, String title, String pageAddress){
         this.major = major;
         this.title = title;
-        this.page_address = page_address;
+        this.pageAddress = pageAddress;
     }
 }

@@ -9,7 +9,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class ToDo {
     @Id @GeneratedValue
-    private Long todo_id;
+    private Long todoId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
@@ -21,8 +21,8 @@ public class ToDo {
 
     private int week;
     private String content;
-    private Boolean is_done;
-    private Boolean is_used;
+    private Boolean isDone;
+    private Boolean isUsed;
 
     @Builder
     public ToDo(Student student, Subject subject, int week, String content){
@@ -30,8 +30,8 @@ public class ToDo {
         this.subject = subject;
         this.week = week;
         this.content = content;
-        this.is_done = false;
-        this.is_used = true;
+        this.isDone = false;
+        this.isUsed = true;
     }
 
 }
