@@ -62,8 +62,8 @@ public class LMSCrawlingService {
             // attending Table 저장
             System.out.println("Attending Table 저장");
             attendingRepository.save(Attending.builder()
-                            .student_id(student.get())
-                            .subject_id(newSubject)
+                            .studentId(student.get())
+                            .subjectId(newSubject)
                     .build());
 
 
