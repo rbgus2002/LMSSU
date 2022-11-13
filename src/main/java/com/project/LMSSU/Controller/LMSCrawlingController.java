@@ -15,11 +15,5 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/subject")
 public class LMSCrawlingController {
-    private final LMSCrawlingService lmsCrawlingService;
-    @GetMapping("/")
-    public Map test() throws IOException, InterruptedException {
-        LMSCrawlingRequestDTO dto = new LMSCrawlingRequestDTO((long)1, 20182662, "qwe@50584621");
 
-        return lmsCrawlingService.saveLMSInformation(dto);
-    }
 }

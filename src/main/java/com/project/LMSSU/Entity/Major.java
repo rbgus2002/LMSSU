@@ -14,7 +14,6 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Major {
     @Id
-    @GeneratedValue
     private String majorName;
 
     private String homepageAddress;

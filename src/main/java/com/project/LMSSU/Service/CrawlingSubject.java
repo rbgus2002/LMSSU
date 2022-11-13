@@ -1,8 +1,11 @@
 package com.project.LMSSU.Service;
 
+import lombok.Data;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
 public class CrawlingSubject {
     /*
     마이페이지
@@ -15,54 +18,12 @@ public class CrawlingSubject {
     /*
     과목 홈 - 강의콘텐츠
      */
-    List<ContentPerWeek> contentPerWeekList = new ArrayList<>();
+    private List<ContentPerWeek> contentPerWeekList = new ArrayList<>();
 
     /*
     과목 홈 - 공지
      */
-    List<Notice> noticeList = new ArrayList<>();
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getProfessor() {
-        return professor;
-    }
-
-    public void setProfessor(String professor) {
-        this.professor = professor;
-    }
-
-    public String getHomepageLink() {
-        return homepageLink;
-    }
-
-    public void setHomepageLink(String homepageLink) {
-        this.homepageLink = homepageLink;
-    }
-
-    public List<ContentPerWeek> getContentPerWeekList() {
-        return contentPerWeekList;
-    }
-
-    public void setContentPerWeekList(List<ContentPerWeek> contentPerWeekList) {
-        this.contentPerWeekList = contentPerWeekList;
-    }
-
-    public List<Notice> getNoticeList() {
-        return noticeList;
-    }
-
-    public void setNoticeList(List<Notice> noticeList) {
-        this.noticeList = noticeList;
-    }
-
+    private List<Notice> noticeList = new ArrayList<>();
 
     @Override
     public String toString() {
@@ -72,7 +33,7 @@ public class CrawlingSubject {
         sb.append("과목홈 : ").append(this.homepageLink).append("\n");
         sb.append("과목공지 : ").append(this.noticeList.toString()).append("\n");
         for(ContentPerWeek contentPerWeek : this.contentPerWeekList){
-            sb.append(contentPerWeek.weeks).append(" : ").append(contentPerWeek.contentList.toString()).append("\n");
+            sb.append(contentPerWeek.getWeeks()).append(" : ").append(contentPerWeek.getContentList().toString()).append("\n");
         }
         sb.append("------------------------------------------").append("\n");
 
@@ -80,13 +41,14 @@ public class CrawlingSubject {
     }
 }
 
+@Data
 class ContentPerWeek{
-    int weeks;
+    private int weeks;
     /*
     <icon>
     pdf, mp4, offline_attendance, file, text, assignment, video_conference, quiz
      */
-    List<Content> contentList = new ArrayList<>(); // #으로 구분
+    private List<Content> contentList = new ArrayList<>(); // #으로 구분
 
     public ContentPerWeek(int weeks, List<Content> contentList) {
         this.weeks = weeks;
@@ -94,6 +56,7 @@ class ContentPerWeek{
     }
 }
 
+@Data
 class Content{
     /*
     None -> Data not exist
@@ -101,26 +64,26 @@ class Content{
     private String type;
     private String name;
     private String isDone;
-    private String startDate;
+    private String endDate;
 
-    public Content(String type, String name, String isDone, String startDate) {
+    public Content(String type, String name, String isDone, String endDate) {
         this.type = type;
         this.name = name;
         this.isDone = isDone;
-        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     @Override
     public String toString() {
-        return type + "  '" + name + "' / " + isDone + " / '" + startDate + "'";
+        return type + "  '" + name + "' / " + isDone + " / '" + endDate + "'";
     }
 }
 
-
+@Data
 class Notice{
-    String title;
-    String date;
-    String link;
+    private String title;
+    private String date;
+    private String link;
 
     public Notice(String title, String date, String link) {
         this.title = title;

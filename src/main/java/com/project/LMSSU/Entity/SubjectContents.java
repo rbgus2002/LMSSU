@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,21 +17,19 @@ public class SubjectContents {
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
-    private String contents_type;
+    private String contentType;
     private String title;
-    private String page_address;
     private int week;
-    private LocalDateTime deadline;
+    private LocalDate endDate;
     private int sequence;
 
     @Builder
-    public SubjectContents(Subject subject, String contents_type, String title, String page_address, int week, LocalDateTime deadline, int sequence) {
+    public SubjectContents(Subject subject, String contentType, String title, int week, LocalDate endDate, int sequence) {
         this.subject = subject;
-        this.contents_type = contents_type;
+        this.contentType = contentType;
         this.title = title;
-        this.page_address = page_address;
         this.week = week;
-        this.deadline = deadline;
+        this.endDate = endDate;
         this.sequence = sequence;
     }
 }

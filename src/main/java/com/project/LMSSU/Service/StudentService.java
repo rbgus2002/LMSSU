@@ -14,14 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class StudentService {
-    private final StudentRepository studentRepository;
-    private final MajorRepository majorRepository;
-    private final SubjectRepository subjectRepository;
 
-    public void test(){
-
-
-    }
 
 
 }

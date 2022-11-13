@@ -190,13 +190,28 @@ public class LMSCrawling {
                 if (isExistence) {
                     isDone = contentElement.findElement(By.className("xncb-component-attendance-state")).getText();
                 }
-//                // set startDate
+
+                /*
+                // set startDate (존재하면 넣기 메소드 찾기)
                 String startDate = "None";
                 isExistence = contentElement.findElement(By.className("xncb-component-periods-wrapper")).isDisplayed();
                 if (isExistence) {
                     startDate = contentElement.findElement(By.className("xncb-component-periods-item-date")).getText();
                 }
-                Content content = new Content(type, name, isDone, startDate);
+                */
+
+                // set endDate (존재하면 넣기 메소드 찾기)
+                String endDate = "None";
+                element = contentElement.findElement(By.className("xncb-component-periods-wrapper"));
+                isExistence = element.isDisplayed();
+                if(isExistence){
+                    element = element.findElement(By.className("xncb-component-periods-date"));
+                    if(element.isDisplayed()){
+                        endDate = element.findElement(By.className("xncb-component-periods-item-date")).getText();
+                    }
+                }
+
+                Content content = new Content(type, name, isDone, endDate);
 
                 contentList.add(content);
             }
