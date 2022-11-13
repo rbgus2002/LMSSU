@@ -19,17 +19,18 @@ public class LMSCrawling {
     private static WebElement element;
     private static String url;
     private static String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    private static String WEB_DRIVER_PATH = "/Users/choegyuhyeon/Downloads/chromedriver";;
-    private static List<Subject> subjectList = new ArrayList<>();
+    private static String WEB_DRIVER_PATH = "/Users/choegyuhyeon/Downloads/chromedriver";
+    ;
+    private static List<CrawlingSubject> subjectList = new ArrayList<>();
 
     /*
     1. login
     2. mypage
     3. 강의콘텐츠
     4. 공지
-    순으로 Crawling
+    순서로 Crawling
      */
-    public static void main(String[] args) throws InterruptedException, IOException {
+    static public List<CrawlingSubject> run(Integer userId, String pwd) throws InterruptedException, IOException {
         long time0 = System.currentTimeMillis();
 
         // 경로 설정
@@ -39,15 +40,15 @@ public class LMSCrawling {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
+//        options.addArguments("headless");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER); // ??
+
+        // 크롬 드라이버 객체 생성
         driver = new ChromeDriver(options);
 
-        // 아이디 비밀번호 입력 (추후에 예외처리 해주기)
-        Integer userId = 20182662;
-        String pwd = "qwe@50584621";
 
         /*
-        로그인
+        로그인 (예외처리 필요)
          */
         login(userId, pwd);
 
@@ -59,19 +60,19 @@ public class LMSCrawling {
         /*
         과목 홈페이지 - 강의콘텐츠
          */
-        for(Subject subject : subjectList){
+        for (CrawlingSubject subject : subjectList) {
             setMySubjectContents(subject);
         }
 
         /*
         과목 홈페이지 - 공지사항
          */
-        for(Subject subject : subjectList){
+        for (CrawlingSubject subject : subjectList) {
             setMySubjectNotice(subject);
         }
 
         // subjectList 출력
-        for(Subject subject : subjectList){
+        for (CrawlingSubject subject : subjectList) {
             System.out.println(subject.toString());
         }
         long time1 = System.currentTimeMillis();
@@ -79,15 +80,17 @@ public class LMSCrawling {
 
         System.out.println();
         System.out.println("총 : " + (time1 - time0) + " msec");
+
+        return subjectList;
     }
 
 
     /*
     로그인 후 마이페이지로 이동
      */
-    static void login(Integer userId, String pwd) throws InterruptedException {
+    static private void login(Integer userId, String pwd) throws InterruptedException {
         // LMS Login page
-        url  = "https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fclass.ssu.ac.kr%2Fxn-sso%2Fgw-cb.php/";
+        url = "https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fclass.ssu.ac.kr%2Fxn-sso%2Fgw-cb.php/";
 
         // 페이지 로딩
         driver.get(url);
@@ -102,7 +105,7 @@ public class LMSCrawling {
         driver.findElement(By.className("btn_login")).click();
 
         // 웹페이지 이동
-        Thread.sleep(1000);
+        Thread.sleep(2000);
         driver.get("https://canvas.ssu.ac.kr/learningx/dashboard?user_login=" + userId.toString() + "&locale=ko");
     }
 
@@ -110,15 +113,15 @@ public class LMSCrawling {
     /*
     수강하고 있는 과목 정보를 가져온다 (name, homepageLink, professor)
      */
-    static void setMySubjectNameAndProfessorAndHomeLink() {
+    static private void setMySubjectNameAndProfessorAndHomeLink() {
         // 특정 element Explicit Waits
         element = new WebDriverWait(driver, Duration.ofSeconds(10))
                 .until(driver -> driver.findElement(By.className("xnscc-header-sub-title")));
 
         List<WebElement> elements = driver.findElements(By.className("xn-student-course-container"));
 
-        for(WebElement element : elements){
-            Subject subject = new Subject();
+        for (WebElement element : elements) {
+            CrawlingSubject subject = new CrawlingSubject();
             // 과목 이름 찾기
             String name = element.findElement(By.className("xnscc-header-title")).getText();
             // 과목 홈페이지 링크 찾기
@@ -139,9 +142,9 @@ public class LMSCrawling {
     /*
     특정 과목의 강의컨텐츠에서 컨텐츠 정보를 가져와 contentPerWeekList 객체를 초기화한다.
      */
-    static void setMySubjectContents(Subject subject){
+    static private void setMySubjectContents(CrawlingSubject subject) {
         // 강의콘텐츠로 이동
-        driver.get(subject.getHomepageLink()+"/external_tools/2");
+        driver.get(subject.getHomepageLink() + "/external_tools/2");
 
         // frame 이동
         driver.switchTo().frame("tool_content");
@@ -151,7 +154,7 @@ public class LMSCrawling {
         element = new WebDriverWait(driver, Duration.ofSeconds(7))
                 .until(ExpectedConditions.elementToBeClickable(By.className("xncb-section-wrapper"))); // Explicit Waits
         element = driver.findElement(By.className("xncb-fold-toggle-button"));
-        if(element.getText().contains("펴기")) {
+        if (element.getText().contains("펴기")) {
             element.click();
         }
 
@@ -161,20 +164,20 @@ public class LMSCrawling {
         // ContentPerWeek 객체 초기화하여 List에 add
         List<ContentPerWeek> contentPerWeekList = new ArrayList<>();
         int weekNum = 1;
-        for(WebElement weekWebElement : weekList){
+        for (WebElement weekWebElement : weekList) {
             List<Content> contentList = new ArrayList<>();
 
             // 특정 주차에 해당하는 강의콘텐츠 Element 리스트를 가져온다.
             List<WebElement> contentElementList = weekWebElement.findElements(By.className("xncb-unit-content-wrapper"));
 
             // 특정 주차에 강의콘텐츠 없는 경우 예외 처리
-            if(contentElementList.isEmpty()){
+            if (contentElementList.isEmpty()) {
                 weekNum += 1;
                 continue;
             }
 
             // 특정 주차에 해당하는 강의콘텐츠 이름을 contentList에 추가한다.
-            for(WebElement contentElement : contentElementList){
+            for (WebElement contentElement : contentElementList) {
                 // Content 객체 생성
                 // set type
                 String type = contentElement.findElement(By.className("xncb-component-icon")).getAttribute("class");
@@ -184,13 +187,13 @@ public class LMSCrawling {
                 // set isDone (존재하면 넣기 메소드 찾기)
                 String isDone = "None";
                 boolean isExistence = contentElement.findElement(By.className("xncb-component-attendance-state-wrapper")).isDisplayed();
-                if(isExistence){
+                if (isExistence) {
                     isDone = contentElement.findElement(By.className("xncb-component-attendance-state")).getText();
                 }
 //                // set startDate
                 String startDate = "None";
                 isExistence = contentElement.findElement(By.className("xncb-component-periods-wrapper")).isDisplayed();
-                if(isExistence){
+                if (isExistence) {
                     startDate = contentElement.findElement(By.className("xncb-component-periods-item-date")).getText();
                 }
                 Content content = new Content(type, name, isDone, startDate);
@@ -207,9 +210,9 @@ public class LMSCrawling {
         subject.setContentPerWeekList(contentPerWeekList);
     }
 
-    static void setMySubjectNotice(Subject subject){
+    static private void setMySubjectNotice(CrawlingSubject subject) {
         // 강의콘텐츠로 이동
-        driver.get(subject.getHomepageLink()+"/announcements");
+        driver.get(subject.getHomepageLink() + "/announcements");
 
         // 특정 element Explicit Waits
         element = new WebDriverWait(driver, Duration.ofSeconds(10))
@@ -220,7 +223,7 @@ public class LMSCrawling {
 
         // Notice 객체 초기화 하여 add
         List<Notice> noticeList = new ArrayList<>();
-        for(WebElement webElement : noticeElementList){
+        for (WebElement webElement : noticeElementList) {
             // 제목
             String title = webElement.findElement(By.className("emyav_fAVi")).getText();
             // 날짜

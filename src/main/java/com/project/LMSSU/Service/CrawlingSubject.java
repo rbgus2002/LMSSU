@@ -3,7 +3,7 @@ package com.project.LMSSU.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Subject {
+public class CrawlingSubject {
     /*
     마이페이지
      */

@@ -12,12 +12,13 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Student {
     @Id
+    @GeneratedValue
     private Long student_id;
 
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "major_name")
+    @JoinColumn(name = "major_id")
     private Major major;
 
     @Builder

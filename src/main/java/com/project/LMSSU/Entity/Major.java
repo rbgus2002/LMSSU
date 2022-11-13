@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
@@ -13,13 +14,14 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Major {
     @Id
-    private String major_name;
+    @GeneratedValue
+    private String majorName;
 
-    private String homepage_address;
+    private String homepageAddress;
 
     @Builder
-    public Major(String major_name, String homepage_address){
-        this.major_name = major_name;
-        this.homepage_address = homepage_address;
+    public Major(String majorName, String homepageAddress) {
+        this.majorName = majorName;
+        this.homepageAddress = homepageAddress;
     }
 }

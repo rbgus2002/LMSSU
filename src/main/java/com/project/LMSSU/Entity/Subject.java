@@ -1,26 +1,29 @@
 package com.project.LMSSU.Entity;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Data
 @NoArgsConstructor
 public class Subject {
     @Id
-    private Long subject_id;
+    @GeneratedValue
+    private Long subjectId;
 
-    private String subject_name;
-    private String professor_name;
-    private String homepage_address;
+
+    private String subjectName;
+
+    private String professorName;
+    private String homepageAddress;
 
     @Builder
-    public Subject(Long subject_id, String subject_name, String professor_name, String homepage_address){
-        this.subject_id = subject_id;
-        this.subject_name = subject_name;
-        this.professor_name = professor_name;
-        this.homepage_address = homepage_address;
+    public Subject(String subjectName, String professorName, String homepageAddress) {
+        this.subjectName = subjectName;
+        this.professorName = professorName;
+        this.homepageAddress = homepageAddress;
     }
 }
