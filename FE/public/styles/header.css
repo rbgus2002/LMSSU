@@ -2,68 +2,87 @@
 
 .container {
     display: flex;
+    align-items: center;
+    padding: 0 2.25rem;
 }
 
-.container img {
-    width: 20rem;
+.container > .logo {
+  padding: 0.5rem;
 }
 
-.dropdown{
+.container > .logo > img {
+    height: 6rem;
+    width: auto;
+}
+
+.dropdown {
   position : relative;
   display : inline-block;
 }
 
-.div_grow {
-    flex-grow: 1;
-}
-
-.dropbtn{
-  display : block;
+.dropbtn {
+  display: flex;
   border : 2px solid rgb(94, 94, 94);
-  border-radius : 16px;
-  background-color: #fcfcfc;
-  font-weight: 400;
-  color : rgb(124, 124, 124);
-  padding : 12px;
-  width :110px;
-  height: 50px;
+  border-radius : 3rem;
   text-align: center;
   cursor : pointer;
-  font-size : 8px;
-  z-index :1;
-  position : relative;
+  align-items: center;
+  padding: 0.5rem;
 }
-.dropdown-content{
-  display : none;
+
+.dropbtn:hover {
+  background-color: lightgray;
+}
+
+.dropbtn > img {
+  height: 4rem;
+  width: auto;
+}
+
+.dropbtn > div {
+  margin: 0 1rem;
+}
+
+.dropbtn > div > p {
+  margin: 0.1rem;
+  font-weight: 900;
+}
+
+.dropdown_content {
+  right: 2.5rem;
+  top: 7rem;
+  position: fixed;
+  display: none;
   font-weight: 400;
-  background-color: #fcfcfc;
-  min-width : 110px;
-  border-radius: 8px;
-  height : 40px;
-  overflow : scroll;
+  width: 12rem;
+  border-radius: 0.5rem;
+  background-color: white;
   box-shadow: 0px 0px 10px 3px rgba(190, 190, 190, 0.6);
 }
-.dropdown-content::-webkit-scrollbar{
-  width : 5px;
-  height : 10px;
-}
-.dropdown-content::-webkit-scrollbar-thumb{
-  border-radius : 2px;
-  background-color :rgb(194, 194, 194)
+
+.dropdown_content.show {
+  display: block;
 }
 
-.dropdown-content div{
-  display : block;
-  text-decoration : none;
-  color : rgb(37, 37, 37);
-  font-size: 12px;
-  padding : 12px 20px;
-}
-.dropdown-content div:hover{
-  background-color: rgb(226, 226, 226);
+.dropdown_content_item {
+  padding: 1rem 1.5rem;
 }
 
-.dropdown-content.show{
-  display : block;
+.dropdown_content_logout {
+  display: flex;
+  justify-content: end;
+  background-color: rgb(227, 227, 227);
 }
 
+.dropdown_content_logout .logout_btn {
+  border-radius: 0.5rem;
+  margin: 1rem;
+  width: fit-content;
+  background-color: white;
+  padding: 0.5rem;
+}
+
+.dropdown_content p {
+  margin: 0;
+  font-size: 1.5rem;
+}

@@ -1,0 +1,33 @@
+.subject_board {
+  margin: 1rem;
+  border: 0.1rem solid #aaaaaa;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+.subject_board > h2 {
+  margin: 1.5rem;
+}
+
+.subject_list {
+  margin: 0;
+}
+
+.subject_item {
+  display: flex;
+  margin: 0;
+}
+
+.subject_item > h5 {
+  font-weight: 900;
+  margin: 0.75rem 1.5rem;
+}
+
+.subject_fold {
+
+}
+
+.subject_list > h3 {
+  margin: 1.5rem;
+}

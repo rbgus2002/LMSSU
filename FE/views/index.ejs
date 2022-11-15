@@ -6,90 +6,118 @@
   <title>Hello</title>
   <link rel="stylesheet" type="text/css" href="styles/global.css" />
   <link rel="stylesheet" type="text/css" href="styles/mainboard.css" />
+  <link rel="stylesheet" type="text/css" href="styles/subject.css" />
   <link rel="stylesheet" type="text/css" href="styles/notice.css" />
+  <link rel="stylesheet" type="text/css" href="styles/lecture.css" />
   <link rel="stylesheet" type="text/css" href="styles/index.css" />
   <link rel="stylesheet" type="text/css" href="styles/header.css" />
 </head>
 
 <body>
-  
+  <!--상단 헤더-->
   <header id="header">
-    <nav class="navbar navbar-light navbar-static-top navbar-expand-md" role="navigation">
+    <nav role="navigation">
       <div class="container">
-        <div class="navbar-header">
-          
-          <div class="float-left xn-main-catalog-header-logo-wrap">
 
-            <a href="http://localhost:8080/">
-              <div class="xn-main-catalog-header-logo">
-                <img class="xn-main-catalog-header-logo-image"
-                  src="https://class.ssu.ac.kr/customs/main/header_logo.png?v=123213">
-              </div>
-            </a>
-          </div>
-          
-        </div>
+        <a class="logo" href="/">
+          <img src="https://class.ssu.ac.kr/customs/main/header_logo.png?v=123213">
+        </a>
 
         <div class="div_grow"></div>
-        
+
         <div class="dropdown">
-          <button class="dropbtn">
-            
-            <span class="dropbtn_content">20182641<br/> 이승호</span>
-            <span class="dropbtn_click" style="font-family: Material Icons; font-size : 16px; color : #3b3b3b; float:right;"
-              onclick="dropdown()">arrow_drop_down</span>
-          </button>
-          <div class="dropdown-content">
-            
-            
-              <form action="http://localhost:8080/logout" method="post">
-                <!--<input type="hidden" name="_token" value="zKf5ANxJyWv00adVt0JKvnDTYzHtZSlSywFn0QEx">--->
-                
-                <button type="submit" class="details">로그아웃</button>
-              </form>
-            
+          <div class="dropbtn dropbtn_click">
+            <img src="src/user.png" class="dropbtn_click"/>
+            <div class="dropbtn_click">
+              <p class="dropbtn_click">컴퓨터학부</p>
+              <p class="dropbtn_click">20182618</p>
+              <p class="dropbtn_click">최규현</p>
+            </div>
           </div>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse mobile show in navbar-hidden" id="bs-example-navbar-collapse-1">
-          <ul class="navbar-nav mr-auto">
-            
-
-           
-            
-          </ul>
+          <div class="dropdown_content">
+            <div class="dropdown_content_list">
+              <p class="dropdown_content_item">
+                내 정보
+              </p>
+            </div>
+            <div class="dropdown_content_logout">
+              <p class="logout_btn">
+                로그아웃
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </nav>
   </header>
-  <!--미완료 수업-->
+  <!--컨텐츠-->
   <div class="main_board">
     <div class="main_board_left">
+      <!-- 미완료 수업 -->
+      <div class="subject_board">
+        <h2>미완료 수업</h2>
+        <div class="subject_list">
+          <hr/>
+          <div class="subject_item">
+            <h5>Hello World</h5>
+            <div class="div_grow"></div>
+            <h5 class="subject_fold">∨</h5>
+          </div>
+          <hr/>
+          <div class="subject_item">
+            <h5>Hello World</h5>
+            <div class="div_grow"></div>
+            <h5 class="subject_fold">∨</h5>
+          </div>
+          <hr/>
+          <div class="subject_item">
+            <h5>Hello World</h5>
+            <div class="div_grow"></div>
+            <h5 class="subject_fold">∨</h5>
+          </div>
+          <hr/>
+          <div class="subject_item">
+            <h5>Hello World</h5>
+            <div class="div_grow"></div>
+            <h5 class="subject_fold">∨</h5>
+          </div>
+          <hr/>
+          <div class="subject_item">
+            <h5>Hello World</h5>
+            <div class="div_grow"></div>
+            <h5 class="subject_fold">∨</h5>
+          </div>
+          <hr/>
+
+          <h3>더보기 +</h3>
+        </div>
+      </div>
+      <!--공지사항-->
       <div class="notice_board">
+        <!-- <iframe src="/notice" style="width: 100%; height: 26rem;" frameborder="0"></iframe> -->
         <div class="notice_type_title">
           <div id="notice_all" class="notice_type notice_select" onclick="selectNotice(0)">
-            <p>
+            <h3>
               전체
-            </p>
+            </h3>
             <div class="notice_bot_bar"></div>
           </div>
           <div id="notice_major" class="notice_type" onclick="selectNotice(1)">
-            <p>
+            <h3>
               학과
-            </p>
+            </h3>
             <div class="notice_bot_bar"></div>
           </div>
           <div id="notice_fun" class="notice_type" onclick="selectNotice(2)">
-            <p>
+            <h3>
               펀시스템
-            </p>
+            </h3>
             <div class="notice_bot_bar"></div>
           </div>
           <div id="notice_etc" class="notice_type" onclick="selectNotice(3)">
-            <p>
+            <h3>
               기타
-            </p>
+            </h3>
             <div class="notice_bot_bar"></div>
           </div>
         </div>
@@ -141,20 +169,21 @@
         </div>
         <div class="notice_page">
           <div class="div_grow"></div>
-          <p><</p>
+          <h4><</h4>
             <div class="notice_page_number">
-              <p class="notice_page_select" onclick="selectNoticePage(0)">1</p>
-              <p onclick="selectNoticePage(1)">2</p>
-              <p onclick="selectNoticePage(2)">3</p>
-              <p onclick="selectNoticePage(3)">4</p>
-              <p onclick="selectNoticePage(4)">5</p>
+              <h4 class="notice_page_select" onclick="selectNoticePage(0)">1</h4>
+              <h4 onclick="selectNoticePage(1)">2</h4>
+              <h4 onclick="selectNoticePage(2)">3</h4>
+              <h4 onclick="selectNoticePage(3)">4</h4>
+              <h4 onclick="selectNoticePage(4)">5</h4>
             </div>
-          <p>></p>
+          <h4>></h4>
           <div class="div_grow"></div>
         </div>
       </div>
     </div>
     <div class="main_board_right">
+      <!--주차별 강의 목록-->
       <div class="lecture_board">
         <div class="lecture_week">
           <h1><</h1>
@@ -237,7 +266,8 @@
                 </div>
               </div>
             </div>
-          </div><div class="lecture_item">
+          </div>
+          <div class="lecture_item">
             <div class="lecture_top_bar">
               <h2>[과목명]</h2>
               <div class="div_grow"></div>
@@ -309,7 +339,8 @@
                 </div>
               </div>
             </div>
-          </div><div class="lecture_item">
+          </div>
+          <div class="lecture_item">
             <div class="lecture_top_bar">
               <h2>[과목명]</h2>
               <div class="div_grow"></div>
@@ -387,54 +418,33 @@
     </div>
   </div>
 
+  <!--header script-->
   <script>
-    window.onload=()=>{
+    window.onload = () => {
       document.querySelector('.dropbtn_click').onclick = ()=>{
         dropdown();
       }
-      document.getElementsByClassName('details').onclick = ()=>{
-        showMenu(value);
-      };
+
       dropdown = () => {
-        var v = document.querySelector('.dropdown-content');
-        var dropbtn = document.querySelector('.dropbtn')
+        let v = document.querySelector('.dropdown_content');
+        let dropbtn = document.querySelector('.dropbtn')
         v.classList.toggle('show');
         dropbtn.style.borderColor = 'rgb(94, 94, 94)';
       }
-
-      showMenu=(value)=>{
-        
-        var dropbtn_content = document.querySelector('.dropbtn_content');
-        var dropbtn_click = document.querySelector('.dropbtn_click');
-        var dropbtn = document.querySelector('.dropbtn');
-
-       
-        dropbtn_content.innerText = value;
-        dropbtn_content.style.color = '#252525';
-        dropbtn.style.borderColor = '#3992a8';
-      }
     }
     
-    window.onclick= (e)=>{
-      if(!e.target.matches('.dropbtn_click')){
-        var dropdowns = document.getElementsByClassName("dropdown-content");
+    window.onclick = (e)=>{
+      if(!e.target.matches('.dropbtn_click')) {
+        var dropdowns = document.querySelector(".dropdown_content");
 
-        
-        var dropbtn_content = document.querySelector('.dropbtn_content');
-        var dropbtn_click = document.querySelector('.dropbtn_click');
-        var dropbtn = document.querySelector('.dropbtn');
-
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-          var openDropdown = dropdowns[i];
-          if (openDropdown.classList.contains('show')) {
-            openDropdown.classList.remove('show');
-          }
+        if (dropdowns.classList.contains('show')) {
+          dropdowns.classList.remove('show');
         }
       }
     }
   </script>
   
+  <!-- notice board script -->
   <script>
     function selectNotice(idx) {
 

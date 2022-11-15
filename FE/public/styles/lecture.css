@@ -1,0 +1,126 @@
+.lecture_board {
+  margin: 1rem;
+  border: 0.1rem solid #aaaaaa;
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+
+.lecture_week {
+  display: flex;
+  font-size: 1.5rem;
+}
+
+.lecture_week > h1 {
+  text-align: center;
+  flex-grow: 1;
+}
+
+.lecture_week > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+.lecture_week > div > h1 {
+  width: fit-content;
+  margin: 0;
+}
+
+.lecture_week > div > h5 {
+  color: #aaaaaa;
+  width: fit-content;
+  margin: 0;
+}
+
+.lecture_item {
+  border-radius: 1rem;
+  margin: 1rem 0;
+  padding: 1.5rem;
+  background-color: #eeeeee;
+}
+
+.lecture_top_bar {
+  display: flex;
+}
+
+.lecture_top_bar > h2 {
+  margin: 0;
+}
+
+.lecture_notice {
+  display: flex;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.lecture_notice p {
+  padding: 0 0.75rem;
+  flex-grow: 1;
+  margin: 0;
+}
+
+.lecture_notice MARQUEE {
+  margin-top: 0.25rem;
+  font-size: 1.25rem;
+}
+
+.lecture_content {
+  display: flex;
+}
+
+.lecture_subjects {
+  width: 40%;
+}
+
+.lecture_subject {
+  align-items: center;
+  display: flex;
+  margin: 1rem 0;
+}
+
+.lecture_subject img {
+  width: 1.5rem;
+}
+
+.lecture_subject h3 {
+  margin: 0 0.5rem;
+}
+
+.lecture_todolist {
+  padding: 0.5rem;
+  flex-grow: 2;
+  background-color: white;
+  border-radius: 1rem;
+  max-height: 12rem;
+  overflow: auto;
+}
+
+.lecture_todolist_content {
+  margin: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.lecture_todolist_check {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 1rem;
+}
+
+.lecture_todolist_title {
+  margin: 0 0.5rem;
+}
+
+.lecture_todolist_title h3 {
+  margin: 0;
+}
+
+.lecture_todolist_title hr {
+  margin: 0;
+}
+
+img {
+  width: 2rem;
+}

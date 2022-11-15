@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="styles/global.css" />
+  <link rel="stylesheet" type="text/css" href="styles/notice.css" />
+  <title>notice</title>
+</head>
+<body>
+  <div class="notice_type_title">
+    <div id="notice_all" class="notice_type notice_select" onclick="selectNotice(0)">
+      <p>
+        전체
+      </p>
+      <div class="notice_bot_bar"></div>
+    </div>
+    <div id="notice_major" class="notice_type" onclick="selectNotice(1)">
+      <p>
+        학과
+      </p>
+      <div class="notice_bot_bar"></div>
+    </div>
+    <div id="notice_fun" class="notice_type" onclick="selectNotice(2)">
+      <p>
+        펀시스템
+      </p>
+      <div class="notice_bot_bar"></div>
+    </div>
+    <div id="notice_etc" class="notice_type" onclick="selectNotice(3)">
+      <p>
+        기타
+      </p>
+      <div class="notice_bot_bar"></div>
+    </div>
+  </div>
+  <div class="notice_contents">
+    <div class="notice_content">
+      <p class="notice_content_dot">·</p>
+      <p class="notice_content_title">Lorem Ipsum test hello</p>
+      <div>
+
+      </div>
+      <p class="notice_content_date">2022.10.04</p>
+    </div>
+    <hr />
+    <div class="notice_content">
+      <p class="notice_content_dot">·</p>
+      <p class="notice_content_title">Lorem Ipsum test hello</p>
+      <div>
+
+      </div>
+      <p class="notice_content_date">2022.10.04</p>
+    </div>
+    <hr />
+    <div class="notice_content">
+      <p class="notice_content_dot">·</p>
+      <p class="notice_content_title">Lorem Ipsum test hello</p>
+      <div>
+
+      </div>
+      <p class="notice_content_date">2022.10.04</p>
+    </div>
+    <hr />
+    <div class="notice_content">
+      <p class="notice_content_dot">·</p>
+      <p class="notice_content_title">Lorem Ipsum test hello</p>
+      <div>
+
+      </div>
+      <p class="notice_content_date">2022.10.04</p>
+    </div>
+    <hr />
+    <div class="notice_content">
+      <p class="notice_content_dot">·</p>
+      <p class="notice_content_title">Lorem Ipsum test hello</p>
+      <div>
+
+      </div>
+      <p class="notice_content_date">2022.10.04</p>
+    </div>
+  </div>
+  <div class="notice_page">
+    <div class="div_grow"></div>
+    <p><</p>
+      <div class="notice_page_number">
+        <p class="notice_page_select" onclick="selectNoticePage(0)">1</p>
+        <p onclick="selectNoticePage(1)">2</p>
+        <p onclick="selectNoticePage(2)">3</p>
+        <p onclick="selectNoticePage(3)">4</p>
+        <p onclick="selectNoticePage(4)">5</p>
+      </div>
+    <p>></p>
+    <div class="div_grow"></div>
+  </div>
+  <!-- notice board script -->
+  <script>
+    function selectNotice(idx) {
+
+      let notice_type_list = document.getElementsByClassName("notice_type");
+
+      for (let i = 0; i < notice_type_list.length; i++) {
+        if (notice_type_list[i].classList.contains('notice_select')) {
+          notice_type_list[i].classList.remove('notice_select');
+        }
+        if (i == idx) {
+          notice_type_list[i].classList.add('notice_select');
+        }
+      }
+    }
+
+    function selectNoticePage(idx) {
+
+      let notice_page_list = document.getElementsByClassName("notice_page_number")[0].querySelectorAll('p');
+
+      for (let i = 0; i < notice_page_list.length; i++) {
+        if (notice_page_list[i].classList.contains('notice_page_select')) {
+          notice_page_list[i].classList.remove('notice_page_select');
+        }
+        if (i == idx) {
+          notice_page_list[i].classList.add('notice_page_select');
+          
+        }
+      }
+    }
+  </script>
+</body>
+</html>
