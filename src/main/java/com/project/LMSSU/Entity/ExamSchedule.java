@@ -1,12 +1,14 @@
 package com.project.LMSSU.Entity;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Data
 @NoArgsConstructor
 public class ExamSchedule {
     @Id @GeneratedValue
@@ -21,6 +23,7 @@ public class ExamSchedule {
     private Subject subject;
 
     private LocalDate date;
+    @Column(name = "is_used")
     private Boolean isUsed;
 
     @Builder

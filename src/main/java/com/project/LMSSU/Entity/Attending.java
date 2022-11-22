@@ -15,15 +15,15 @@ public class Attending {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "student_id")
-    private Student studentId;
+    private Student student;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subject_id")
-    private Subject subjectId;
+    private Subject subject;
 
     @Builder
-    public Attending(Student studentId, Subject subjectId) {
-        this.studentId = studentId;
-        this.subjectId = subjectId;
+    public Attending(Student student, Subject subject) {
+        this.student = student;
+        this.subject = subject;
     }
 }

@@ -122,9 +122,9 @@ public class LMSCrawlingService {
 
         // Student 수강 중인 과목의 subjectId 가져오기
         List<Long> attendingSubjectId = new ArrayList<>();
-        List<Attending> attendingList = attendingRepository.findAttendingByStudentId(student.get());
+        List<Attending> attendingList = attendingRepository.findAttendingByStudentId(student.get().getId());
         for (Attending attending : attendingList) {
-            attendingSubjectId.add(attending.getSubjectId().getSubjectId());
+            attendingSubjectId.add(attending.getSubject().getId());
         }
         System.out.println(attendingSubjectId.size());
 
@@ -148,7 +148,7 @@ public class LMSCrawlingService {
                             .homepageAddress(subjectInfo.get("homepageAddress"))
                             .professorName(subjectInfo.get("professorName"))
                             .subjectName(subjectInfo.get("subjectName"))
-                            .subjectId(subjectId)
+                            .id(subjectId)
                             .updateTime(null)
                             .build());
                 } else {
@@ -159,8 +159,8 @@ public class LMSCrawlingService {
             // attending 없으면 추가
             if (!attendingSubjectId.contains(subjectId)) {
                 attendingRepository.save(Attending.builder()
-                        .studentId(student.get())
-                        .subjectId(thisSubject)
+                        .student(student.get())
+                        .subject(thisSubject)
                         .build());
             }
         }

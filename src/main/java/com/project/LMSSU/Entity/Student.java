@@ -1,19 +1,16 @@
 package com.project.LMSSU.Entity;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Getter @Setter
+@Data
 @NoArgsConstructor
 public class Student {
-    @Id
+    @Id @Column(name = "student_id")
     @GeneratedValue
-    private Long studentId;
+    private Long id;
 
     private String name;
 
@@ -22,8 +19,8 @@ public class Student {
     private Major major;
 
     @Builder
-    public Student(Long studentId, String name, Major major){
-        this.studentId = studentId;
+    public Student(Long id, String name, Major major){
+        this.id = id;
         this.name = name;
         this.major = major;
     }

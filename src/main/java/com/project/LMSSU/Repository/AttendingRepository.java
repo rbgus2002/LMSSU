@@ -9,5 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AttendingRepository extends JpaRepository<Attending, Long> {
-    List<Attending> findAttendingByStudentId(Student student);
+    List<Attending> findAttendingByStudentId(Long studentId);
+    Optional<Attending> findAttendingByStudentIdAndSubjectId(Long studentId, Long subjectId);
 }
