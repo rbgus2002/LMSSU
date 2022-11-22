@@ -21,15 +21,13 @@ public class SubjectContents {
     private String title;
     private int week;
     private LocalDate endDate;
-    private int sequence;
 
     @Builder
-    public SubjectContents(Subject subject, String contentType, String title, int week, LocalDate endDate, int sequence) {
+    public SubjectContents(Subject subject, String contentType, String title, int week, LocalDate endDate) {
         this.subject = subject;
         this.contentType = contentType;
         this.title = title;
         this.week = week;
         this.endDate = endDate;
-        this.sequence = sequence;
     }
 }

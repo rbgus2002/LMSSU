@@ -61,6 +61,13 @@ public class TestController {
     public Map crawlTest() throws IOException, InterruptedException {
         LMSCrawlingRequestDTO dto = new LMSCrawlingRequestDTO((long)1, 20182662, "qwe@50584621");
 
-        return lmsCrawlingService.saveLMSInformation(dto);
+        return lmsCrawlingService.saveAttending(dto);
+    }
+
+    @GetMapping("/saveSubjectInfo")
+    public Map tmpSaveSubjectInfo() throws IOException, InterruptedException {
+        LMSCrawlingRequestDTO dto = new LMSCrawlingRequestDTO((long)1, 20182662, "qwe@50584621");
+
+        return lmsCrawlingService.saveSubjectInfo(dto, 2150516204L);
     }
 }

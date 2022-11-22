@@ -4,11 +4,13 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 public class SubjectNotice {
-    @Id @GeneratedValue
+    @Id
     private Long subjectNoticeId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -16,14 +18,15 @@ public class SubjectNotice {
     private Subject subject;
 
     private String title;
-    private String contents;
-    private String pageAddress;
+    private String noticeLink;
+    private LocalDate localDate;
 
     @Builder
-    public SubjectNotice(Subject subject, String title, String contents, String pageAddress) {
+    public SubjectNotice(Long subjectNoticeId, Subject subject, String title, String noticeLink, LocalDate localDate) {
+        this.subjectNoticeId = subjectNoticeId;
         this.subject = subject;
         this.title = title;
-        this.contents = contents;
-        this.pageAddress = pageAddress;
+        this.noticeLink = noticeLink;
+        this.localDate = localDate;
     }
 }

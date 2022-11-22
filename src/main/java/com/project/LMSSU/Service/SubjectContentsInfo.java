@@ -6,15 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class CrawlingSubject {
-    /*
-    마이페이지
-     */
-    private String name;
-    private String professor;
-    private String homepageLink;
-
-
+public class SubjectContentsInfo {
     /*
     과목 홈 - 강의콘텐츠
      */
@@ -28,9 +20,6 @@ public class CrawlingSubject {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("--------------" + this.name + "--------------").append("\n");
-        sb.append("교수님 : ").append(this.professor).append("\n");
-        sb.append("과목홈 : ").append(this.homepageLink).append("\n");
         sb.append("과목공지 : ").append(this.noticeList.toString()).append("\n");
         for(ContentPerWeek contentPerWeek : this.contentPerWeekList){
             sb.append(contentPerWeek.getWeeks()).append(" : ").append(contentPerWeek.getContentList().toString()).append("\n");
@@ -81,11 +70,13 @@ class Content{
 
 @Data
 class Notice{
+    private Long noticeId;
     private String title;
     private String date;
     private String link;
 
-    public Notice(String title, String date, String link) {
+    public Notice(Long noticeId, String title, String date, String link) {
+        this.noticeId = noticeId;
         this.title = title;
         this.date = date;
         this.link = link;
