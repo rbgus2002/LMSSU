@@ -111,6 +111,9 @@ public class LMSCrawlingService {
 
 
 
+    /*
+    특정 과목 Crawling
+     */
     @Transactional
     public Map saveSubjectInfo(StudentLoginRequestDTO lmsCrawlingRequestDTO, Long subjectId) throws InterruptedException {
         // Student 예외처리

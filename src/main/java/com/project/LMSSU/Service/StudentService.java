@@ -33,7 +33,7 @@ public class StudentService {
     public Map signIn(StudentLoginRequestDTO dto) throws InterruptedException {
         Map map = new HashMap();
         map.put("studentId", dto.getStudentId());
-        map.put("user", "original");
+        map.put("student", "original");
 
         Optional<Student> studentOptional = studentRepository.findById(dto.getStudentId());
 
@@ -50,12 +50,12 @@ public class StudentService {
             saveAttending(dto);
 
             // 새로 등록한 회원
-            map.put("user", "new");
+            map.put("student", "new");
 
         }else{
             // 학과 입력이 안되어 있는 경우
             if(studentOptional.get().getMajor() == null){
-                map.put("user", "new");
+                map.put("student", "new");
             }
         }
 
@@ -146,5 +146,7 @@ public class StudentService {
         map.put("studentId", dto.getStudentId());
         return map;
     }
+
+
 
 }
