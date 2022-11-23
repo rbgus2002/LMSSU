@@ -1,6 +1,6 @@
 package com.project.LMSSU.Service;
 
-import com.project.LMSSU.DTO.LMSCrawlingRequestDTO;
+import com.project.LMSSU.DTO.StudentLoginRequestDTO;
 import com.project.LMSSU.Entity.*;
 import com.project.LMSSU.Repository.*;
 import lombok.RequiredArgsConstructor;
@@ -108,68 +108,11 @@ public class LMSCrawlingService {
 //        return map;
 //    }
 
-    /*
-    특정 학생의 수강중인 과목들을 Attending Table에 저장한다.
-    가져온 과목이 Subject Table에 등록되지 않았으면 해준다.
-     */
-    public Map saveAttending(LMSCrawlingRequestDTO lmsCrawlingRequestDTO) throws InterruptedException {
-        // Student 예외처리
-        Optional<Student> student = studentRepository.findById(lmsCrawlingRequestDTO.getStudentId());
-        if (student.isEmpty()) {
-            System.out.println("studentId Error"); // 로그로 찍기
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "studentId error");
-        }
 
-        // Student 수강 중인 과목의 subjectId 가져오기
-        List<Long> attendingSubjectId = new ArrayList<>();
-        List<Attending> attendingList = attendingRepository.findAttendingByStudentId(student.get().getId());
-        for (Attending attending : attendingList) {
-            attendingSubjectId.add(attending.getSubject().getId());
-        }
-        System.out.println(attendingSubjectId.size());
 
-        // LMSCrawling 객체 생성 (init, login)
-        LMSCrawling lmsCrawling = new LMSCrawling(lmsCrawlingRequestDTO);
-
-        // 크롤링 후 subjectId 가져오기
-        List<Long> subjectIdList = lmsCrawling.getSubjectId();
-        System.out.println(subjectIdList.size());
-
-        for (Long subjectId : subjectIdList) {
-            Optional<Subject> subject = subjectRepository.findById(subjectId);
-            Subject thisSubject = null;
-
-            // subject 없으면 추가
-            if (subject.isEmpty()) {
-                Map<Object, String> subjectInfo = lmsCrawling.getSubjectInfo(subjectId.toString());
-                System.out.println(subjectInfo.size());
-                if (subjectInfo != null) {
-                    thisSubject = subjectRepository.save(Subject.builder()
-                            .homepageAddress(subjectInfo.get("homepageAddress"))
-                            .professorName(subjectInfo.get("professorName"))
-                            .subjectName(subjectInfo.get("subjectName"))
-                            .id(subjectId)
-                            .updateTime(null)
-                            .build());
-                } else {
-                    thisSubject = subject.get();
-                }
-            }
-
-            // attending 없으면 추가
-            if (!attendingSubjectId.contains(subjectId)) {
-                attendingRepository.save(Attending.builder()
-                        .student(student.get())
-                        .subject(thisSubject)
-                        .build());
-            }
-        }
-
-        return null;
-    }
 
     @Transactional
-    public Map saveSubjectInfo(LMSCrawlingRequestDTO lmsCrawlingRequestDTO, Long subjectId) throws InterruptedException {
+    public Map saveSubjectInfo(StudentLoginRequestDTO lmsCrawlingRequestDTO, Long subjectId) throws InterruptedException {
         // Student 예외처리
         Optional<Student> student = studentRepository.findById(lmsCrawlingRequestDTO.getStudentId());
         if (student.isEmpty()) {
@@ -178,42 +121,50 @@ public class LMSCrawlingService {
         }
 
         // Subject 예외처리
-        Optional<Subject> subject = subjectRepository.findById(subjectId);
-        if (subject.isEmpty()) {
+        Optional<Subject> subjectOptional = subjectRepository.findById(subjectId);
+        if (subjectOptional.isEmpty()) {
             System.out.println("subjectId Error"); // 로그로 찍기
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "subjectId error");
+        }
+        Subject subject = subjectOptional.get();
+
+        // Attending 예외처리
+        Optional<Attending> attendingOptional = attendingRepository.findAttendingByStudentIdAndSubjectId(lmsCrawlingRequestDTO.getStudentId(), subjectId);
+        if (attendingOptional.isEmpty()) {
+            System.out.println("Attending Error"); // 로그로 찍기
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not attending subjectId");
         }
 
         // LMSCrawling 객체 생성 (init, login)
         LMSCrawling lmsCrawling = new LMSCrawling(lmsCrawlingRequestDTO);
 
         // subjectId에 해당하는 과목의 강의 컨텐츠, 공지사항 가져오기
-        SubjectContentsInfo subjectContentsInfo = lmsCrawling.getSubjectContentsInfo(subject.get().getHomepageAddress());
+        SubjectContentsInfo subjectContentsInfo = lmsCrawling.getSubjectContentsInfo(subject.getHomepageAddress());
 
         // 강의콘텐츠 저장
-        for(ContentPerWeek contentPerWeek : subjectContentsInfo.getContentPerWeekList()){
-            for(Content content : contentPerWeek.getContentList()){
-                LocalDate date = null;
-                // localDate 초기화
-                if(!content.getEndDate().equals("None")){
-                    String year = LocalDate.now().getYear() + " ";
-                    String yearTmp = year + content.getEndDate();
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy M월 d일 mm:ss");
-                    date = LocalDate.parse(yearTmp, formatter);
-                }
-
-                subjectContentsRepository.save(SubjectContents.builder()
-                                .contentType(content.getType())
-                                .endDate(date)
-                                .title(content.getName())
-                                .week(contentPerWeek.getWeeks())
-                                .subject(subject.get())
-                        .build());
-            }
-        }
+//        for(ContentPerWeek contentPerWeek : subjectContentsInfo.getContentPerWeekList()){
+//            for(Content content : contentPerWeek.getContentList()){
+//                LocalDate date = null;
+//                // localDate 초기화
+//                if(!content.getEndDate().equals("None")){
+//                    String year = LocalDate.now().getYear() + " ";
+//                    String yearTmp = year + content.getEndDate();
+//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy M월 d일 m:s");
+//                    date = LocalDate.parse(yearTmp, formatter);
+//                }
+//
+//                subjectContentsRepository.save(SubjectContents.builder()
+//                                .contentType(content.getType())
+//                                .endDate(date)
+//                                .title(content.getName())
+//                                .week(contentPerWeek.getWeeks())
+//                                .subject(subject)
+//                        .build());
+//            }
+//        }
 
         // 과목 공지사항 저장
-        for(Notice notice : subjectContentsInfo.getNoticeList()){
+        for (Notice notice : subjectContentsInfo.getNoticeList()) {
             // localDate 초기화
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 오후 h:m");
             LocalDate date = LocalDate.parse(notice.getDate(), formatter);
@@ -221,14 +172,19 @@ public class LMSCrawlingService {
             System.out.println(date);
 
             subjectNoticeRepository.save(SubjectNotice.builder()
-                            .title(notice.getTitle())
-                            .localDate(date)
-                            .subject(subject.get())
-                            .noticeLink(notice.getLink())
-                            .subjectNoticeId(notice.getNoticeId())
+                    .title(notice.getTitle())
+                    .localDate(date)
+                    .subject(subject)
+                    .noticeLink(notice.getLink())
+                    .subjectNoticeId(notice.getNoticeId())
                     .build());
         }
 
+        // Subject TABLE update_time 갱신
+        subject.setUpdateTime(LocalDateTime.now());
+        subjectRepository.save(subject);
+
+        lmsCrawling.quitCrawling();
 
         // return
         Map map = new HashMap();

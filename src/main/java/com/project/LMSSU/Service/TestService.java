@@ -15,24 +15,4 @@ public class TestService {
     private final MajorRepository majorRepository;
     private final SubjectRepository subjectRepository;
 
-    public void saveStudent1(){
-        studentRepository.save(Student.builder()
-                        .major(majorRepository.findById("컴퓨터학부").get())
-                        .name("전종원")
-                .build());
-    }
-
-    public void saveStudent2(){
-        studentRepository.save(Student.builder()
-                .major(majorRepository.findById("컴퓨터학부").get())
-                .name("최규현")
-            .build());
-}
-
-    public void saveMajor(){
-        majorRepository.save(Major.builder()
-                        .majorName("컴퓨터학부")
-                        .homepageAddress("https://bitches")
-                .build());
-    }
 }

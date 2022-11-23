@@ -1,17 +1,17 @@
 package com.project.LMSSU.DTO;
 
+import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 
-@Getter
-public class LMSCrawlingRequestDTO {
+@Data
+public class StudentLoginRequestDTO {
     private Long studentId;
     private Integer userId;
     private String pwd;
 
-
-    // 생성자 임시로 만들어줌
-
-    public LMSCrawlingRequestDTO(Long studentId, Integer userId, String pwd) {
+    @Builder
+    public StudentLoginRequestDTO(Long studentId, Integer userId, String pwd) {
         this.studentId = studentId;
         this.userId = userId;
         this.pwd = pwd;

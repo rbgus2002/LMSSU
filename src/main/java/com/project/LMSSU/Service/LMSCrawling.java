@@ -1,6 +1,6 @@
 package com.project.LMSSU.Service;
 
-import com.project.LMSSU.DTO.LMSCrawlingRequestDTO;
+import com.project.LMSSU.DTO.StudentLoginRequestDTO;
 import org.openqa.selenium.By;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
@@ -30,10 +30,10 @@ public class LMSCrawling {
 
     private static List<SubjectContentsInfo> subjectList = new ArrayList<>();
 
-    public LMSCrawling(LMSCrawlingRequestDTO lmsCrawlingRequestDTO) throws InterruptedException {
-        this.userId = lmsCrawlingRequestDTO.getUserId();
-        this.pwd = lmsCrawlingRequestDTO.getPwd();
-        this.studentId = lmsCrawlingRequestDTO.getStudentId();
+    public LMSCrawling(StudentLoginRequestDTO studentLoginRequestDTO) throws InterruptedException {
+        this.userId = studentLoginRequestDTO.getUserId();
+        this.pwd = studentLoginRequestDTO.getPwd();
+        this.studentId = studentLoginRequestDTO.getStudentId();
 
         initCrawling();
         login(userId, pwd);
@@ -52,6 +52,10 @@ public class LMSCrawling {
 
         // 크롬 드라이버 객체 생성
         driver = new ChromeDriver(options);
+    }
+
+    public void quitCrawling(){
+        driver.quit();
     }
 
     /*

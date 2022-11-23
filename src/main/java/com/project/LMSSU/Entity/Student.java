@@ -9,7 +9,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Student {
     @Id @Column(name = "student_id")
-    @GeneratedValue
     private Long id;
 
     private String name;
@@ -19,7 +18,7 @@ public class Student {
     private Major major;
 
     @Builder
-    public Student(Long id, String name, Major major){
+    public Student(Long id, String name, Major major) {
         this.id = id;
         this.name = name;
         this.major = major;

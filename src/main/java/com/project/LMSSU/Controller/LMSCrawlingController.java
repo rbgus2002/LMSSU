@@ -1,6 +1,5 @@
 package com.project.LMSSU.Controller;
 
-import com.project.LMSSU.DTO.LMSCrawlingRequestDTO;
 import com.project.LMSSU.Service.LMSCrawlingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

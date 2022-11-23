@@ -1,6 +1,5 @@
 package com.project.LMSSU.Config;
 
-import com.project.LMSSU.DTO.LMSCrawlingRequestDTO;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.info.Info;
