@@ -11,6 +11,8 @@ import com.project.LMSSU.Repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -23,4 +25,9 @@ public class IncompleteTaskService {
     private final SubjectRepository subjectRepository;
     private final IncompleteSubjectContentsRepository incompleteSubjectContentsRepository;
     private final SubjectContentsRepository subjectContentsRepository;
+
+//    public IncompleteTaskResponseDTO getData(Long studentId){
+//
+//    }
+
 }

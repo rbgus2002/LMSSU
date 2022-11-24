@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface SubjectContentsRepository extends JpaRepository<SubjectContents, Long> {
     List<SubjectContents> findBySubjectId(Long subjectId);
+    List<SubjectContents> findBySubjectIdOrderByWeekAsc(Long subjectId);
 }
