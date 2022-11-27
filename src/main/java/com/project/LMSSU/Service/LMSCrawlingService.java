@@ -21,8 +21,6 @@ import static java.time.format.DateTimeFormatter.ofPattern;
 @Service
 public class LMSCrawlingService {
 
-    private List<SubjectContentsInfo> subjectContentsInfoList;
-
     private final StudentRepository studentRepository;
     private final SubjectRepository subjectRepository;
     private final MajorRepository majorRepository;
@@ -114,86 +112,86 @@ public class LMSCrawlingService {
     /*
     특정 과목 Crawling
      */
-    @Transactional
-    public Map saveSubjectInfo(StudentLoginRequestDTO lmsCrawlingRequestDTO, Long subjectId) throws InterruptedException {
-        // Student 예외처리
-        Optional<Student> student = studentRepository.findById(lmsCrawlingRequestDTO.getStudentId());
-        if (student.isEmpty()) {
-            System.out.println("studentId Error"); // 로그로 찍기
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "studentId error");
-        }
-
-        // Subject 예외처리
-        Optional<Subject> subjectOptional = subjectRepository.findById(subjectId);
-        if (subjectOptional.isEmpty()) {
-            System.out.println("subjectId Error"); // 로그로 찍기
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "subjectId error");
-        }
-        Subject subject = subjectOptional.get();
-
-        // Attending 예외처리
-        Optional<Attending> attendingOptional = attendingRepository.findAttendingByStudentIdAndSubjectId(lmsCrawlingRequestDTO.getStudentId(), subjectId);
-        if (attendingOptional.isEmpty()) {
-            System.out.println("Attending Error"); // 로그로 찍기
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not attending subjectId");
-        }
-
-        // LMSCrawling 객체 생성 (init, login)
-        LMSCrawling lmsCrawling = new LMSCrawling(lmsCrawlingRequestDTO);
-
-        // subjectId에 해당하는 과목의 강의 컨텐츠, 공지사항 가져오기
-        SubjectContentsInfo subjectContentsInfo = lmsCrawling.getSubjectContentsInfo(subject.getHomepageAddress());
-
-        // 강의콘텐츠 저장
-//        for(ContentPerWeek contentPerWeek : subjectContentsInfo.getContentPerWeekList()){
-//            for(Content content : contentPerWeek.getContentList()){
-//                LocalDate date = null;
-//                // localDate 초기화
-//                if(!content.getEndDate().equals("None")){
-//                    String year = LocalDate.now().getYear() + " ";
-//                    String yearTmp = year + content.getEndDate();
-//                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy M월 d일 m:s");
-//                    date = LocalDate.parse(yearTmp, formatter);
-//                }
-//
-//                subjectContentsRepository.save(SubjectContents.builder()
-//                                .contentType(content.getType())
-//                                .endDate(date)
-//                                .title(content.getName())
-//                                .week(contentPerWeek.getWeeks())
-//                                .subject(subject)
-//                        .build());
-//            }
+//    @Transactional
+//    public Map saveSubjectInfo(StudentLoginRequestDTO lmsCrawlingRequestDTO, Long subjectId) throws InterruptedException {
+//        // Student 예외처리
+//        Optional<Student> student = studentRepository.findById(lmsCrawlingRequestDTO.getStudentId());
+//        if (student.isEmpty()) {
+//            System.out.println("studentId Error"); // 로그로 찍기
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "studentId error");
 //        }
-
-        // 과목 공지사항 저장
-        for (Notice notice : subjectContentsInfo.getNoticeList()) {
-            // localDate 초기화
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 오후 h:m");
-            LocalDate date = LocalDate.parse(notice.getDate(), formatter);
-
-            System.out.println(date);
-
-            subjectNoticeRepository.save(SubjectNotice.builder()
-                    .title(notice.getTitle())
-                    .localDate(date)
-                    .subject(subject)
-                    .noticeLink(notice.getLink())
-                    .subjectNoticeId(notice.getNoticeId())
-                    .build());
-        }
-
-        // Subject TABLE update_time 갱신
-        subject.setUpdateTime(LocalDateTime.now());
-        subjectRepository.save(subject);
-
-        lmsCrawling.quitCrawling();
-
-        // return
-        Map map = new HashMap();
-        map.put("subjectId", subjectId);
-        return map;
-    }
+//
+//        // Subject 예외처리
+//        Optional<Subject> subjectOptional = subjectRepository.findById(subjectId);
+//        if (subjectOptional.isEmpty()) {
+//            System.out.println("subjectId Error"); // 로그로 찍기
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "subjectId error");
+//        }
+//        Subject subject = subjectOptional.get();
+//
+//        // Attending 예외처리
+//        Optional<Attending> attendingOptional = attendingRepository.findAttendingByStudentIdAndSubjectId(lmsCrawlingRequestDTO.getStudentId(), subjectId);
+//        if (attendingOptional.isEmpty()) {
+//            System.out.println("Attending Error"); // 로그로 찍기
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "not attending subjectId");
+//        }
+//
+//        // LMSCrawling 객체 생성 (init, login)
+//        LMSCrawling lmsCrawling = new LMSCrawling(lmsCrawlingRequestDTO);
+//
+//        // subjectId에 해당하는 과목의 강의 컨텐츠, 공지사항 가져오기
+//        SubjectContentsInfo subjectContentsInfo = lmsCrawling.getSubjectContentsInfo(subject.getHomepageAddress());
+//
+//        // 강의콘텐츠 저장
+////        for(ContentPerWeek contentPerWeek : subjectContentsInfo.getContentPerWeekList()){
+////            for(Content content : contentPerWeek.getContentList()){
+////                LocalDate date = null;
+////                // localDate 초기화
+////                if(!content.getEndDate().equals("None")){
+////                    String year = LocalDate.now().getYear() + " ";
+////                    String yearTmp = year + content.getEndDate();
+////                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy M월 d일 m:s");
+////                    date = LocalDate.parse(yearTmp, formatter);
+////                }
+////
+////                subjectContentsRepository.save(SubjectContents.builder()
+////                                .contentType(content.getType())
+////                                .endDate(date)
+////                                .title(content.getName())
+////                                .week(contentPerWeek.getWeeks())
+////                                .subject(subject)
+////                        .build());
+////            }
+////        }
+//
+//        // 과목 공지사항 저장
+//        for (Notice notice : subjectContentsInfo.getNoticeList()) {
+//            // localDate 초기화
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 오후 h:m");
+//            LocalDate date = LocalDate.parse(notice.getDate(), formatter);
+//
+//            System.out.println(date);
+//
+//            subjectNoticeRepository.save(SubjectNotice.builder()
+//                    .title(notice.getTitle())
+//                    .localDate(date)
+//                    .subject(subject)
+//                    .noticeLink(notice.getLink())
+//                    .subjectNoticeId(notice.getNoticeId())
+//                    .build());
+//        }
+//
+//        // Subject TABLE update_time 갱신
+//        subject.setUpdateTime(LocalDateTime.now());
+//        subjectRepository.save(subject);
+//
+//        lmsCrawling.quitCrawling();
+//
+//        // return
+//        Map map = new HashMap();
+//        map.put("subjectId", subjectId);
+//        return map;
+//    }
 }
 /*
 과목공지 : [Notice{title='설계과제 1,2 이의신청 반영된 점수 공지', date='2022년 11월 22일 오후 12:15', link='https://canvas.ssu.ac.kr/courses/16648/discussion_topics/75225'}, Notice{title='[필독] 설계과제3 채점 결과 및 이의신청방법 공지', date='2022년 11월 21일 오후 7:24', link='https://canvas.ssu.ac.kr/courses/16648/discussion_topics/75111'}, Notice{title='중간고사 채점 결과', date='2022년 11월 17일 오후 4:28', link='https://canvas.ssu.ac.kr/courses/16648/discussion_topics/74483'}, Notice{title='OS 기말고사 일정 (12월12일 월요일 저녁 7시 - 9시) 공지', date='2022년 11월 15일 오후 4:41', link='https://canvas.ssu.ac.kr/courses/16648/discussion_topics/74122'}, Notice{title='설계과제 1, 2 채점 결과 공지', date='2022년 10월 31일 오후 6:25', link='https://canvas.ssu.ac.kr/courses/16648/discussion_topics/71596'}, Notice{title='OS 중간고사 일정 (10월24일 월요일 저녁 7시 - 9시) 공지', date='2022년 9월 27일 오후 7:06', link='https://canvas.ssu.ac.kr/courses/16648/discussion_topics/64805'}, Notice{title='OS 과제 관련 구글클래스룸 참여 및 과제1 확인 (제출기한: 9/12(월) 밤 12시 전까지)', date='2022년 8월 30일 오후 12:35', link='https://canvas.ssu.ac.kr/courses/16648/discussion_topics/58464'}]
