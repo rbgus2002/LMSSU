@@ -33,4 +33,8 @@ public class TestController {
     public String test() {
         return "asdasdsadsa";
     }
+    @GetMapping("/weeks")
+    public void addWeeks() {
+        testService.addWeeks();
+    }
 }

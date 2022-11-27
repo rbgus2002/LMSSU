@@ -29,7 +29,7 @@ public class SubjectListService {
     /*
     특정 주차에 해당하는 과목정보 리스트를 불러온다.
      */
-    public Map getLMSInfo(StudentLoginRequestDTO dto, int week) throws InterruptedException {
+    public Map getLMSInfo(StudentLoginRequestDTO dto, Integer week) throws InterruptedException {
         // Student 예외처리
         Optional<Student> student = studentRepository.findById(dto.getStudentId());
         if (student.isEmpty()) {
@@ -62,8 +62,8 @@ public class SubjectListService {
 
         // 이제 DB 뒤져서 내용 적당히 뽑아서 return 해야 해
         // getSubjectListData(week) 함수 호출
-
-
+//        SubjectListResponseDTO subjectListResponseDTO = getSubjectListData(dto.getStudentId(), week);
+//        return subjectListResponseDTO;
         Map map = new HashMap();
         map.put("test", 1);
         return map;
@@ -185,16 +185,15 @@ public class SubjectListService {
     }
 
     /*
-    ??????????
+    주차를 입력받아 해당 주차에 해당하는 정보를 보내준다.
      */
-    public SubjectListResponseDTO getSubjectListData(Long studentId) {
+    public SubjectListResponseDTO getSubjectListData(Long studentId, Integer week) {
         List<Attending> attendings = attendingRepository.findAttendingByStudentId(studentId);
         List<Subject> subjects = new ArrayList<>();
         List<List<SubjectContents>> subjectContents = new ArrayList<>();
         List<List<SubjectNotice>> subjectNotices = new ArrayList<>();
         List<List<ToDo>> toDos = new ArrayList<>();
-        List<WeeksSubjectListDTO> weeksSubjectListDTOS = new ArrayList<>();
-        List<WeeksInfo> weeksInfos = weeksInfoRepository.findAll();
+        Optional<WeeksInfo> weeksInfoOptional = weeksInfoRepository.findById(week);
         List<SubjectNoticeListDTO> subjectNoticeListDTOS = new ArrayList<>();
         // 학번, 과목코드로 필요한 정보 가져옴
         for (Attending attending : attendings) {
@@ -209,48 +208,55 @@ public class SubjectListService {
             toDos.add(toDoRepository.selectJPQLByStudentIdAndSubjectId(studentId, subject.getId()));
         }
 
-        // 주차별로 weeksSubjectListDTO List 생성
-        for (WeeksInfo weeksInfo : weeksInfos) {
-            List<SubjectDTO> subjectDTOS = new ArrayList<>();
-            SubjectDTO subjectDTO;
-            ToDoDTO toDoDTO;
-            WeeksSubjectListDTO weeksSubjectListDTO;
-
-            // 과목별로 subjectDTO List 생성
-            for (int i=0; i<subjects.size(); i++) {
-                List<String> subjectContentsTitles = new ArrayList<>();
-                List<ToDoDTO> toDoDTOs = new ArrayList<>();
-                // subjectContentsTitle List 생성
-                for(SubjectContents subjectContent : subjectContents.get(i)) {
-                    if(subjectContent.getWeek() == weeksInfo.getWeek())
-                        subjectContentsTitles.add(subjectContent.getTitle());
-                }
-                // toDoDTO List 생성
-                for(ToDo toDo : toDos.get(i)) {
-                    if(toDo.getWeek() == weeksInfo.getWeek()) {
-                        toDoDTO = ToDoDTO.builder()
-                                .toDoId(toDo.getTodoId())
-                                .content(toDo.getContent())
-                                .isDone(toDo.getIsDone())
-                                .build();
-                        toDoDTOs.add(toDoDTO);
-                    }
-                }
-                subjectDTO = SubjectDTO.builder()
-                        .title(subjects.get(i).getSubjectName())
-                        .subjectContentsTitle(subjectContentsTitles)
-                        .toDoDTO(toDoDTOs)
-                        .build();
-                subjectDTOS.add(subjectDTO);
-            }
-            weeksSubjectListDTO = WeeksSubjectListDTO.builder()
-                    .week(weeksInfo.getWeek())
-                    .startDate(weeksInfo.getStartDate())
-                    .endDate(weeksInfo.getEndDate())
-                    .subjectDTO(subjectDTOS)
-                    .build();
-            weeksSubjectListDTOS.add(weeksSubjectListDTO);
+        if (weeksInfoOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "weeksInfo error");
         }
+        WeeksInfo weeksInfo = weeksInfoOptional.get();
+
+        // week에 해당하는 weeksSubjectListDTO List 생성
+        List<SubjectDTO> subjectDTOS = new ArrayList<>();
+        SubjectDTO subjectDTO;
+        ToDoDTO toDoDTO;
+        WeeksSubjectListDTO weeksSubjectListDTO;
+
+        // 과목별로 subjectDTO List 생성
+        for (int i=0; i<subjects.size(); i++) {
+            List<SubjectContentsDTO> subjectContentsTitles = new ArrayList<>();
+            List<ToDoDTO> toDoDTOs = new ArrayList<>();
+            // subjectContentsTitle List 생성
+            for(SubjectContents subjectContent : subjectContents.get(i)) {
+                if(subjectContent.getWeek() == weeksInfo.getWeek()) {
+                    SubjectContentsDTO subjectContentsDTO;
+                    subjectContentsDTO = SubjectContentsDTO.builder()
+                            .title(subjectContent.getTitle())
+                            .contentsType(subjectContent.getContentType())
+                            .build();
+                    subjectContentsTitles.add(subjectContentsDTO);
+                }
+            }
+            // toDoDTO List 생성
+            for(ToDo toDo : toDos.get(i)) {
+                if(toDo.getWeek() == weeksInfo.getWeek()) {
+                    toDoDTO = ToDoDTO.builder()
+                            .toDoId(toDo.getTodoId())
+                            .content(toDo.getContent())
+                            .isDone(toDo.getIsDone())
+                            .build();
+                    toDoDTOs.add(toDoDTO);
+                }
+            }
+            subjectDTO = SubjectDTO.builder()
+                    .title(subjects.get(i).getSubjectName())
+                    .subjectContentsTitle(subjectContentsTitles)
+                    .toDoDTO(toDoDTOs)
+                    .build();
+            subjectDTOS.add(subjectDTO);
+        }
+        weeksSubjectListDTO = WeeksSubjectListDTO.builder()
+                .startDate(weeksInfo.getStartDate())
+                .endDate(weeksInfo.getEndDate())
+                .subjectDTO(subjectDTOS)
+                .build();
 
         // 과목별로 subjectNoticeListDTO List 생성
         for (int i=0; i<subjects.size(); i++) {
@@ -273,7 +279,7 @@ public class SubjectListService {
         }
 
         SubjectListResponseDTO subjectListResponseDTO = SubjectListResponseDTO.builder()
-                .weeksSubjectListDTO(weeksSubjectListDTOS)
+                .weeksSubjectListDTO(weeksSubjectListDTO)
                 .subjectNoticeListDTO(subjectNoticeListDTOS)
                 .build();
 
@@ -306,7 +312,9 @@ public class SubjectListService {
         }
         return map;
     }
-
+    /*
+    입력받은 To-Do-List 삭제
+     */
     public Map deleteToDo(Long toDoId) {
         Map<String, Object> map = new HashMap<>();
         Optional<ToDo> toDoOptional = toDoRepository.findById(toDoId);
@@ -327,7 +335,9 @@ public class SubjectListService {
         }
         return map;
     }
-
+    /*
+    입력받은 To-Do-List 완료로 설정 (isDone->true)
+     */
     public Map checkToDo(Long toDoId) {
         Map<String, Object> map = new HashMap<>();
         Optional<ToDo> toDoOptional = toDoRepository.findById(toDoId);
@@ -348,7 +358,9 @@ public class SubjectListService {
         }
         return map;
     }
-
+    /*
+    입력받은 To-Do-List 완료 해제 (isDone->false)
+     */
     public Map deleteCheckToDo(Long toDoId) {
         Map<String, Object> map = new HashMap<>();
         Optional<ToDo> toDoOptional = toDoRepository.findById(toDoId);

@@ -22,6 +22,9 @@ public class CalendarService {
     private final AttendingRepository attendingRepository;
     private final StudentRepository studentRepository;
 
+    /*
+    DB에 저장되어 있는 캘린더 정보를 보내준다.
+    */
     public CalendarResponseDTO getCalendarData(Long studentId) {
         List<ExamSchedule> examSchedules = examScheduleRepository.findByStudentId(studentId);
         List<ExamScheduleDTO> examScheduleDTOS = new ArrayList<>();
@@ -64,6 +67,9 @@ public class CalendarService {
         return calendarResponseDTO;
     }
 
+    /*
+    시험 일정을 추가한다.
+    */
     public Map addExamSchedule(ExamScheduleRequestDTO dto){
         Map<String, Object> map = new HashMap<>();
         Optional<Attending> attending = attendingRepository.findAttendingByStudentIdAndSubjectId(dto.getStudentId(), dto.getSubjectId());
@@ -103,6 +109,9 @@ public class CalendarService {
         return map;
     }
 
+    /*
+    시험 일정을 삭제한다.
+    */
     public Map deleteExamSchedule(ExamScheduleRequestDTO dto) {
         Map<String, Object> map = new HashMap<>();
         Optional<Attending> attending = attendingRepository.findAttendingByStudentIdAndSubjectId(dto.getStudentId(), dto.getSubjectId());

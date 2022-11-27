@@ -7,11 +7,11 @@ import java.util.List;
 
 @Data
 public class SubjectListResponseDTO {
-    private List weeksSubjectListDTO;
+    private WeeksSubjectListDTO weeksSubjectListDTO;
     private List subjectNoticeListDTO;
 
     @Builder
-    public SubjectListResponseDTO(List weeksSubjectListDTO, List subjectNoticeListDTO) {
+    public SubjectListResponseDTO(WeeksSubjectListDTO weeksSubjectListDTO, List subjectNoticeListDTO) {
         this.weeksSubjectListDTO = weeksSubjectListDTO;
         this.subjectNoticeListDTO = subjectNoticeListDTO;
     }
