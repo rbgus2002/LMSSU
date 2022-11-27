@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -47,14 +49,14 @@ public class LMSCrawling {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
-//        options.addArguments("headless");
+        options.addArguments("headless");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER); // ??
 
         // 크롬 드라이버 객체 생성
         driver = new ChromeDriver(options);
     }
 
-    public void quitCrawling(){
+    public void quitCrawling() {
         driver.quit();
     }
 
@@ -86,28 +88,30 @@ public class LMSCrawling {
      */
     public List<Long> getSubjectId() {
         List<Long> answer = new ArrayList<>();
+        try {
+            // 마이페이지 이동
+            driver.get("https://canvas.ssu.ac.kr/learningx/dashboard?user_login=" + userId.toString() + "&locale=ko");
 
-        // 마이페이지 이동
-        driver.get("https://canvas.ssu.ac.kr/learningx/dashboard?user_login=" + userId.toString() + "&locale=ko");
+            // 특정 element Explicit Waits
+            element = new WebDriverWait(driver, Duration.ofSeconds(10))
+                    .until(driver -> driver.findElement(By.className("xnscc-header-sub-title")));
 
-        // 특정 element Explicit Waits
-        element = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(driver -> driver.findElement(By.className("xnscc-header-sub-title")));
+            List<WebElement> elements = driver.findElements(By.className("xn-student-course-container"));
+            for (WebElement element : elements) {
+                // 과목 이름 찾기
+                String name = element.findElement(By.className("xnscc-header-title")).getText();
 
-        List<WebElement> elements = driver.findElements(By.className("xn-student-course-container"));
-        for (WebElement element : elements) {
-            // 과목 이름 찾기
-            String name = element.findElement(By.className("xnscc-header-title")).getText();
+                // subjectId 추출
+                Pattern p = Pattern.compile("\\((\\d+)\\)");
+                Matcher matcher = p.matcher(name);
 
-            // subjectId 추출
-            Pattern p = Pattern.compile("\\((\\d+)\\)");
-            Matcher matcher = p.matcher(name);
-
-            if (matcher.find()) {
-                answer.add(Long.parseLong(matcher.group(1)));
+                if (matcher.find()) {
+                    answer.add(Long.parseLong(matcher.group(1)));
+                }
             }
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
-
         return answer;
     }
 
@@ -117,29 +121,33 @@ public class LMSCrawling {
      */
     public Map<Object, String> getSubjectInfo(String subjectId) {
         Map<Object, String> answer = new HashMap();
-        List<WebElement> elements = driver.findElements(By.className("xn-student-course-container"));
+        try {
+            List<WebElement> elements = driver.findElements(By.className("xn-student-course-container"));
 
-        for (WebElement element : elements) {
-            // 과목 이름 찾기
-            String name = element.findElement(By.className("xnscc-header-title")).getText();
+            for (WebElement element : elements) {
+                // 과목 이름 찾기
+                String name = element.findElement(By.className("xnscc-header-title")).getText();
 
-            if (name.contains(subjectId)) {
-                // homepageAddress
-                String homepageAddress = element.findElement(By.className("xnscc-header-redirect-link")).getAttribute("href");
-                System.out.println("homepageAddress : " + homepageAddress);
+                if (name.contains(subjectId)) {
+                    // homepageAddress
+                    String homepageAddress = element.findElement(By.className("xnscc-header-redirect-link")).getAttribute("href");
+                    System.out.println("homepageAddress : " + homepageAddress);
 
-                // professorName
-                List<WebElement> professors = element.findElements(By.className("xnscc-header-sub-title"));
-                String professorName = professors.get(1).getText().trim();
-                System.out.println("homepageLink : " + professorName);
+                    // professorName
+                    List<WebElement> professors = element.findElements(By.className("xnscc-header-sub-title"));
+                    String professorName = professors.get(1).getText().trim();
+                    System.out.println("homepageLink : " + professorName);
 
-                // Map에 담기
-                answer.put("homepageAddress", homepageAddress);
-                answer.put("professorName", professorName);
-                answer.put("subjectName", name);
+                    // Map에 담기
+                    answer.put("homepageAddress", homepageAddress);
+                    answer.put("professorName", professorName);
+                    answer.put("subjectName", name);
 
-                return answer;
+                    return answer;
+                }
             }
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 
         return null;
@@ -152,156 +160,107 @@ public class LMSCrawling {
         SubjectContentsInfo answer = new SubjectContentsInfo();
 
         // 과목 콘텐츠 이동
-        driver.get(homepageAddress + "/external_tools/2");
+        try {
+            driver.get(homepageAddress + "/external_tools/2");
 
-        // frame 이동
-        driver.switchTo().frame("tool_content");
+            // frame 이동
+            driver.switchTo().frame("tool_content");
 
-        // 모든 주차 펴기
-        element = new WebDriverWait(driver, Duration.ofSeconds(7))
-                .until(ExpectedConditions.elementToBeClickable(By.className("xncb-section-wrapper"))); // Explicit Waits
-        element = driver.findElement(By.className("xncb-fold-toggle-button"));
-        if (element.getText().contains("펴기")) {
-            element.click();
-        }
-
-        // 주차별 강의목록을 가져온다
-        List<WebElement> weekList = driver.findElements(By.className("xncb-section-content-wrapper"));
-
-        // ContentPerWeek 객체 초기화하여 List에 add
-        List<ContentPerWeek> contentPerWeekList = new ArrayList<>();
-        int weekNum = 1;
-
-        for (WebElement weekWebElement : weekList) {
-            List<Content> contentList = new ArrayList<>();
-
-            // 특정 주차에 해당하는 강의콘텐츠 Element 리스트를 가져온다.
-            List<WebElement> contentElementList = weekWebElement.findElements(By.className("xncb-unit-content-wrapper"));
-
-            // 특정 주차에 강의콘텐츠 없는 경우 예외 처리
-            if (contentElementList.isEmpty()) {
-                weekNum += 1;
-                continue;
+            // 모든 주차 펴기
+            element = new WebDriverWait(driver, Duration.ofSeconds(7))
+                    .until(ExpectedConditions.elementToBeClickable(By.className("xncb-section-wrapper"))); // Explicit Waits
+            element = driver.findElement(By.className("xncb-fold-toggle-button"));
+            if (element.getText().contains("펴기")) {
+                element.click();
             }
 
-            // 특정 주차에 해당하는 강의콘텐츠 이름을 contentList에 추가한다.
-            for (WebElement contentElement : contentElementList) {
-                // Content 객체 생성
-                // set type
-                String type = contentElement.findElement(By.className("xncb-component-icon")).getAttribute("class");
-                type = type.split(" ")[1];
-                // set name
-                String name = contentElement.findElement(By.className("xncb-component-title")).getText();
-                // set isDone (존재하면 넣기 메소드 찾기)
-                String isDone = "None";
-                boolean isExistence = contentElement.findElement(By.className("xncb-component-attendance-state-wrapper")).isDisplayed();
-                if (isExistence) {
-                    isDone = contentElement.findElement(By.className("xncb-component-attendance-state")).getText();
+
+            // 주차별 강의목록을 가져온다
+            List<WebElement> weekList = driver.findElements(By.className("xncb-section-content-wrapper"));
+
+            // ContentPerWeek 객체 초기화하여 List에 add
+            List<ContentPerWeek> contentPerWeekList = new ArrayList<>();
+            int weekNum = 1;
+
+            for (WebElement weekWebElement : weekList) {
+                List<Content> contentList = new ArrayList<>();
+
+                // 특정 주차에 해당하는 강의콘텐츠 Element 리스트를 가져온다.
+                List<WebElement> contentElementList = weekWebElement.findElements(By.className("xncb-unit-content-wrapper"));
+
+                // 특정 주차에 강의콘텐츠 없는 경우 예외 처리
+                if (contentElementList.isEmpty()) {
+                    weekNum += 1;
+                    continue;
                 }
 
-                // set endDate (존재하면 넣기 메소드 찾기)
-                String endDate = "None";
-                element = contentElement.findElement(By.className("xncb-component-periods-wrapper"));
-                isExistence = element.isDisplayed();
-                if (isExistence) {
-                    element = element.findElement(By.className("xncb-component-periods-date"));
-                    if (element.isDisplayed()) {
-                        endDate = element.findElement(By.className("xncb-component-periods-item-date")).getText();
+                // 특정 주차에 해당하는 강의콘텐츠 이름을 contentList에 추가한다.
+                for (WebElement contentElement : contentElementList) {
+                    // Content 객체 생성
+                    // set type
+                    String type = contentElement.findElement(By.className("xncb-component-icon")).getAttribute("class");
+                    type = type.split(" ")[1];
+                    // set name
+                    String name = contentElement.findElement(By.className("xncb-component-title")).getText();
+                    // set isDone (존재하면 넣기 메소드 찾기)
+                    String isDone = "None";
+                    boolean isExistence = contentElement.findElement(By.className("xncb-component-attendance-state-wrapper")).isDisplayed();
+                    if (isExistence) {
+                        isDone = contentElement.findElement(By.className("xncb-component-attendance-state")).getText();
                     }
+
+                    // set endDate (존재하면 넣기 메소드 찾기)
+                    String endDate = "None";
+                    element = contentElement.findElement(By.className("xncb-component-periods-wrapper"));
+                    isExistence = element.isDisplayed();
+                    if (isExistence) {
+                        element = element.findElement(By.className("xncb-component-periods-date"));
+                        if (element.isDisplayed()) {
+                            endDate = element.findElement(By.className("xncb-component-periods-item-date")).getText();
+                        }
+                    }
+
+                    Content content = new Content(type, name, isDone, endDate);
+
+                    contentList.add(content);
                 }
+                // ContentPerWeek 객체 생성 후 add
+                ContentPerWeek contentPerWeek = new ContentPerWeek(weekNum, contentList); // 임시 true
+                contentPerWeekList.add(contentPerWeek);
 
-                Content content = new Content(type, name, isDone, endDate);
-
-                contentList.add(content);
+                weekNum += 1;
             }
-            // ContentPerWeek 객체 생성 후 add
-            ContentPerWeek contentPerWeek = new ContentPerWeek(weekNum, contentList); // 임시 true
-            contentPerWeekList.add(contentPerWeek);
+            answer.setContentPerWeekList(contentPerWeekList);
 
-            weekNum += 1;
+            // 과목공지 이동
+            driver.get(homepageAddress + "/announcements");
+
+            // 특정 element Explicit Waits
+            element = new WebDriverWait(driver, Duration.ofSeconds(6))
+                    .until(driver -> driver.findElement(By.className("ic-item-row")));
+
+            // 공지사항 Element 가져오기
+            List<WebElement> noticeElementList = driver.findElements(By.className("ic-item-row"));
+
+            // Notice 객체 초기화 하여 add
+            List<Notice> noticeList = new ArrayList<>();
+            for (WebElement webElement : noticeElementList) {
+                // 제목
+                String title = webElement.findElement(By.className("emyav_fAVi")).getText();
+                // 날짜
+                String date = webElement.findElement(By.className("cjUyb_bLsb")).getText();
+                // 링크
+                String link = webElement.findElement(By.className("ic-item-row__content-link")).getAttribute("href");
+                // 공지사항 Id
+                Long noticeId = Long.parseLong(link.substring(link.length() - 5, link.length()));
+
+                Notice notice = new Notice(noticeId, title, date, link);
+                noticeList.add(notice);
+            }
+            answer.setNoticeList(noticeList);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        answer.setContentPerWeekList(contentPerWeekList);
-
-        // 과목공지 이동
-        driver.get(homepageAddress + "/announcements");
-
-        // 특정 과목의 공지를 가져온다
-
-        // 특정 element Explicit Waits
-        element = new WebDriverWait(driver, Duration.ofSeconds(10))
-                .until(driver -> driver.findElement(By.className("ic-item-row")));
-
-        // 공지사항 Element 가져오기
-        List<WebElement> noticeElementList = driver.findElements(By.className("ic-item-row"));
-
-        // Notice 객체 초기화 하여 add
-        List<Notice> noticeList = new ArrayList<>();
-        for (WebElement webElement : noticeElementList) {
-            // 제목
-            String title = webElement.findElement(By.className("emyav_fAVi")).getText();
-            // 날짜
-            String date = webElement.findElement(By.className("cjUyb_bLsb")).getText();
-            // 링크
-            String link = webElement.findElement(By.className("ic-item-row__content-link")).getAttribute("href");
-            // 공지사항 Id
-            Long noticeId = Long.parseLong(link.substring(link.length()-5, link.length()));
-
-            Notice notice = new Notice(noticeId, title, date, link);
-            noticeList.add(notice);
-        }
-        answer.setNoticeList(noticeList);
-
         return answer;
     }
-
-
 }
-
-//    public List<CrawlingSubject> run(Integer userId, String pwd) throws InterruptedException, IOException {
-//        long time0 = System.currentTimeMillis();
-//
-//        /*
-//        로그인 (예외처리 필요)
-//         */
-//        login(userId, pwd);
-//
-//        /*
-//        마이페이지
-//         */
-//        setMySubjectNameAndProfessorAndHomeLink();
-//
-//        /*
-//        과목 홈페이지 - 강의콘텐츠
-//         */
-//        for (CrawlingSubject subject : subjectList) {
-//            setMySubjectContents(subject);
-//        }
-//
-//        /*
-//        과목 홈페이지 - 공지사항
-//         */
-//        for (CrawlingSubject subject : subjectList) {
-//            setMySubjectNotice(subject);
-//        }
-//
-//        // subjectList 출력
-//        for (CrawlingSubject subject : subjectList) {
-//            System.out.println(subject.toString());
-//        }
-//        long time1 = System.currentTimeMillis();
-//
-//
-//        System.out.println();
-//        System.out.println("총 : " + (time1 - time0) + " msec");
-//
-//        return subjectList;
-//    }
-
-
-/*
-    1. login
-    2. mypage
-    3. 강의콘텐츠
-    4. 공지
-    순서로 Crawling
-     */

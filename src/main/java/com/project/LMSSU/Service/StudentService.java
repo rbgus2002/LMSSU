@@ -30,6 +30,7 @@ public class StudentService {
     /*
     로그인
      */
+    @Transactional
     public Map signIn(StudentLoginRequestDTO dto) throws InterruptedException {
         Map map = new HashMap();
         map.put("studentId", dto.getStudentId());

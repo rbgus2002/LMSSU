@@ -1,15 +1,8 @@
 package com.project.LMSSU.Controller;
 
 import com.project.LMSSU.DTO.StudentLoginRequestDTO;
-import com.project.LMSSU.DTO.StudentMajorAndNameRequestDTO;
-import com.project.LMSSU.Repository.AttendingRepository;
-import com.project.LMSSU.Service.LMSCrawlingService;
-import com.project.LMSSU.Service.LMSInfoService;
-import com.project.LMSSU.Service.StudentService;
 import com.project.LMSSU.Service.TestService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +20,6 @@ public class TestController {
 
 
     private final TestService testService;
-    private final LMSCrawlingService lmsCrawlingService;
-    private final LMSInfoService lmsInfoService;
 
 
     @Operation(summary = "Test 메서드", description = "Test 메서드입니다.")
@@ -41,13 +32,5 @@ public class TestController {
     @GetMapping("/")
     public String test() {
         return "asdasdsadsa";
-    }
-
-
-
-    @Operation(summary = "LMS TEST API", description = ".")
-    @PostMapping ("/lmsTest")
-    public Map lmsTest(@RequestBody StudentLoginRequestDTO dto) throws InterruptedException {
-        return lmsInfoService.getLMSInfo(dto);
     }
 }
