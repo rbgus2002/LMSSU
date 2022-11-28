@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,10 +29,6 @@ public class IncompleteContentsService {
     private final SubjectContentsRepository subjectContentsRepository;
     private final StudentRepository studentRepository;
 
-
-    /*
-    마저 끝내기 ㄱ
-     */
     public List<IncompleteContentsResponseDTO> getIncompleteContents(Long studentId){
         List<IncompleteContentsResponseDTO> answer = new ArrayList<>();
 
@@ -44,10 +42,23 @@ public class IncompleteContentsService {
         // 수강중인 과목List 가져오기
         List<Subject> subjectList = attendingRepository.findSubjectByStudentId(studentId);
         for(Subject subject : subjectList){
-            // 강의 컨텐츠 가져오기
             List<SubjectContents_endDateDTO> subjectContentsEndDateDTOList = new ArrayList<>();
+            // 강의 컨텐츠 가져오기
             List<SubjectContents> subjectContentsList = subjectContentsRepository.findBySubjectId(subject.getId());
+
             for(SubjectContents subjectContents : subjectContentsList){
+                // endDate가 null인 경우 제외
+                if(subjectContents.getEndDate() == null)
+                    continue;
+                // endDate가 현재 기준으로 과거인 경우 제외
+                if(subjectContents.getEndDate().isBefore(LocalDate.now()))
+                    continue;
+
+                // 마감 3일 이내의 컨텐츠만 가져오기
+                if(ChronoUnit.DAYS.between(LocalDate.now(), subjectContents.getEndDate()) > 3){
+                    continue;
+                }
+
                 SubjectContents_endDateDTO subjectContentsEndDateDTO = SubjectContents_endDateDTO.builder()
                         .title(subjectContents.getTitle())
                         .contentsType(subjectContents.getContentType())

@@ -51,7 +51,8 @@ public class CalendarService {
         for (Attending attending : attendings) {
             List<SubjectContents> subjectContents = subjectContentsRepository.findBySubjectId(attending.getSubject().getId());
             for (SubjectContents subjectContent : subjectContents) {
-                if(subjectContent.getEndDate()==null) // 마감일 NULL인 경우 처리
+                // 마감일 NULL인 경우 처리
+                if(subjectContent.getEndDate()==null)
                     continue;
                 else {
                     CalendarDTO calendarDTO = CalendarDTO.builder()
