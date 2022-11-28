@@ -1,6 +1,7 @@
 package com.project.LMSSU.Service;
 
 import com.project.LMSSU.DTO.StudentLoginRequestDTO;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
@@ -24,8 +25,6 @@ public class LMSCrawling {
     private static WebDriver driver;
     private static WebElement element;
     private static String url;
-    private static String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    private static String WEB_DRIVER_PATH = "/Users/choegyuhyeon/Downloads/chromedriver";
     private static Integer userId;
     private static String pwd;
     private static Long studentId;
@@ -43,7 +42,7 @@ public class LMSCrawling {
 
     private void initCrawling() {
         // 경로 설정
-        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+        WebDriverManager.chromedriver().setup();
 
         // 옵션 설정
         ChromeOptions options = new ChromeOptions();

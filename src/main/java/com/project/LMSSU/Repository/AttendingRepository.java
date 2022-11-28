@@ -17,4 +17,6 @@ public interface AttendingRepository extends JpaRepository<Attending, Long> {
     @Query("select at.subject from Attending at where at.student.id = :studentId")
     List<Subject> findSubjectByStudentId(@Param("studentId") Long studentId);
 
+    @Query("select at.subject.id from Attending at where at.student.id = :studentId")
+    List<Long> findSubjectIdByStudentId(@Param("studentId") Long studentId);
 }
