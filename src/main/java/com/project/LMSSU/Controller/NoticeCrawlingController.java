@@ -17,19 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class NoticeCrawlingController {
     private final NoticeCrawlingService noticeCrawlingService;
 
-    @Operation(summary = "[공지사항] 학교 공지사항 API", description = "크롤링을 통해 학교 공지사항 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6)")
+    @Operation(summary = "[공지사항] 학교 공지사항 API", description = "크롤링을 통해 학교 공지사항 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6) date는 작성일을 의미한다.")
     @GetMapping("/ssu")
     public NoticeResponseDTO sendSSUNoticeData(@RequestParam int page){
         return noticeCrawlingService.getSSUNoticeData(page);
     }
 
-    @Operation(summary = "[공지사항] AI융합학부 공지사항 API", description = "크롤링을 통해 학과 공지사항 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6)")
+    @Operation(summary = "[공지사항] AI융합학부 공지사항 API", description = "크롤링을 통해 학과 공지사항 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6) date는 작성일을 의미한다.")
     @GetMapping("/ai")
     public NoticeResponseDTO sendAINoticeData(@RequestParam int page){
         return noticeCrawlingService.getAINoticeData(page);
     }
 
-    @Operation(summary = "[공지사항] 펀시스템 프로그램 API", description = "크롤링을 통해 펀시스템 프로그램 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6)")
+    @Operation(summary = "[공지사항] 펀시스템 프로그램 API", description = "크롤링을 통해 펀시스템 프로그램 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6) date는 신청 마감일을 의미한다. 데이터는 펀시스템 전체 - 최신순 순서로 보내줌")
     @GetMapping("/fun")
     public NoticeResponseDTO sendFunData(@RequestParam int page){
         return noticeCrawlingService.getFunData(page);

@@ -51,11 +51,15 @@ public class CalendarService {
         for (Attending attending : attendings) {
             List<SubjectContents> subjectContents = subjectContentsRepository.findBySubjectId(attending.getSubject().getId());
             for (SubjectContents subjectContent : subjectContents) {
-                CalendarDTO calendarDTO = CalendarDTO.builder()
-                        .subject(attending.getSubject())
-                        .subjectContents(subjectContent)
-                        .build();
-                calendarDTOS.add(calendarDTO);
+                if(subjectContent.getEndDate()==null) // 마감일 NULL인 경우 처리
+                    continue;
+                else {
+                    CalendarDTO calendarDTO = CalendarDTO.builder()
+                            .subject(attending.getSubject())
+                            .subjectContents(subjectContent)
+                            .build();
+                    calendarDTOS.add(calendarDTO);
+                }
             }
         }
 

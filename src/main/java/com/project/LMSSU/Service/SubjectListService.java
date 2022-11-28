@@ -289,6 +289,9 @@ public class SubjectListService {
     public Map addToDo(ToDoRequestDTO dto) {
         Map<String, Object> map = new HashMap<>();
         Optional<Attending> attending = attendingRepository.findAttendingByStudentIdAndSubjectId(dto.getStudentId(), dto.getSubjectId());
+        List<WeeksInfo> weeksInfos = weeksInfoRepository.findAll();
+        WeeksInfo firstWeek = weeksInfos.get(0);
+        WeeksInfo endWeek = weeksInfos.get(weeksInfos.size()-1);
         // 수강하지 않는 과목인 경우
         if(attending.isEmpty())
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Data");
@@ -296,7 +299,8 @@ public class SubjectListService {
         else {
             Optional<Student> student = studentRepository.findById(dto.getStudentId());
             Optional<Subject> subject = subjectRepository.findById(dto.getSubjectId());
-
+            if(dto.getWeek() < firstWeek.getWeek() || dto.getWeek() > endWeek.getWeek()) // 입력받은 주차가 1~15주차가 아닌 경우 처리
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Wrong Weeks");
             ToDo toDo = ToDo.builder()
                     .student(student.get())
                     .subject(subject.get())
