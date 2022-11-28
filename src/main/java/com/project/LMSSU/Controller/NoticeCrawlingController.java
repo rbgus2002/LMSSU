@@ -23,15 +23,21 @@ public class NoticeCrawlingController {
         return noticeCrawlingService.getSSUNoticeData(page);
     }
 
-    @Operation(summary = "[공지사항] AI융합학부 공지사항 API", description = "크롤링을 통해 학과 공지사항 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6) date는 작성일을 의미한다.")
-    @GetMapping("/ai")
-    public NoticeResponseDTO sendAINoticeData(@RequestParam int page){
-        return noticeCrawlingService.getAINoticeData(page);
-    }
-
     @Operation(summary = "[공지사항] 펀시스템 프로그램 API", description = "크롤링을 통해 펀시스템 프로그램 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6) date는 신청 마감일을 의미한다. 데이터는 펀시스템 전체 - 최신순 순서로 보내줌")
     @GetMapping("/fun")
     public NoticeResponseDTO sendFunData(@RequestParam int page){
         return noticeCrawlingService.getFunData(page);
     }
+
+    @Operation(summary = "[공지사항] 학과 공지사항 API", description = "크롤링을 통해 학과 공지사항 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6) date는 작성일을 의미한다.")
+    @GetMapping("/major")
+    public NoticeResponseDTO sendAINoticeData(@RequestParam Long studentId, int page){
+        return noticeCrawlingService.getNoticeData(studentId, page);
+    }
+
+//    @Operation(summary = "[공지사항] 글로벌미디어학부 공지사항 API", description = "크롤링을 통해 학과 공지사항 정보를 보내준다.(페이지 개수: 4, 한 페이지당 출력 항목: 6) date는 작성일을 의미한다.")
+//    @GetMapping("/media")
+//    public NoticeResponseDTO sendMediaNoticeData(@RequestParam int page){
+//        return noticeCrawlingService.getMediaNoticeData(page);
+//    }
 }
