@@ -26,8 +26,6 @@ public class IncompleteTaskService {
     private final IncompleteSubjectContentsRepository incompleteSubjectContentsRepository;
     private final SubjectContentsRepository subjectContentsRepository;
 
-//    public IncompleteTaskResponseDTO getData(Long studentId){
-//
-//    }
+
 
 }

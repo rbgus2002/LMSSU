@@ -30,8 +30,8 @@ dependencies {
 
 	implementation 'org.seleniumhq.selenium:selenium-java:4.0.0' // 셀레니움
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.7' // springdoc 추가
-	implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.3'
 
+	implementation group: 'org.jsoup', name: 'jsoup', version: '1.15.3'
 }
 
 

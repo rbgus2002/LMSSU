@@ -29,7 +29,7 @@ public class SubjectListService {
     /*
     특정 주차에 해당하는 과목정보 리스트를 불러온다.
      */
-    public Map getLMSInfo(StudentLoginRequestDTO dto, Integer week) throws InterruptedException {
+    public SubjectListResponseDTO getLMSInfo(StudentLoginRequestDTO dto, Integer week) throws InterruptedException {
         // Student 예외처리
         Optional<Student> student = studentRepository.findById(dto.getStudentId());
         if (student.isEmpty()) {
@@ -60,13 +60,9 @@ public class SubjectListService {
         System.out.println("go saveSubjectInfo");
         saveSubjectInfo(dto, updateSubjectList);
 
-        // 이제 DB 뒤져서 내용 적당히 뽑아서 return 해야 해
-        // getSubjectListData(week) 함수 호출
-//        SubjectListResponseDTO subjectListResponseDTO = getSubjectListData(dto.getStudentId(), week);
-//        return subjectListResponseDTO;
-        Map map = new HashMap();
-        map.put("test", 1);
-        return map;
+        // week에 해당하는 LMS 정보 return
+        SubjectListResponseDTO subjectListResponseDTO = getSubjectListData(dto.getStudentId(), week);
+        return subjectListResponseDTO;
     }
 
 

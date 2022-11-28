@@ -10,6 +10,9 @@ public class StudentLoginRequestDTO {
     private Integer userId;
     private String pwd;
 
+    public StudentLoginRequestDTO() {
+    }
+
     @Builder
     public StudentLoginRequestDTO(Long studentId, Integer userId, String pwd) {
         this.studentId = studentId;

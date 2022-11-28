@@ -18,14 +18,14 @@ import java.util.Map;
 public class SubjectListController {
     private final SubjectListService subjectListService;
 
-    @GetMapping()
-    public SubjectListResponseDTO sendSubjectListData(@RequestParam Long studentId, @RequestParam Integer week){
-        return subjectListService.getSubjectListData(studentId, week);
-    }
+//    @GetMapping()
+//    public SubjectListResponseDTO sendSubjectListData(@RequestParam Long studentId, @RequestParam Integer week){
+//        return subjectListService.getSubjectListData(studentId, week);
+//    }
 
-    @Operation(summary = "[과목 리스트] 특정 주차의 과목 리스트를 불러온다.", description = "크롤링이 필요한 과목은 크롤링 후에 과목 리스트를 불러온다. ")
+    @Operation(summary = "[과목 리스트] 특정 주차의 과목 리스트를 불러온다.", description = "크롤링이 필요한 과목은 크롤링 후에 과목 리스트를 불러온다.")
     @PostMapping ()
-    public Map getSubjectInfoList(@RequestBody StudentLoginRequestDTO dto, @RequestParam Integer week) throws InterruptedException {
+    public SubjectListResponseDTO getSubjectInfoList(@RequestBody StudentLoginRequestDTO dto, @RequestParam Integer week) throws InterruptedException {
         return subjectListService.getLMSInfo(dto, week);
     }
 

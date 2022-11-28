@@ -9,7 +9,7 @@ import java.util.List;
 public class SubjectNoticeListDTO {
     private String title;
     private String homepageAddress;
-    private List subjectNoticeDTO; // 최신 순으로 정렬
+    private List<SubjectNoticeDTO> subjectNoticeDTO; // 최신 순으로 정렬
 
     @Builder
     public SubjectNoticeListDTO(String title, String homepageAddress, List subjectNoticeDTO) {

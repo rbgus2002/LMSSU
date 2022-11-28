@@ -14,7 +14,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/calendar")
-@Tag(name = "Claendar Controller", description = "캘린더 컨트롤러")
+@Tag(name = "Calendar Controller", description = "캘린더 컨트롤러")
 public class CalendarController {
     private final CalendarService calendarService;
 
