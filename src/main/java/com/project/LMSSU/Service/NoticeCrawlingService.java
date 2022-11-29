@@ -89,6 +89,9 @@ public class NoticeCrawlingService {
             case "소프트웨어학부" :
                 data = noticeCrawling.swNoticeCrawling();
                 break;
+            case "전자정보공학부" :
+                data = noticeCrawling.eeNoticeCrawling();
+                break;
         }
         // 입력받은 페이지에 대한 정보 추출
         for(int idx = (page-1) * recordSize; idx < page * recordSize; idx++) {

@@ -212,8 +212,6 @@ public class NoticeCrawling {
             Document document = conn.get();
             list = getSWData(document);
             Collections.sort(list);
-            System.out.println(list);
-            System.out.println(list.size());
         } catch (IOException ignored) {
             ignored.printStackTrace();
         }
@@ -231,6 +229,47 @@ public class NoticeCrawling {
                     .date(LocalDate.parse(element.child(3).text(), dateTimeFormatter))
                     .title(element.select("a").text())
                     .url("https://sw.ssu.ac.kr/" + element.select("a").attr("href").substring(3))
+                    .build();
+            list.add(noticeDTO);
+        }
+        return list;
+    }
+
+    // 전자정보공학부 공지사항 크롤링
+    public List<NoticeDTO> eeNoticeCrawling() {
+        List<NoticeDTO> list = new ArrayList<>();
+        String pageURL = "http://infocom.ssu.ac.kr/kor/notice/undergraduate.php";
+        try {
+            // 1페이지 크롤링
+            Connection conn = Jsoup.connect(pageURL).timeout(5000);
+            Document document = conn.get();
+            list = getEEData(document);
+            // 다음 페이지 url 가져와서
+            Elements elements = document.select("div.page_box a.num");
+            for(int i=1; i<5; i++) { // 2-5페이지 크롤링
+                Element element = elements.get(i);
+                pageURL = "http://infocom.ssu.ac.kr" + element.attr("href");
+                // 해당 페이지 크롤링
+                Connection next = Jsoup.connect(pageURL).timeout(5000);
+                Document doc = next.get();
+                list.addAll(getEEData(doc));
+            }
+            Collections.sort(list);
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
+        }
+        return list;
+    }
+    // 전자정보공학부 공지사항 크롤링 시에 원하는 데이터만 가져오기
+    public List<NoticeDTO> getEEData(Document document){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy. MM. dd");
+        List<NoticeDTO> list = new ArrayList<>();
+        Elements notice = document.select("div.list_box a");
+        for(Element element : notice) {
+            NoticeDTO noticeDTO = NoticeDTO.builder()
+                    .date(LocalDate.parse(element.child(1).child(0).text(), dateTimeFormatter))
+                    .title(element.child(0).text())
+                    .url("http://infocom.ssu.ac.kr/" + element.attr("href"))
                     .build();
             list.add(noticeDTO);
         }
