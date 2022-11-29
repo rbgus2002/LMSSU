@@ -1,0 +1,100 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.div_grow {
+  flex-grow: 1;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+}
+
+.container > .logo {
+  padding: 0.5rem;
+}
+
+.container > .logo > img {
+    height: 5rem;
+    width: auto;
+}
+
+.dropdown {
+  position : relative;
+  display : inline-block;
+}
+
+.dropbtn {
+  display: flex;
+  border : 2px solid rgb(94, 94, 94);
+  border-radius : 3rem;
+  text-align: center;
+  cursor : pointer;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.dropbtn:hover {
+  background-color: lightgray;
+}
+
+.dropbtn > img {
+  height: 3rem;
+  width: auto;
+  pointer-events: none;
+}
+
+.dropbtn > div {
+  margin: 0 1rem;
+  pointer-events: none;
+}
+
+.dropbtn > div > p {
+  margin: 0.1rem;
+  font-weight: 900;
+  pointer-events: none;
+}
+
+.dropdown_content {
+  right: 0rem;
+  top: 6.5rem;
+  position: absolute;
+  display: none;
+  font-weight: 400;
+  width: 12rem;
+  border-radius: 0.5rem;
+  background-color: white;
+  box-shadow: 0px 0px 10px 3px rgba(190, 190, 190, 0.6);
+}
+
+.show {
+  display: block;
+}
+
+.dropdown_content_item {
+  padding: 1rem 1.5rem;
+}
+
+.dropdown_content_logout {
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgb(227, 227, 227);
+}
+
+.dropdown_content_logout .logout_btn {
+  border-radius: 0.5rem;
+  margin: 1rem;
+  width: fit-content;
+  background-color: white;
+  padding: 0.5rem;
+}
+
+.dropdown_content p {
+  margin: 0;
+  font-size: 1.25rem;
+}

@@ -1,0 +1,95 @@
+@font-face {
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+
+.notice_board {
+  padding: 0.75rem;
+  background-color: white;
+}
+
+.notice_board > h2 {
+  text-align: center;
+}
+
+.notice_select {
+  color: #009bcb;
+}
+
+.notice_type > h4 {
+  pointer-events: none;
+  margin: 0;
+}
+
+.notice_type > div {
+  pointer-events: none;
+}
+
+.notice_type_title > div {
+  display: inline-block;
+  justify-content: center;
+  margin: 0.75rem;
+}
+
+.notice_select > .notice_bot_bar {
+  width: 100%;
+  display: block;
+  height: 0.35rem;
+  background-color: #009bcb;
+  border-radius: 0.1rem;
+}
+
+.notice_contents {
+  margin: 0.25rem;
+  font-size: 1.4rem;
+}
+
+.notice_content {
+  margin: 0.75rem 0;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+
+.notice_content_dot {
+  margin: 0;
+  margin-right: 0.5rem;
+}
+
+.notice_content_title {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.notice_content_date {
+  color:#aaaaaa;
+  margin: 0;
+  height: fit-content;
+  font-size: 1.15rem;
+}
+
+.notice_content_line {
+  background-color: #cbcbcb;
+  height: 0.1rem;
+}
+
+.notice_page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notice_page_number {
+  margin: 0 2rem;
+  display: flex;
+}
+
+.notice_page_number h4 {
+  margin: 0 1rem;
+}
+
+.notice_page_number .notice_page_select {
+  color: #00c3ff;
+}

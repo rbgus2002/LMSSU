@@ -1,0 +1,42 @@
+.div_grow {
+  flex-grow: 1;
+}
+
+.subject_board {
+  padding: 0.75rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.subject_board > h2 {
+  margin: 1.5rem;
+}
+
+.subject_board > div {
+  width: 100%;
+  text-align: center;
+}
+
+.subject_list {
+  margin: 0;
+}
+
+.subject_item {
+  display: flex;
+  margin: 0;
+}
+
+.subject_item > h5 {
+  font-weight: 900;
+  margin: 0.75rem 1.5rem;
+}
+
+.subject_fold {
+
+}
+
+.subject_list > h3 {
+  margin: 1.5rem;
+}
