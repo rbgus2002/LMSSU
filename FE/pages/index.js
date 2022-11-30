@@ -43,6 +43,9 @@ const changeHeight = (obj) => {
   } else if(obj.view === "Lecture") {
     let view = document.querySelector("#lectureBoard");
     view.style.height = obj.height + "px";
+  } else if(obj.view === "Calendar") {
+    let view = document.querySelector("#calendarBoard");
+    view.style.height = obj.height + "px";
   }
 }
 
