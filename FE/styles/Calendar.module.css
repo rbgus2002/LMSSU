@@ -1,0 +1,114 @@
+.div_grow {
+  flex-grow: 1;
+}
+
+.calendar_board {
+  background-color: white;
+}
+
+.calendar_title_contour {
+  width: 0.1rem;
+  background-color: #aaaaaa;
+}
+
+.calendar_title {
+  display: flex;
+}
+
+.calendar_title_year {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+}
+
+.calendar_title_year > div {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  margin: 0 2rem;
+}
+
+.calendar_title_year > div > h3 {
+  margin: 0 0.25rem;
+}
+
+.calendar_title_year > div > h5 {
+  margin: 0 0.25rem;
+}
+
+.calendar_title_year > h5 {
+  margin: 0;
+  color: #009bcb;
+}
+
+.calendar_title_month {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar_title_month > select {
+  width: 100%;
+  height: 100%;
+  margin: 0 1.5rem;
+  color: #666666;
+  font-size: 1.25rem;
+  font-family: Pretendard-Regular;
+  border: 0 solid white;
+  border-radius: 0;
+}
+
+.calendar_title_schedule {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar_title_schedule_btn {
+  width: 80%;
+  border-radius: 0.5rem;
+  background-color: #009bcb;
+  margin: 0.5rem 0;
+  text-align: center;
+}
+
+.calendar_title_schedule_btn > h5 {
+  color: white;
+  margin: 0;
+  padding: 0.25rem;
+}
+
+.calendar_board_contour {
+  background-color: #009bcb;
+  width: 100%;
+  height: 0.15rem;
+}
+
+.calendar_context {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar_day {
+  width: 100%;
+  display: flex;
+}
+
+.calendar_day > h5 {
+  margin: 0.5rem;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.calendar_day > h5.sun {
+  color: red;
+}
+
+.calendar_day > h5.sat {
+  color: blue;
+}

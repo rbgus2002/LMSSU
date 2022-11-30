@@ -23,6 +23,15 @@
   flex-direction: column;
 }
 
+.board_calendar {
+  background: white;
+  border: 0.1rem solid #aaaaaa;
+  border-radius: 0.75rem;
+  height: 50rem;
+  margin: 1rem;
+  overflow: none;
+}
+
 .board_notice {
   background: white;
   border: 0.1rem solid #aaaaaa;

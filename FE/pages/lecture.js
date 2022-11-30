@@ -2,19 +2,25 @@ import Head from 'next/head'
 import Image from 'next/image'
 import lecturestyles from '../styles/Lecture.module.css'
 import MARQUEE from "react-fast-marquee";
-import React, { useRef, useLayoutEffect, useState } from "react";
+import React, { useEffect, useRef, useLayoutEffect, useState } from "react";
 
-const slideRef = React.createRef();
 
 if (typeof window !== "undefined") {
   window.onload = () => {
+    
   }
 
   window.onclick = (e) => {
+  }
+}
+
+const slideRef = React.createRef();
+const SetHeight = () => {
+  useEffect(() => {
     const slideHeight = slideRef && slideRef.current && slideRef.current.offsetHeight;
     console.log(slideHeight)
-    window.parent.postMessage({ message: "어쩌구저쩌구" }, '*');
-  }
+    window.parent.postMessage({ head: "changeHeight", body: {view: "Lecture", height: slideHeight } }, '*');
+  }, []);
 }
 
 const getLectureSubjects = () => {
@@ -23,8 +29,8 @@ const getLectureSubjects = () => {
     {title: "4주차 2차시 00:00", src: "images/lecture.png"}, 
     {title: "4주차 강의 자료", src: "images/pdf.png"}
   ];
-  const subjectList = names.map((subject) => 
-    <div className={lecturestyles.lecture_subject}>
+  const subjectList = names.map((subject, idx) => 
+    <div key={"lectureSubject"+idx} className={lecturestyles.lecture_subject}>
       <img src={subject.src}/>
       <h3>{subject.title}</h3>
     </div>
@@ -34,12 +40,12 @@ const getLectureSubjects = () => {
 }
 
 const getLectureTodoLists = () => {
-  const names = ["수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기"];
-  const todoList = names.map((subject) => 
-    <div className={lecturestyles.lecture_todolist_content}>
-      <input className={lecturestyles.lecture_todolist_check} type="checkbox" name="check" id="GFG" value="1" checked />
+  const names = ["김익수교수님 사랑합니다", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기"];
+  const todoList = names.map((subject, idx) => 
+    <div key={"lectureTodoList"+idx} className={lecturestyles.lecture_todolist_content}>
+      <input className={lecturestyles.lecture_todolist_check} type="checkbox" name="check" id="GFG" value="1" defaultChecked />
       <div className={lecturestyles.lecture_todolist_title}>
-        <h3>수업시간 필기 정리하기</h3>
+        <h3>{subject}</h3>
         <hr/>
       </div>
     </div>
@@ -58,11 +64,11 @@ const getLectureItems = () => {
   const lectureSubjects = getLectureSubjects();
   const lectureTodoLists = getLectureTodoLists();
 
-  const names = ["[오픈소스]", "[최규현]", "[사랑해]"];
+  const names = ["[오픈소스기반기초설계]", "[과목명]", "[과목명]"];
   const lectureNotice = getLectureNotice();
 
-  const lectureList = names.map((lecture) => 
-    <div className={lecturestyles.lecture_item}>
+  const lectureList = names.map((lecture, idx) => 
+    <div key={"lecture"+idx} className={lecturestyles.lecture_item}>
       <div className={lecturestyles.lecture_top_bar}>
         <h2>{lecture}</h2>
         <div className={lecturestyles.div_grow}></div>
@@ -85,7 +91,7 @@ const getLectureItems = () => {
 }
 
 
-export default function Notice() {
+export default function Lecture() {
 
   const lectureItems = getLectureItems();
 
@@ -110,6 +116,8 @@ export default function Notice() {
           {lectureItems}
         </div>
       </main>
+      
+      <SetHeight/>
     </div>
   )
 }

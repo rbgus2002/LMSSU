@@ -33,11 +33,26 @@ if (typeof window !== "undefined") {
   }
 }
 
-function GetMessage() {
+const changeHeight = (obj) => {
+  if(obj.view === "Subject") {
+    let view = document.querySelector("#subjectBoard");
+    view.style.height = obj.height + "px";
+  } else if(obj.view === "Notice") {
+    let view = document.querySelector("#noticeBoard");
+    view.style.height = obj.height + "px";
+  } else if(obj.view === "Lecture") {
+    let view = document.querySelector("#lectureBoard");
+    view.style.height = obj.height + "px";
+  }
+}
+
+const GetMessage = () => {
   useEffect(() => {
     window.addEventListener("message", (e) => {
-      if (e.origin === SERVER_URL && e.data.message) {
-        //console.log(e.data.message)
+      if (e.origin === SERVER_URL && e.data) {
+        if(e.data.head === "changeHeight") {
+          changeHeight(e.data.body);
+        }
       }
     }, false);
   }, []);
@@ -91,11 +106,12 @@ export default function Home() {
 
       <main className={styles.main}>
         <div className={styles.board_left}>
-          <iframe src="/subject" className={styles.board_subject} frameborder="0" scrolling="no" />
-          <iframe src="/notice" className={styles.board_notice} frameborder="0" scrolling="no" />
+          <iframe src="/calendar" id="calendarBoard" className={styles.board_calendar} frameBorder="0" scrolling="no" />
+          <iframe src="/subject" id="subjectBoard" className={styles.board_subject} frameBorder="0" scrolling="no" />
+          <iframe src="/notice" id="noticeBoard" className={styles.board_notice} frameBorder="0" scrolling="no" />
         </div>
         <div className={styles.board_right}>
-          <iframe src="/lecture" className={styles.board_lecture} frameborder="0" scrolling="no" />
+          <iframe src="/lecture" id="lectureBoard" className={styles.board_lecture} frameBorder="0" scrolling="no" />
         </div>
       </main>
 
