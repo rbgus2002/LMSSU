@@ -16,7 +16,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/incomplete")
-@Tag(name = "Incomplete Controller", description = "마감 임박 강의/과제 가져오기 Controller")
+@Tag(name = "Incomplete Controller", description = "마감 임박 LMSContents Controller")
 public class IncompleteContentsController {
     private final IncompleteContentsService incompleteContentsService;
 
