@@ -95,7 +95,6 @@ const getCalendarDate = (year, month) => {
 
   const celendarDateComponent = calendarDate.map((dateLine) => {
     const calendarDateLine = dateLine.map((date, idx) => {
-      console.log(idx);
       if(idx == 0) return <td className={calendarstyles.sun}>{date}</td>
       else if(idx == 6) return <td className={calendarstyles.sat}>{date}</td>
       else return <td>{date}</td>
@@ -130,11 +129,6 @@ const getMonthSelect = (month) => {
     </select>
   )
 }
-
-const handleSelect = (e) => {
-  calendarDate = getCalendarDate(year, e.target.select);
-  console.log("asd");
-};
 let year, month;
 
 export default function Calendar() {
@@ -152,29 +146,6 @@ export default function Calendar() {
 
   const changeYearNext = useCallback(() => {
     setSelectedYear(selectedYear + 1);
-  }, [selectedYear]);
-
-  const yearControl = useCallback(() => {
-    //연도 선택박스에서 고르기
-    let yearArr = [];
-    const startYear = today.year - 10; //현재 년도부터 10년전 까지만
-    const endYear = today.year + 10; //현재 년도부터 10년후 까지만
-    for (let i = startYear; i < endYear + 1; i++) {
-      yearArr.push(
-        <option key={i} value={i}>
-          {i}년
-        </option>
-      );
-    }
-    return (
-      <select
-        // className="yearSelect"
-        onChange={changeSelectYear}
-        value={selectedYear}
-      >
-        {yearArr}
-      </select>
-    );
   }, [selectedYear]);
 
   const calendarMonth = useCallback(() => {
@@ -202,7 +173,6 @@ export default function Calendar() {
   
     const celendarDateComponent = calendarDate.map((dateLine) => {
       const calendarDateLine = dateLine.map((date, idx) => {
-        console.log(idx);
         if(idx == 0) return <td className={calendarstyles.sun}>{date}</td>
         else if(idx == 6) return <td className={calendarstyles.sat}>{date}</td>
         else return <td>{date}</td>

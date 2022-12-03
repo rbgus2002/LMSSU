@@ -59,11 +59,17 @@
 }
 
 .notice_content_title {
+  font-size: 1rem;
+  width: 60%;
   margin: 0;
   flex-grow: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .notice_content_date {
+  font-size: 1rem;
   color:#aaaaaa;
   margin: 0;
   height: fit-content;

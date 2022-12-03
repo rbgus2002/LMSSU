@@ -1,94 +1,144 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import noticestyles from '../styles/Notice.module.css'
-import React, { useEffect, useRef, useLayoutEffect, useState } from "react";
+import React, { useEffect, useRef, useLayoutEffect, useState, useCallback } from "react";
+import axios from 'axios'
 
 if (typeof window !== "undefined") {
   window.onload = () => {
   }
 
   window.onclick = (e) => {
-    if(e.target.classList.contains(noticestyles.notice_type)) {
-      let selectedItem = document.getElementsByClassName(noticestyles.notice_type);
-      for(let i = 0; i < selectedItem.length; i++) {
-        if(selectedItem[i].classList.contains(noticestyles.notice_select)) {
-          selectedItem[i].classList.remove(noticestyles.notice_select);
-        }
-      }
-      e.target.classList.add(noticestyles.notice_select);
-    }
-
-    if(e.target.matches('#pageItems > h4')) {
-      let selectedItem = document.querySelectorAll('#pageItems > h4');
-      for(let i = 0; i < selectedItem.length; i++) {
-        if(selectedItem[i].classList.contains(noticestyles.notice_page_select)) {
-          selectedItem[i].classList.remove(noticestyles.notice_page_select);
-        }
-      }
-      e.target.classList.add(noticestyles.notice_page_select);
-    }
   }
 }
+let noticeList = [];
 
-const slideRef = React.createRef();
-const SetHeight = () => {
+export default function Notice() {
+
+  const slideRef = React.createRef();
+
   useEffect(() => {
-    document.querySelector('#notice_all').classList.add(noticestyles.notice_select);
-    document.querySelector('#pageItems > h4').classList.add(noticestyles.notice_page_select);
-    
+    let url = ""
+    for(let i = 0; i < 3; i++) {
+      let noticeItem = []
+      for(let j = 1; j <= 4; j++) {
+        url = "./api/proxy/notice/"
+        if(i == 0) url += "ssu?"
+        else if(i == 1) continue //url += "major?studentId="+20182651+"&"
+        else if(i == 2) url += "fun?"
+        url += "page="+j
+  
+        axios.get(
+          url
+        ).then((response) => {
+          const data = response.data
+          noticeItem[j] = data.ssuNoticeDTO
+        }).then(() => {
+          setSelectedNotice(0)
+        })
+      }
+      noticeList[i] = noticeItem
+    }
+    setSelectedNoticeList({type: 0, page: 1})
+  }, [])
+
+  useEffect(() => {
     const slideHeight = slideRef && slideRef.current && slideRef.current.offsetHeight;
     console.log(slideHeight)
     window.parent.postMessage({ head: "changeHeight", body: {view: "Notice", height: slideHeight } }, '*');
-  }, []);
-}
+  })
 
-const getNoticeList = () => {
-  const names = ["Hello World", "Lorem Ipsum", "Opensource", "Hello", "World"];
-  const nameList = names.map((name, idx) => 
-    <div key={"notice"+idx}>
-      <div className={noticestyles.notice_content}>
-        <p className={noticestyles.notice_content_dot}>·</p>
-        <p className={noticestyles.notice_content_title}>
-          {name}
-        </p>
-        <div></div>
-        <p className={noticestyles.notice_content_date}>2022.10.04</p>
+  const [selectedPage, setSelectedPage] = useState(1);
+  const [selectedNotice, setSelectedNotice] = useState(0);
+  const [selectedNoticeList, setSelectedNoticeList] = useState({type: 1, page: 1});
+
+  const changeNoticeType = (type) => {
+    setSelectedNotice(type)
+    setSelectedPage(1)
+    setSelectedNoticeList({type: type, page: 1})
+  }
+
+  const getNoticeType = useCallback(() => {
+
+    const arr = [
+      {title: "학교", id: "notice_ssu"},
+      {title: "학과", id: "notice_major"},
+      {title: "펀시스템", id: "notice_fun"}
+    ]
+
+    const noticeTypes = arr.map((type, idx) => {
+      if(idx == selectedNotice) return (
+        <div id={type.id} className={`${noticestyles.notice_type} ${noticestyles.notice_select}`} onClick={()=>changeNoticeType(idx)}>
+          <h4>{type.title}</h4>
+          <div className={noticestyles.notice_bot_bar}></div>
+        </div>
+      )
+      else return (
+        <div id={type.id} className={noticestyles.notice_type} onClick={()=>changeNoticeType(idx)}>
+          <h4>{type.title}</h4>
+          <div className={noticestyles.notice_bot_bar}></div>
+        </div>
+      )
+    });
+
+    return (
+      <div className={noticestyles.notice_type_title}>
+        {noticeTypes}
       </div>
-      <hr />
-    </div>
-  );
+    )
+  }, [selectedNotice])
 
-  return <div className={noticestyles.notice_contents}>{nameList}</div>;
-}
+  const changeNoticePage = (num) => {
+    setSelectedPage(num)
+    setSelectedNoticeList({type: selectedNotice, page: num})
+  };
+  
+  const getNoticePage = useCallback(() => {
 
-const getNoticePage = () => {
-  let num = 1;
-  let min = num - 2;
-  let max = num + 2;
-  if(min <= 0) {
-    max = max - min + 1;
-    min = min - min + 1;
-  }
+    const arr = [];
+    for(let i = 1; i <= 5; i++) {
+      arr[i] = i;
+    }
 
-  const arr = [];
-  for(let i = min; i <= max; i++) {
-    arr[i-min] = i;
-  }
+    const pageList = arr.map((page, idx) => {
+      if(page == selectedPage) return (
+        <h4 key={idx} id={"page"+page} className={noticestyles.notice_page_select} onClick={()=>changeNoticePage(page)}>
+          {page}
+        </h4>
+      )
+      else return (
+        <h4 key={idx} id={"page"+page} onClick={()=>{changeNoticePage(page)}}>
+          {page}
+        </h4>
+      )
+    });
 
-  const pageList = arr.map((page, idx) => 
-    <h4 key={"page"+idx} id={"page"+page}>{page}</h4>
-  );
+    return (
+      <div id="pageItems" className={noticestyles.notice_page_number}>
+        {pageList}
+      </div>
+    )
+  }, [selectedPage]);
 
-  return (
-    <div id="pageItems" className={noticestyles.notice_page_number}>
-      {pageList}
-    </div>
-  )
-}
+  const getNoticeList = useCallback(() => {
+    if(noticeList.length == 0) return;
+    console.log(selectedNoticeList.type, noticeList[selectedNoticeList.type], noticeList)
+    // const nameList = noticeList[selectedNoticeList.type][selectedNoticeList.page-1].map((name, idx) => 
+    //   <div key={"notice"+idx}>
+    //     <div className={noticestyles.notice_content}>
+    //       <p className={noticestyles.notice_content_dot}>·</p>
+    //       <p className={noticestyles.notice_content_title}>
+    //         {name.title}
+    //       </p>
+    //       <div></div>
+    //       <p className={noticestyles.notice_content_date}>{name.date}</p>
+    //     </div>
+    //     <hr />
+    //   </div>
+    // );
 
-export default function Notice() {
-  const noticeList = getNoticeList();
-  const noticePage = getNoticePage();
+    return <div className={noticestyles.notice_contents}>{123}</div>;
+  }, [selectedNoticeList])
 
   return (
     <div ref={slideRef}>
@@ -100,38 +150,19 @@ export default function Notice() {
 
       <main>
         <div className={noticestyles.notice_board}>
-          <div className={noticestyles.notice_type_title}>
-            <div id="notice_all" className={noticestyles.notice_type}>
-              <h4>전체</h4>
-              <div className={noticestyles.notice_bot_bar}></div>
-            </div>
-            <div id="notice_major" className={noticestyles.notice_type}>
-              <h4>학과</h4>
-              <div className={noticestyles.notice_bot_bar}></div>
-            </div>
-            <div id="notice_fun" className={noticestyles.notice_type}>
-              <h4>펀시스템</h4>
-              <div className={noticestyles.notice_bot_bar}></div>
-            </div>
-            <div id="notice_etc" className={noticestyles.notice_type}>
-              <h4>기타</h4>
-              <div className={noticestyles.notice_bot_bar}></div>
-            </div>
-          </div>
+          {getNoticeType()}
           <div className={noticestyles.notice_contents}>
-            {noticeList}
+            {getNoticeList()}
           </div>
           <div className={noticestyles.notice_page}>
             <div className={noticestyles.div_grow}></div>
             <h4>{"<"}</h4>
-            {noticePage}
+            {getNoticePage()}
             <h4>{">"}</h4>
             <div className={noticestyles.div_grow}></div>
           </div>
         </div>
       </main>
-      
-      <SetHeight/>
     </div>
   )
 }
