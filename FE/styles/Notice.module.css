@@ -53,6 +53,10 @@
   align-items: center;
 }
 
+.notice_content_loading {
+  height: 20rem;
+}
+
 .notice_content_dot {
   margin: 0;
   margin-right: 0.5rem;

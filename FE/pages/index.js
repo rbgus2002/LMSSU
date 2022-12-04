@@ -6,6 +6,8 @@ import React, { useEffect } from "react";
 
 let SERVER_URL = "http://localhost:3000"
 
+let stdid = 20182662, pwd = 1234;
+
 if (typeof window !== "undefined") {
   window.onload = () => {
   }
@@ -109,12 +111,12 @@ export default function Home() {
 
       <main className={styles.main}>
         <div className={styles.board_left}>
-          <iframe src="/calendar" id="calendarBoard" className={styles.board_calendar} frameBorder="0" scrolling="no" />
-          <iframe src="/subject" id="subjectBoard" className={styles.board_subject} frameBorder="0" scrolling="no" />
-          <iframe src="/notice" id="noticeBoard" className={styles.board_notice} frameBorder="0" scrolling="no" />
+          <iframe src={"/calendar?stdid="+stdid+"&pwd="+pwd} id="calendarBoard" className={styles.board_calendar} frameBorder="0" scrolling="no" />
+          <iframe src={"/subject?stdid="+stdid+"&pwd="+pwd} id="subjectBoard" className={styles.board_subject} frameBorder="0" scrolling="no" />
+          <iframe src={"/notice?stdid="+stdid+"&pwd="+pwd} id="noticeBoard" className={styles.board_notice} frameBorder="0" scrolling="no" />
         </div>
         <div className={styles.board_right}>
-          <iframe src="/lecture" id="lectureBoard" className={styles.board_lecture} frameBorder="0" scrolling="no" />
+          <iframe src={"/lecture?stdid="+stdid+"&pwd="+pwd} id="lectureBoard" className={styles.board_lecture} frameBorder="0" scrolling="no" />
         </div>
       </main>
 

@@ -78,9 +78,9 @@ function getCalendarDateContext(year, month){
 const getCalendarDay = () => {
   const names = ["일", "월", "화", "수", "목", "금", "토"];
   const calendarDay = names.map((day, idx) => {
-    if(idx == 0) return <h5 className={calendarstyles.sun}>{day}</h5>
-    else if(idx == 6) return <h5 className={calendarstyles.sat}>{day}</h5>
-    else return <h5>{day}</h5>
+    if(idx == 0) return <h5 key={idx} className={calendarstyles.sun}>{day}</h5>
+    else if(idx == 6) return <h5 key={idx} className={calendarstyles.sat}>{day}</h5>
+    else return <h5 key={idx}>{day}</h5>
   });
 
   return (
@@ -89,47 +89,6 @@ const getCalendarDay = () => {
     </div>
   )
 }
-
-const getCalendarDate = (year, month) => {
-  let calendarDate = getCalendarDateContext(year, month);
-
-  const celendarDateComponent = calendarDate.map((dateLine) => {
-    const calendarDateLine = dateLine.map((date, idx) => {
-      if(idx == 0) return <td className={calendarstyles.sun}>{date}</td>
-      else if(idx == 6) return <td className={calendarstyles.sat}>{date}</td>
-      else return <td>{date}</td>
-    })
-
-    return <tr>{calendarDateLine}</tr>
-  });
-
-  return (
-    <table className={calendarstyles.calendar_date}>
-      <tbody>
-        {celendarDateComponent}
-      </tbody>
-    </table>
-  )
-}
-
-const getMonthSelect = (month) => {
-  let monthArr = [];
-  for(let i = 1; i <= 12; i++) {
-    monthArr.push(i);
-  }
-
-  const monthOption = monthArr.map((m) => {
-    if(m == month) return <option value={m} selected>{m+"월"}</option>
-    else return <option value={m}>{m+"월"}</option>
-  })
-
-  return (
-    <select onChange={handleSelect} name="month" id="monthSelect">
-      {monthOption}
-    </select>
-  )
-}
-let year, month;
 
 export default function Calendar() {
 
@@ -153,7 +112,7 @@ export default function Calendar() {
     let monthOption = [];
     for(let i = 1; i <= 12; i++) {
       monthOption.push(
-        <option value={i}>{i+"월"}</option>
+        <option key={i} value={i}>{i+"월"}</option>
       );
     }
 
@@ -171,14 +130,14 @@ export default function Calendar() {
   const calendarDate = useCallback(() => {
     let calendarDate = getCalendarDateContext(selectedYear, selectedMonth);
   
-    const celendarDateComponent = calendarDate.map((dateLine) => {
-      const calendarDateLine = dateLine.map((date, idx) => {
-        if(idx == 0) return <td className={calendarstyles.sun}>{date}</td>
-        else if(idx == 6) return <td className={calendarstyles.sat}>{date}</td>
-        else return <td>{date}</td>
+    const celendarDateComponent = calendarDate.map((dateLine, idx1) => {
+      const calendarDateLine = dateLine.map((date, idx2) => {
+        if(idx2 == 0) return <td key={idx1+""+idx2} className={calendarstyles.sun}>{date}</td>
+        else if(idx2 == 6) return <td key={idx1+""+idx2} className={calendarstyles.sat}>{date}</td>
+        else return <td key={idx1+""+idx2}>{date}</td>
       });
   
-      return <tr>{calendarDateLine}</tr>
+      return <tr key={idx1}>{calendarDateLine}</tr>
     });
   
     return (

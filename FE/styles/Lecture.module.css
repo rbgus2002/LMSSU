@@ -91,7 +91,7 @@
   width: 1.5rem;
 }
 
-.lecture_subject h3 {
+.lecture_subject h4 {
   margin: 0 0.5rem;
 }
 
@@ -120,7 +120,7 @@
   margin: 0 0.5rem;
 }
 
-.lecture_todolist_title h3 {
+.lecture_todolist_title h4 {
   margin: 0;
 }
 

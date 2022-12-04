@@ -1,7 +1,7 @@
 import { createProxyMiddleware } from "http-proxy-middleware"; // @2.0.6
 
 const proxy = createProxyMiddleware({
-  target: "http://52.78.22.245:8080",
+  target: "http://localhost:8080",
   secure: false,
   pathRewrite: { "^/api/proxy": "" }, // remove `/api/proxy` prefix
 });
