@@ -15,4 +15,7 @@ public class StudentMajorAndNameRequestDTO {
         this.major = major;
         this.studentName = studentName;
     }
+
+    public StudentMajorAndNameRequestDTO() {
+    }
 }
