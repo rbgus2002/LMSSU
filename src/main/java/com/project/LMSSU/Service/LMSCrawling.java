@@ -49,6 +49,8 @@ public class LMSCrawling {
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
 //        options.addArguments("headless");
+        options.addArguments("--no-sandbox");
+        options.addArguments("--disable-dev-shm-usage");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER); // ??
 
         // 크롬 드라이버 객체 생성
