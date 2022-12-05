@@ -28,8 +28,6 @@ public class LMSCrawling {
     private static Integer userId;
     private static String pwd;
     private static Long studentId;
-    public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
-    public static final String WEB_DRIVER_PATH = "/usr/bin/chromedriver";
 
     private static List<SubjectContentsInfo> subjectList = new ArrayList<>();
 
@@ -44,10 +42,7 @@ public class LMSCrawling {
 
     private void initCrawling() {
         // 경로 설정
-        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
-//        WebDriverManager.chromedriver().setup();
-
-
+        WebDriverManager.chromiumdriver().setup();
 
         // 옵션 설정
         ChromeOptions options = new ChromeOptions();
