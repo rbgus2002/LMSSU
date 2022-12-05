@@ -3,11 +3,9 @@ package com.project.LMSSU.Service;
 import com.project.LMSSU.DTO.StudentLoginRequestDTO;
 import com.project.LMSSU.DTO.StudentMajorAndNameRequestDTO;
 import com.project.LMSSU.Entity.Attending;
-import com.project.LMSSU.Entity.Major;
 import com.project.LMSSU.Entity.Student;
 import com.project.LMSSU.Entity.Subject;
 import com.project.LMSSU.Repository.AttendingRepository;
-import com.project.LMSSU.Repository.MajorRepository;
 import com.project.LMSSU.Repository.StudentRepository;
 import com.project.LMSSU.Repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +20,6 @@ import java.util.*;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
-    private final MajorRepository majorRepository;
     private final AttendingRepository attendingRepository;
     private final SubjectRepository subjectRepository;
 
@@ -43,7 +40,7 @@ public class StudentService {
             // student 등록
             studentRepository.save(Student.builder()
                             .name(null)
-                            .major(null)
+                            .majorName(null)
                             .id(dto.getStudentId())
                     .build());
 
@@ -55,7 +52,7 @@ public class StudentService {
 
         }else{
             // 학과 입력이 안되어 있는 경우
-            if(studentOptional.get().getMajor() == null){
+            if(studentOptional.get().getMajorName() == null){
                 map.put("student", "new");
             }
         }
@@ -131,15 +128,15 @@ public class StudentService {
         }
         Student student = studentOptional.get();
 
-        // Major 예외처리
-        Optional<Major> majorOptional = majorRepository.findByMajorName(dto.getMajor());
-        if (majorOptional.isEmpty()) {
-            System.out.println("majorName Error"); // 로그로 찍기
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "majorName Error");
-        }
+//        // Major 예외처리
+//        Optional<Major> majorOptional = majorRepository.findByMajorName(dto.getMajor());
+//        if (majorOptional.isEmpty()) {
+//            System.out.println("majorName Error"); // 로그로 찍기
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "majorName Error");
+//        }
 
         // major, name 저장
-        student.setMajor(majorOptional.get());
+        student.setMajorName(dto.getMajor());
         student.setName(dto.getStudentName());
         studentRepository.save(student);
 

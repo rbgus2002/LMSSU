@@ -24,8 +24,6 @@ import java.util.Optional;
 @Service
 public class IncompleteContentsService {
     private final AttendingRepository attendingRepository;
-    private final SubjectRepository subjectRepository;
-    private final IncompleteSubjectContentsRepository incompleteSubjectContentsRepository;
     private final SubjectContentsRepository subjectContentsRepository;
     private final StudentRepository studentRepository;
 

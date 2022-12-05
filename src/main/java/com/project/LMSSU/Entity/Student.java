@@ -10,17 +10,13 @@ import javax.persistence.*;
 public class Student {
     @Id @Column(name = "student_id")
     private Long id;
-
     private String name;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "major_id")
-    private Major major;
+    private String majorName;
 
     @Builder
-    public Student(Long id, String name, Major major) {
+    public Student(Long id, String name, String majorName) {
         this.id = id;
         this.name = name;
-        this.major = major;
+        this.majorName = majorName;
     }
 }

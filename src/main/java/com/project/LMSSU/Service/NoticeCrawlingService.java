@@ -76,7 +76,7 @@ public class NoticeCrawlingService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No Data");
         if(page > pageSize || page < 1)
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "wrong page");
-        switch (studentOptional.get().getMajor().getMajorName()) {
+        switch (studentOptional.get().getMajorName()) {
             case "AI융합학부" :
                 data = noticeCrawling.aiNoticeCrawling();
                 break;
