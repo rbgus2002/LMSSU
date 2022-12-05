@@ -49,7 +49,9 @@ public class LMSCrawling {
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
 //        options.addArguments("headless");
+
         options.addArguments("--no-sandbox");
+        options.addArguments("--single-process");
         options.addArguments("--disable-dev-shm-usage");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER); // ??
 
