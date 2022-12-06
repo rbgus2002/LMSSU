@@ -45,11 +45,13 @@ public class LMSCrawling {
     private void initCrawling() {
         // 경로 설정
         System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+//        WebDriverManager.chromedriver().setup();
 
         // 옵션 설정
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
+        options.addArguments("--window-size=1920x1080");
         options.addArguments("headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--single-process");
