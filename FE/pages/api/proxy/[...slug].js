@@ -1,7 +1,7 @@
 import { createProxyMiddleware } from "http-proxy-middleware"; // @2.0.6
 
 const proxy = createProxyMiddleware({
-  target: "http://localhost:8080",
+  target: process.env.BACK_BASE_URL,
   changeOrigin: true,    // for vhosted sites, changes host header to match to target's host
   secure: false,
   pathRewrite: { "^/api/proxy": "" }, // remove `/api/proxy` prefix

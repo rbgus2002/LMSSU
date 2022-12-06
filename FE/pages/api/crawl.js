@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     const ndhs_id = studentId; // 추후 로그인 폼에서 각자의 아이디 비밀번호를 입력받게 할 예정
     const ndhs_pw = pwd;
 
-    page.setDefaultNavigationTimeout(3000); 
+    page.setDefaultNavigationTimeout(5000); 
 
     await page.goto('https://smartid.ssu.ac.kr/Symtra_sso/smln.asp?apiReturnUrl=https%3A%2F%2Fclass.ssu.ac.kr%2Fxn-sso%2Fgw-cb.php');
     

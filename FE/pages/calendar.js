@@ -12,13 +12,6 @@ if (typeof window !== "undefined") {
 }
 
 const slideRef = React.createRef();
-const SetHeight = () => {
-  useEffect(() => {
-    const slideHeight = slideRef && slideRef.current && slideRef.current.offsetHeight;
-    console.log(slideHeight)
-    window.parent.postMessage({ head: "changeHeight", body: {view: "Calendar", height: slideHeight } }, '*');
-  }, []);
-}
 
 function checkLeapYear(year) {
     if (year%400 == 0) {
@@ -31,6 +24,7 @@ function checkLeapYear(year) {
       return false;
     }
 }
+
 function getFirstDayOfWeek(year, month){
   let monthStr = ""+month
   if (month < 10) monthStr = "0" + month;
@@ -97,7 +91,14 @@ export default function Calendar() {
   let now = new Date();
   const [selectedYear, setSelectedYear] = useState(now.getFullYear()); //현재 선택된 연도
   const [selectedMonth, setSelectedMonth] = useState(now.getMonth()+1); //현재 선택된 달
+
   const dateTotalCount = new Date(selectedYear, selectedMonth, 0).getDate(); //선택된 연도, 달의 마지막 날짜
+
+  useEffect(() => {
+    const slideHeight = slideRef && slideRef.current && slideRef.current.offsetHeight;
+    console.log(slideHeight)
+    window.parent.postMessage({ head: "changeHeight", body: {view: "Calendar", height: slideHeight } }, '*');
+  });
 
   const changeYearPrev = useCallback(() => {
     setSelectedYear(selectedYear - 1);
@@ -186,8 +187,6 @@ export default function Calendar() {
           </div>
         </div>
       </main>
-      
-      <SetHeight/>
     </div>
   )
 }
