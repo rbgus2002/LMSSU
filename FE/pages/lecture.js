@@ -28,6 +28,8 @@ export default function Lecture() {
         pwd = param[1]
       }
     }
+
+    getLectureItems();
   }, [])
   
   useEffect(() => {
@@ -36,25 +38,37 @@ export default function Lecture() {
     window.parent.postMessage({ head: "changeHeight", body: {view: "Lecture", height: slideHeight } }, '*');
   })
   
-  const getLectureSubjects = () => {
-    const names = [
-      {title: "4주차 강의 영상", src: "images/play-button.png"}, 
-      {title: "4주차 2차시 00:00", src: "images/lecture.png"}, 
-      {title: "4주차 강의 자료", src: "images/pdf.png"}
-    ];
-    const subjectList = names.map((subject, idx) => 
-      <div key={"lectureSubject"+idx} className={lecturestyles.lecture_subject}>
-        <img src={subject.src}/>
-        <h4>{subject.title}</h4>
-      </div>
-    );
+  const getLectureSubjects = (item) => {
+    let subjectList = weeklySubjectList[selectedWeeks].weeksSubjectListDTO.subjectDTO[item].subjectContentsTitle.map((subject, idx) => {
+      let img_src = "images/"
+      if(subject.contentsType == "assignment") img_src += "assignment.png"
+      else if(subject.contentsType == "mp4") img_src += "play-button.png"
+      else if(subject.contentsType == "pdf") img_src += "pdf.png"
+      else if(subject.contentsType == "file") img_src += "file.png"
+      else if(subject.contentsType == "offline_attendance") img_src += "lecture.png"
+      else if(subject.contentsType == "text") img_src += "text.png"
+
+      return (
+        <div key={"lectureSubject"+idx} className={lecturestyles.lecture_subject}>
+          <img src={img_src}/>
+          <h5>{subject.title}</h5>
+        </div>
+      )
+    });
+    if(subjectList.length == 0) {
+      subjectList = (
+        <div className={lecturestyles.lecture_subject}>
+          <h5>-</h5>
+        </div>
+      )
+    }
   
     return <div className={lecturestyles.lecture_subjects}>{subjectList}</div>;
   }
   
-  const getLectureTodoLists = () => {
+  const getLectureTodoLists = (item) => {
     const names = ["김익수교수님 사랑합니다", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기"];
-    const todoList = names.map((subject, idx) => 
+    let todoList = weeklySubjectList[selectedWeeks].weeksSubjectListDTO.subjectDTO[item].toDoDTO.map((subject, idx) => 
       <div key={"lectureTodoList"+idx} className={lecturestyles.lecture_todolist_content}>
         <input className={lecturestyles.lecture_todolist_check} type="checkbox" name="check" id="GFG" value="1" defaultChecked />
         <div className={lecturestyles.lecture_todolist_title}>
@@ -63,6 +77,16 @@ export default function Lecture() {
         </div>
       </div>
     );
+    if(todoList.length == 0) {
+      todoList = (
+        <div className={lecturestyles.lecture_todolist_content}>
+          <div className={lecturestyles.lecture_todolist_title}>
+            <h4>-</h4>
+            <hr/>
+          </div>
+        </div>
+      )
+    }
   
     return <div className={lecturestyles.lecture_todolist}>{todoList}</div>;
   }
@@ -72,94 +96,81 @@ export default function Lecture() {
       <MARQUEE>안녕하세요 LMSSU입니다. 즐거운 학교생활 되세요~</MARQUEE>
     )
   }
-  
-  const getLectureItems = useCallback(() => {
-    const lectureSubjects = getLectureSubjects();
-    const lectureTodoLists = getLectureTodoLists();
-  
-    const names = ["[오픈소스기반기초설계]", "[과목명]", "[과목명]"];
-    const lectureNotice = getLectureNotice();
-  
-    const lectureList = names.map((lecture, idx) => 
-      <div key={"lecture"+idx} className={lecturestyles.lecture_item}>
-        <div className={lecturestyles.lecture_top_bar}>
-          <h3>{lecture}</h3>
-          <div className={lecturestyles.div_grow}></div>
-          <img src="images/home-icon-silhouette.png"/>
-        </div>
-        <div className={lecturestyles.lecture_notice}>
-          <img src="images/megaphone.png"/>
-          {lectureNotice}
-        </div>
-        <div className={lecturestyles.lecture_content}>
-          {lectureSubjects}
-          {lectureTodoLists}
-        </div>
-      </div>
-    );
 
-    if(weeklySubjectList[selectedWeeks] === undefined) {
-      const getApi = async () => {
-        console.log("asd")
-        const REQ_URL = "./api/proxy/list?week="+selectedWeeks
-  
-        var REQ_PARAM = {
-          studentId: stdid,
-          userId: 0,
-          pwd: pwd
-        };
+  const getLectureItems = () => {
+    const getApi = async () => {
+      console.log("asd")
+      const REQ_URL = "http://localhost:3000/apis/list?week="+selectedWeeks
+      let data
+      let tmpList = weeklySubjectList.slice()
+      console.log(stdid, pwd)
+      axios.defaults.withCredentials = true;
+      await axios.post(REQ_URL, {
+        studentId: stdid,
+        userId: 0,
+        pwd: pwd
+      }, {
+        withCredentials: true
+      }).then((response) => {
+        data = response.data
+        tmpList[selectedWeeks] = data
+        weeklySubjectList[selectedWeeks] = tmpList[selectedWeeks]
+        console.log(tmpList)
+      }).catch((error) => {
+        console.log(error.response)
+      });
 
-        console.log(REQ_PARAM)
-
-        await axios.post(REQ_URL, 
-          {
-            studentId: stdid,
-            userId: 0,
-            pwd: pwd
-          }).then((response) => {
-            const data = response.data
-            console.log(data)
-          }).catch((error) => {
-            console.log(error.response)
-          });
-/* 
-        axios({
-          method: "post",
-          url: REQ_URL,
-          data: REQ_PARAM,
-          headers: REQ_HEADER,
-          timeout: 10000
-        })
-        .then(function(response) {
-            console.log("");
-            console.log("RESPONSE : " + JSON.stringify(response.data));
-            console.log("");
-        })
-        .catch(function(error) {
-            console.log("");
-            console.log("ERROR : " + JSON.stringify(error));
-            console.log("");
-        }); */
-      }
-      getApi();
+      setWeeklySubjectList(tmpList)
+      
+      console.log(weeklySubjectList)
     }
+    getApi();
+  }
+  
+  const getLectureItemsComponent = useCallback(() => {
+    let lectureList;
 
-    if(weeklySubjectList[selectedWeeks] === undefined) return (
-      "asdasd"
-    )
-    else return (
-      <div className={lecturestyles.lecture_items}>{lectureList}</div>
-    )
+    if(weeklySubjectList[selectedWeeks] !== undefined) {
+      lectureList = weeklySubjectList[selectedWeeks].weeksSubjectListDTO.subjectDTO.map((lecture, idx) =>  {
+        return (
+          <div key={"lecture"+idx} className={lecturestyles.lecture_item}>
+            <div className={lecturestyles.lecture_top_bar}>
+              <h3>{lecture.title}</h3>
+              <div className={lecturestyles.div_grow}></div>
+              <img src="images/home-icon-silhouette.png"/>
+            </div>
+            <div className={lecturestyles.lecture_notice}>
+              <img src="images/megaphone.png"/>
+              {getLectureNotice()}
+            </div>
+            <div className={lecturestyles.lecture_content}>
+              {getLectureSubjects(idx)}
+              {getLectureTodoLists(idx)}
+            </div>
+          </div>
+        )
+      });
+
+      return (
+        <div className={lecturestyles.lecture_items}>{lectureList}</div>
+      )
+    } else {
+      return (
+        "asdasd"
+      )
+    }
   }, [selectedWeeks, weeklySubjectList])
 
   const changeWeekPrev = () => {
-    if(selectedWeeks > 1)
+    if(selectedWeeks > 1) {
       setSelectedWeeks(selectedWeeks - 1);
+    }
   };
 
   const changeWeekNext = () => {
-    if(selectedWeeks < 16)
+    if(selectedWeeks < 16) {
       setSelectedWeeks(selectedWeeks + 1);
+    }
   };
   
   const getLectureWeeks = useCallback(() => {
@@ -167,6 +178,10 @@ export default function Lecture() {
     startWeek.setDate(startWeek.getDate()+(selectedWeeks-1)*7)
     let endWeek = new Date(startWeek)
     endWeek.setDate(endWeek.getDate() + 7)
+
+    if(weeklySubjectList[selectedWeeks] === undefined) {
+      getLectureItems();
+    }
 
     return (
       <div className={lecturestyles.lecture_board}>
@@ -178,7 +193,7 @@ export default function Lecture() {
           </div>
           <h1 onClick={changeWeekNext}>{">"}</h1>
         </div>
-        {getLectureItems()}
+        {getLectureItemsComponent()}
       </div>
     )
   }, [selectedWeeks])

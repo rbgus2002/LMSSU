@@ -37,6 +37,7 @@ export default function Notice() {
       let url = ""
       for(let i = 0; i < 3; i++) {
         for(let j = 1; j <= 4; j++) {
+          console.log(i +" " + j)
           url = "./api/proxy/notice/"
           if(i == 0) url += "ssu?"
           else if(i == 1) url += "major?studentId="+stdid+"&"
@@ -50,7 +51,8 @@ export default function Notice() {
             tmpList[i][j-1] = data.ssuNoticeDTO
             noticeList = tmpList.slice()
             setSelectedNoticeList(noticeList)
-          }).then(() => {
+          }).catch((error) => {
+            console.log(error.response)
           })
         }
       }

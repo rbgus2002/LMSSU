@@ -61,11 +61,13 @@ export default function Subject() {
         const subjectListItemComponent = subject.subjectContents_endDateDTOList.map((item, idx2) => {
           let img_src = "images/"
           if(item.contentsType == "assignment") img_src += "assignment.png"
+          else if(item.contentsType == "mp4") img_src += "play-button.png"
+          else if(item.contentsType == "pdf") img_src += "pdf.png"
 
           let dday = parseInt((new Date(item.endDate).getTime() - new Date().getTime())/(1000*60*60*24))
 
-          if(subjectShow[idx1] == 1) return (
-            <div key={idx1} className={subjectstyles.subject_item_item}>
+          return (
+            <div key={idx1+" "+idx2} className={subjectstyles.subject_item_item}>
               <img src={img_src}/>
               <h4 onClick={() => {
                 window.open(subject.link+"/external_tools/2", '_blank')
@@ -74,7 +76,6 @@ export default function Subject() {
               <h6>{dday==0?"D-Day":"D-"+dday}</h6>
             </div>
           )
-          else return ("")
         })
 
         return (
@@ -93,7 +94,7 @@ export default function Subject() {
                 setSubjectShow(arr)
               }}>{subjectList[idx1].subjectContents_endDateDTOList.length==0?"":subjectShow[idx1]==1?"∧":"∨"}</h3>
             </div>
-            {subjectListItemComponent}
+            {subjectShow[idx1]?subjectListItemComponent:""}
             <hr/>
           </div>
         )

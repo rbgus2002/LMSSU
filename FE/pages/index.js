@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 
 let SERVER_URL = "http://localhost:3000"
 
-let stdid = 20182662, pwd = 1234;
+let stdid = 20182651, pwd = "sndnrn12!";
 
 if (typeof window !== "undefined") {
   window.onload = () => {
