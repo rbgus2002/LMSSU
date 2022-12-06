@@ -55,6 +55,12 @@ public class StudentService {
             if(studentOptional.get().getMajorName() == null){
                 map.put("student", "new");
             }
+            // 학생 정보 response
+            else{
+                Student student = studentOptional.get();
+                map.put("name", student.getName());
+                map.put("major", student.getMajorName());
+            }
         }
 
         return map;
