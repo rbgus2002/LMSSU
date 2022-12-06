@@ -26,7 +26,7 @@ export default function Subject() {
     }
 
     const getApi = async () => {
-      let url = "./api/proxy/incomplete?studentId="+stdid
+      let url = process.env.FRONT_BASE_URL+"/api/proxy/incomplete?studentId="+stdid
       await axios.get(
         url
       ).then((response) => {

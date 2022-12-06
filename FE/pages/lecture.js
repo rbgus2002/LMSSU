@@ -67,7 +67,6 @@ export default function Lecture() {
   }
   
   const getLectureTodoLists = (item) => {
-    const names = ["김익수교수님 사랑합니다", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기", "수업시간 필기 정리하기"];
     let todoList = weeklySubjectList[selectedWeeks].weeksSubjectListDTO.subjectDTO[item].toDoDTO.map((subject, idx) => 
       <div key={"lectureTodoList"+idx} className={lecturestyles.lecture_todolist_content}>
         <input className={lecturestyles.lecture_todolist_check} type="checkbox" name="check" id="GFG" value="1" defaultChecked />
@@ -100,7 +99,7 @@ export default function Lecture() {
   const getLectureItems = () => {
     const getApi = async () => {
       console.log("asd")
-      const REQ_URL = "http://localhost:3000/apis/list?week="+selectedWeeks
+      const REQ_URL = process.env.FRONT_BASE_URL+"/apis/list?week="+selectedWeeks
       let data
       let tmpList = weeklySubjectList.slice()
       console.log(stdid, pwd)

@@ -4,27 +4,25 @@ import loginstyles from '../styles/Login.module.css'
 import React, { useEffect, useRef, useLayoutEffect, useState, useCallback } from "react";
 import axios from 'axios'
 
-let stdid, pwd;
-
 export default function Login() {
 
   const slideRef = React.createRef();
 
   const LoginForm = () => {
     const [values, setValues] = useState({
-      email: "",
-      password: "",
+      stdid: "",
+      pwd: "",
     })
   
     const [errors, setErrors] = useState({
-      email: "",
-      password: "",
+      stdid: "",
+      pwd: "",
     })
   
     // 필드 방문 상태를 관리한다
     const [touched, setTouched] = useState({
-      email: false,
-      password: false,
+      stdid: false,
+      pwd: false,
     })
   
     const handleChange = e => {
@@ -42,13 +40,15 @@ export default function Login() {
       })
     }
   
-    const handleSubmit = e => {
+    const handleSubmit = async e => {
+      let status = 0
+
       e.preventDefault()
   
       // 모든 필드에 방문했다고 표시한다.
       setTouched({
-        email: true,
-        password: true,
+        stdid: true,
+        pwd: true,
       })
   
       // 필드 검사 후 잘못된 값이면 제출 처리를 중단한다.
@@ -59,22 +59,61 @@ export default function Login() {
       if (Object.values(errors).some(v => v)) {
         return
       }
-  
-      alert(JSON.stringify(values, null, 2))
+      
+      await axios.post(process.env.FRONT_BASE_URL + "/api/crawl", {
+        studentId: values.stdid,
+        pwd: values.pwd
+      }, {
+        withCredentials: true
+      }).then((response) => {
+        console.log(response)
+        if(response.data.status == 'FAIL') {
+          alert("잘못된 학번 혹은 비밀번호입니다")
+          return
+        }
+        status = 1
+      }).catch((error) => {
+        console.log(error.response)
+        alert("ERROR!")
+        return
+      });
+
+      if(status != 1) return
+
+      await axios.post(process.env.FRONT_BASE_URL+"/apis/student/sign-in", {
+        studentId: values.stdid,
+        userId: values.stdid,
+        pwd: values.pwd
+      }, {
+        withCredentials: true
+      }).then((response) => {
+        console.log(response)
+        if(response.data.student == 'new') {
+          status = 2
+        }
+      }).catch((error) => {
+        console.log(error.response)
+        alert("ERROR!")
+        return
+      });
+      
+      if(status == 1) {
+        
+      }
     }
   
     // 필드값을 검증한다.
     const validate = useCallback(() => {
       const errors = {
-        email: "",
-        password: "",
+        stdid: "",
+        pwd: "",
       }
   
-      if (!values.email) {
-        errors.email = "이메일을 입력하세요"
+      if (!values.stdid) {
+        errors.stdid = "이메일을 입력하세요"
       }
-      if (!values.password) {
-        errors.password = "비밀번호를 입력하세요"
+      if (!values.pwd) {
+        errors.pwd = "비밀번호를 입력하세요"
       }
 
       return errors
@@ -91,25 +130,25 @@ export default function Login() {
           <h4>아이디</h4>
           <input
             type="text"
-            name="email"
+            name="stdid"
             placeholder="학번을 입력하세요"
-            value={values.email}
+            value={values.stdid}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {touched.email && errors.email && <h6>{errors.email}</h6>}
+          {touched.stdid && errors.stdid && <h6>{errors.stdid}</h6>}
         </div>
         <div>
           <h4>비밀번호</h4>
           <input
             type="password"
-            name="password"
+            name="pwd"
             placeholder="비밀번호를 입력하세요"
-            value={values.password}
+            value={values.pwd}
             onChange={handleChange}
             onBlur={handleBlur}
           />
-          {touched.password && errors.password && <h6>{errors.password}</h6>}
+          {touched.pwd && errors.pwd && <h6>{errors.pwd}</h6>}
         </div>
         <button type="submit">로그인</button>
       </form>

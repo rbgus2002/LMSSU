@@ -38,7 +38,7 @@ export default function Notice() {
       for(let i = 0; i < 3; i++) {
         for(let j = 1; j <= 4; j++) {
           console.log(i +" " + j)
-          url = "./api/proxy/notice/"
+          url = process.env.FRONT_BASE_URL+"/api/proxy/notice/"
           if(i == 0) url += "ssu?"
           else if(i == 1) url += "major?studentId="+stdid+"&"
           else if(i == 2) url += "fun?"

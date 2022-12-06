@@ -4,8 +4,6 @@ import styles from '../styles/Home.module.css'
 import headerstyles from '../styles/Header.module.css'
 import React, { useEffect } from "react";
 
-let SERVER_URL = "http://localhost:3000"
-
 let stdid = 20182651, pwd = "sndnrn12!";
 
 if (typeof window !== "undefined") {
@@ -54,7 +52,7 @@ const changeHeight = (obj) => {
 const GetMessage = () => {
   useEffect(() => {
     window.addEventListener("message", (e) => {
-      if (e.origin === SERVER_URL && e.data) {
+      if (e.origin === process.env.FRONT_BASE_URL && e.data) {
         if(e.data.head === "changeHeight") {
           changeHeight(e.data.body);
         }
@@ -112,11 +110,11 @@ export default function Home() {
       <main className={styles.main}>
         <div className={styles.board_left}>
           <iframe src={"/calendar?stdid="+stdid+"&pwd="+pwd} id="calendarBoard" className={styles.board_calendar} frameBorder="0" scrolling="no" />
-          <iframe src={"/subject?stdid="+stdid+"&pwd="+pwd} id="subjectBoard" className={styles.board_subject} frameBorder="0" scrolling="no" />
-          <iframe src={"/notice?stdid="+stdid+"&pwd="+pwd} id="noticeBoard" className={styles.board_notice} frameBorder="0" scrolling="no" />
+          {/* <iframe src={"/subject?stdid="+stdid+"&pwd="+pwd} id="subjectBoard" className={styles.board_subject} frameBorder="0" scrolling="no" />
+          <iframe src={"/notice?stdid="+stdid+"&pwd="+pwd} id="noticeBoard" className={styles.board_notice} frameBorder="0" scrolling="no" /> */}
         </div>
         <div className={styles.board_right}>
-          <iframe src={"/lecture?stdid="+stdid+"&pwd="+pwd} id="lectureBoard" className={styles.board_lecture} frameBorder="0" scrolling="no" />
+          {/* <iframe src={"/lecture?stdid="+stdid+"&pwd="+pwd} id="lectureBoard" className={styles.board_lecture} frameBorder="0" scrolling="no" /> */}
         </div>
       </main>
 
