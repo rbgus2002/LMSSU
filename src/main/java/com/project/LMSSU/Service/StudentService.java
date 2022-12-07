@@ -28,17 +28,16 @@ public class StudentService {
     로그인
      */
     @Transactional
-    public Map signIn(StudentLoginRequestDTO dto) throws InterruptedException {
+    public Student signIn(StudentLoginRequestDTO dto) throws InterruptedException {
         Map map = new HashMap();
         map.put("studentId", dto.getStudentId());
         map.put("student", "original");
-
         Optional<Student> studentOptional = studentRepository.findById(dto.getStudentId());
-
+        Student student;
         // 회원 여부 체크
         if(studentOptional.isEmpty()){
             // student 등록
-            studentRepository.save(Student.builder()
+            student = studentRepository.save(Student.builder()
                             .name(null)
                             .majorName(null)
                             .id(dto.getStudentId())
@@ -49,24 +48,11 @@ public class StudentService {
 
             // 새로 등록한 회원
             map.put("student", "new");
-            map.put("name", null);
-            map.put("major", null);
         }else{
-            // 학과 입력이 안되어 있는 경우
-            if(studentOptional.get().getMajorName() == null){
-                map.put("student", "new");
-                map.put("name", null);
-                map.put("major", null);
-            }
-            // 학생 정보 response
-            else{
-                Student student = studentOptional.get();
-                map.put("name", student.getName());
-                map.put("major", student.getMajorName());
-            }
+            student = studentOptional.get();
         }
 
-        return map;
+        return student;
     }
 
     /*
