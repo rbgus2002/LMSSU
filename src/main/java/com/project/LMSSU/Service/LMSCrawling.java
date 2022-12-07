@@ -86,6 +86,7 @@ public class LMSCrawling {
 
         // 로그인 실패 시 예외처리
         if(!(ExpectedConditions.alertIsPresent().apply(driver)==null)){
+            quitCrawling();
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "login error");
         }
     }

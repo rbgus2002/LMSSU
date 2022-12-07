@@ -32,6 +32,9 @@ public class StudentService {
         Map map = new HashMap();
         map.put("studentId", dto.getStudentId());
 
+        // 로그인 (예외처리 포함)
+        LMSCrawling lmsCrawling = new LMSCrawling(dto);
+
         Optional<Student> studentOptional = studentRepository.findById(dto.getStudentId());
         Student student;
         // 회원 여부 체크
@@ -44,7 +47,7 @@ public class StudentService {
                     .build());
 
             // 수강 과목 정보 저장
-            saveAttending(dto);
+            saveAttending(dto, lmsCrawling);
 
             // 새로 등록한 회원
             map.put("student", "new");
@@ -62,7 +65,6 @@ public class StudentService {
             map.put("name", student.getName());
             map.put("majorName", student.getMajorName());
         }
-
         return map;
     }
 
@@ -71,7 +73,7 @@ public class StudentService {
     가져온 과목이 Subject Table에 등록되지 않았으면 해준다.
     */
     @Transactional
-    public void saveAttending(StudentLoginRequestDTO dto) throws InterruptedException {
+    public void saveAttending(StudentLoginRequestDTO dto, LMSCrawling lmsCrawling) throws InterruptedException {
         // Student 예외처리
         Optional<Student> student = studentRepository.findById(dto.getStudentId());
         if (student.isEmpty()) {
@@ -85,9 +87,6 @@ public class StudentService {
         for (Attending attending : attendingList) {
             attendingSubjectId.add(attending.getSubject().getId());
         }
-
-        // LMSCrawling 객체 생성 (init, login)
-        LMSCrawling lmsCrawling = new LMSCrawling(dto);
 
         // 크롤링해서 수강중인 subjectId 가져오기
         List<Long> subjectIdList = lmsCrawling.getSubjectId();
