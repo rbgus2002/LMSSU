@@ -28,10 +28,10 @@ public class StudentService {
     로그인
      */
     @Transactional
-    public Student signIn(StudentLoginRequestDTO dto) throws InterruptedException {
+    public Map signIn(StudentLoginRequestDTO dto) throws InterruptedException {
         Map map = new HashMap();
         map.put("studentId", dto.getStudentId());
-        map.put("student", "original");
+
         Optional<Student> studentOptional = studentRepository.findById(dto.getStudentId());
         Student student;
         // 회원 여부 체크
@@ -52,7 +52,18 @@ public class StudentService {
             student = studentOptional.get();
         }
 
-        return student;
+        // response
+        if(student.getName() == null){
+            map.put("student", "new");
+            map.put("name", null);
+            map.put("majorName", null);
+        }else{
+            map.put("student", "original");
+            map.put("name", student.getName());
+            map.put("majorName", student.getMajorName());
+        }
+
+        return map;
     }
 
     /*
