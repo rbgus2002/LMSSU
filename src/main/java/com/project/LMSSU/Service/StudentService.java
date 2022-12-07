@@ -49,11 +49,14 @@ public class StudentService {
 
             // 새로 등록한 회원
             map.put("student", "new");
-
+            map.put("name", null);
+            map.put("major", null);
         }else{
             // 학과 입력이 안되어 있는 경우
             if(studentOptional.get().getMajorName() == null){
                 map.put("student", "new");
+                map.put("name", null);
+                map.put("major", null);
             }
             // 학생 정보 response
             else{
