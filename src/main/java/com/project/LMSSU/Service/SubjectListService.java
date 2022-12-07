@@ -55,9 +55,7 @@ public class SubjectListService {
             }
         }
 
-        System.out.println(updateSubjectList.toString());
         // 크롤링하여 정보 업데이트
-        System.out.println("go saveSubjectInfo");
         saveSubjectInfo(dto, updateSubjectList);
 
         // week에 해당하는 LMS 정보 return

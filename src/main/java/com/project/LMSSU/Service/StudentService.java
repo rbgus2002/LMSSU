@@ -53,6 +53,7 @@ public class StudentService {
             map.put("student", "new");
         }else{
             student = studentOptional.get();
+            lmsCrawling.quitCrawling();
         }
 
         // response
