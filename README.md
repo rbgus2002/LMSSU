@@ -57,7 +57,7 @@ LMSSU는 크게 4가지 기능을 제공한다.
 (실행화면)
 
 3. 프로젝트 개발 참고서적 및 참고 사이트 URL
- https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web
 https://jsoup.org/apidocs/org/jsoup/Jsoup.html
 https://docs.spring.io/spring-data/jpa/docs/current/reference/html
 https://spring.io/guides/gs/accessing-data-mysql/
