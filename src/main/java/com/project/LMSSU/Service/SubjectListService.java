@@ -33,7 +33,7 @@ public class SubjectListService {
         // Student 예외처리
         Optional<Student> student = studentRepository.findById(dto.getStudentId());
         if (student.isEmpty()) {
-            System.out.println("studentId Error"); // 로그로 찍기
+            System.out.println("studentId Error");
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "studentId error");
         }
 

@@ -2,6 +2,7 @@ package com.project.LMSSU.Controller;
 
 import com.project.LMSSU.DTO.StudentLoginRequestDTO;
 import com.project.LMSSU.Repository.SubjectRepository;
+import com.project.LMSSU.Service.LMSCrawling;
 import com.project.LMSSU.Service.TestService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -52,5 +53,14 @@ public class TestController {
         map.put("differenceTime", ChronoUnit.HOURS.between(subjectRepository.findById(2150061301L).get().getUpdateTime(), LocalDateTime.now()));
 
         return map;
+    }
+
+    @GetMapping("/seleniumTest")
+    public void seleniumTest() throws InterruptedException {
+        LMSCrawling lmsCrawling = new LMSCrawling(StudentLoginRequestDTO.builder()
+                .studentId(20182662L)
+                .userId(20182662)
+                .pwd("qwe@50584621")
+                .build());
     }
 }

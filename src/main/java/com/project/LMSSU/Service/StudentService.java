@@ -151,6 +151,14 @@ public class StudentService {
         return map;
     }
 
+    public Student getStudentInfo(Long studentId){
+        Optional<Student> studentOptional = studentRepository.findById(studentId);
+        if(studentOptional.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "studentId error");
+        }
+
+        return studentOptional.get();
+    }
 
 
 }

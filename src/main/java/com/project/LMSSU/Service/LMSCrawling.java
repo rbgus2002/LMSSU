@@ -49,7 +49,7 @@ public class LMSCrawling {
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
         options.addArguments("--window-size=1920x1080");
-        options.addArguments("headless");
+//        options.addArguments("headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--single-process");
         options.addArguments("--disable-dev-shm-usage");
@@ -172,6 +172,12 @@ public class LMSCrawling {
             driver.get(homepageAddress + "/external_tools/2");
 
             // frame 이동
+            Thread.sleep(1000);
+
+            System.out.println("여기야 ㅅㅂ");
+            System.out.println(driver.getCurrentUrl());
+            System.out.println(driver.findElement(By.tagName("iframe")).getSize());
+
             driver.switchTo().frame("tool_content");
 
             // 모든 주차 펴기

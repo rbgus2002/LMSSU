@@ -24,21 +24,19 @@ public class StudentController {
     @Operation(summary = "로그인 API", description = "student TABLE에 학생이 등록되어 있는 지 체크한다. student가 new면 회원가입 API 호출해야 한다. (이름&학과 미등록)")
     @PostMapping("/sign-in")
     public Map signIn(@RequestBody StudentLoginRequestDTO dto) throws InterruptedException {
+        System.out.println("!@#!@# signIn");
         return studentService.signIn(dto);
     }
 
     @Operation(summary = "회원가입 API", description = "학과와 이름을 등록한다.")
     @PostMapping("/sign-up")
-    public Map signUp(@RequestBody StudentMajorAndNameRequestDTO dto){
+    public Map signUp(@RequestBody StudentMajorAndNameRequestDTO dto) {
+        System.out.println("!@#!@# sign-up");
         return studentService.updateMajorAndName(dto);
     }
 
-
-
-
-
-
-//    public Map boardPrints(@RequestParam("regionName") String regionName){
-//        return boardService.getBoardLists(regionName);
-//    }
+    @GetMapping("/student-info")
+    public Student getStudent(@RequestParam Long studentId){
+        return studentService.getStudentInfo(studentId);
+    }
 }
