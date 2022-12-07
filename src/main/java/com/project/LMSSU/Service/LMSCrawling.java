@@ -41,8 +41,8 @@ public class LMSCrawling {
 
     private void initCrawling() {
         // 경로 설정
-        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
-//        WebDriverManager.chromedriver().setup();
+//        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH); // linux path
+        WebDriverManager.chromedriver().setup();
 
         // 옵션 설정
         ChromeOptions options = new ChromeOptions();
