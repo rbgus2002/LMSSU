@@ -2,10 +2,7 @@ package com.project.LMSSU.Service;
 
 import com.project.LMSSU.DTO.StudentLoginRequestDTO;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.By;
-import org.openqa.selenium.PageLoadStrategy;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -86,6 +83,11 @@ public class LMSCrawling {
 
         // 웹페이지 이동
         Thread.sleep(2000);
+
+        // 로그인 실패 시 예외처리
+        if(!(ExpectedConditions.alertIsPresent().apply(driver)==null)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "login error");
+        }
     }
 
     /*
