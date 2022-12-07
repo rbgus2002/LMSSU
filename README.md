@@ -61,4 +61,3 @@ LMSSU는 크게 4가지 기능을 제공한다.
 https://jsoup.org/apidocs/org/jsoup/Jsoup.html
 https://docs.spring.io/spring-data/jpa/docs/current/reference/html
 https://spring.io/guides/gs/accessing-data-mysql/
-![image](https://user-images.githubusercontent.com/81209525/206213600-2a65369a-8930-48b2-8a73-59f4ce863411.png)
