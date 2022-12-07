@@ -19,4 +19,13 @@ public class StudentLoginRequestDTO {
         this.userId = userId;
         this.pwd = pwd;
     }
+
+    @Override
+    public String toString() {
+        return "StudentLoginRequestDTO{" +
+                "studentId=" + studentId +
+                ", userId=" + userId +
+                ", pwd='" + pwd + '\'' +
+                '}';
+    }
 }
