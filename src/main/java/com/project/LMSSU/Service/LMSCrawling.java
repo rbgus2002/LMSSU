@@ -28,6 +28,8 @@ public class LMSCrawling {
     private static Integer userId;
     private static String pwd;
     private static Long studentId;
+    public static final String WEB_DRIVER_ID = "webdriver.chrome.driver";
+    public static final String WEB_DRIVER_PATH = "/usr/bin/chromedriver";
 
     private static List<SubjectContentsInfo> subjectList = new ArrayList<>();
 
@@ -42,19 +44,19 @@ public class LMSCrawling {
 
     private void initCrawling() {
         // 경로 설정
-        WebDriverManager.chromiumdriver().setup();
+        System.setProperty(WEB_DRIVER_ID, WEB_DRIVER_PATH);
+//        WebDriverManager.chromedriver().setup();
 
         // 옵션 설정
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--disable-popup-blocking");
         options.addArguments("--blink-settings=imagesEnabled=false");
-//        options.addArguments("headless");
-
+        options.addArguments("--window-size=1920x1080");
+        options.addArguments("headless");
         options.addArguments("--no-sandbox");
         options.addArguments("--single-process");
         options.addArguments("--disable-dev-shm-usage");
         options.setPageLoadStrategy(PageLoadStrategy.EAGER); // ??
-
         // 크롬 드라이버 객체 생성
         driver = new ChromeDriver(options);
     }
