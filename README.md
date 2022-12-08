@@ -61,3 +61,8 @@ https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#web
 https://jsoup.org/apidocs/org/jsoup/Jsoup.html
 https://docs.spring.io/spring-data/jpa/docs/current/reference/html
 https://spring.io/guides/gs/accessing-data-mysql/
+
+
+시연 영상
+https://youtu.be/MLwiCbI0gqE
+
