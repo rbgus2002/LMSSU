@@ -64,5 +64,5 @@ https://spring.io/guides/gs/accessing-data-mysql/
 
 
 시연 영상
-https://youtu.be/MLwiCbI0gqE
+https://youtu.be/NQos49uvTY8
 
