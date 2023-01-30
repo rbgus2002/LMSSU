@@ -74,3 +74,6 @@ https://spring.io/guides/gs/accessing-data-mysql/ <br><br>
 4. 시연 영상 <br>
 [Youtube](https://youtu.be/NQos49uvTY8)
 
+
+
+[FE GitHub Link](https://github.com/Jadest13/LMSSU_FE)
