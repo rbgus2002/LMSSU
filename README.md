@@ -51,15 +51,20 @@ LMSSU는 크게 4가지 기능을 제공한다.
 
 <br> <br>
 
-2. 상세 매뉴얼(설치방법 및 사용법)
-2 - 1) Git clone : https://github.com/rbgus2002/LMSSU.git (BE)
-		https://github.com/Jadest13/LMSSU_FE.git (FE)
-2 - 2) FE 설치 후 $ npm i --save --legacy-peer-deps
-		 $ npm run dev
-2 - 3) BE 설치 후 intellij build -> run
-2 - 4) http://localhost:3000/ 접속
+2. 상세 매뉴얼(설치방법 및 사용법) <br>
+2 - 1) Git clone : [BackEnd](https://github.com/rbgus2002/LMSSU.git) / [FrontEnd](https://github.com/Jadest13/LMSSU_FE.git) <br>
+2 - 2) FE 설치 후  <br>
+$ npm i --save --legacy-peer-deps  <br>
+$ npm run dev  <br>
+2 - 3) BE 설치 후 intellij build -> run  <br>
+2 - 4) http://localhost:3000/ 접속  <br>
 
- <img width="452" alt="image" src="https://user-images.githubusercontent.com/81209525/206213757-f6e858ac-e0af-407d-baae-c4a2d1f8be52.png">
+<br>
+
+
+ <img width="1219" alt="image" src="https://user-images.githubusercontent.com/62997391/215410415-6dba49de-d28d-46fa-9b45-44604852c5ff.png">
+  <img width="452" alt="image" src="https://user-images.githubusercontent.com/81209525/206213757-f6e858ac-e0af-407d-baae-c4a2d1f8be52.png"> 
+
 (실행화면)
 
 <br><br>
@@ -74,6 +79,3 @@ https://spring.io/guides/gs/accessing-data-mysql/ <br><br>
 4. 시연 영상 <br>
 [Youtube](https://youtu.be/NQos49uvTY8)
 
-
-
-[FE GitHub Link](https://github.com/Jadest13/LMSSU_FE)
